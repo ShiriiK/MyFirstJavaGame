@@ -1,8 +1,13 @@
 package logic;
 
 
+import util.Observer;
+import util.SubjectOfChange;
+
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Třída představující stav hry.
@@ -15,13 +20,14 @@ import java.util.List;
  * @version LS-2021, 2021-05-26
  */
 
-public class GameState {
+public class GameState implements SubjectOfChange {
     private Location currentLocation;
     private Inventory inventory;
     private Player player;
     private Partner partner;
     private int phase;
 
+    private Set<Observer> observerSet = new HashSet<>();
     /**
      * Konstruktor - inicializuje hru, vytvoří nového hráče, partnera, inventář a nastaví fázi hry.
      */
@@ -319,6 +325,7 @@ public class GameState {
      */
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+        notifyObservers();
     }
 
     /**
@@ -369,5 +376,22 @@ public class GameState {
      */
     public void setPhase(int phase) {
         this.phase = phase;
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observerSet.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(Observer observer) {
+        observerSet.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observerSet) {
+            o.update();
+        }
     }
 }

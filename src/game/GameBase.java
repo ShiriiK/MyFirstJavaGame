@@ -1,5 +1,6 @@
 package game;
 
+import gui.ExitPanel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -88,6 +89,9 @@ public class GameBase extends Application {
         prepareTextField(console);
 
         prepareLowerBox(borderPane, enterCommand);
+
+        ExitPanel exitPanel = new ExitPanel(game.getGameState());
+        borderPane.setRight(exitPanel.getListView());
 
         Scene scene = new Scene(borderPane, 800, 450);
         primaryStage.setScene(scene);
