@@ -2,6 +2,7 @@ package logic;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -62,11 +63,11 @@ public class Location {
      */
     public String longDescription() {
         if (known) {
-            return "Aktuální lokace: " + name;
+            return Game.makeItLookGood1() +"Aktuální lokace: " + name + Game.makeItLookGood2();
         } else {
             this.known = true;
-            return "\nAktuální lokace: " + name + "\n" +
-                    "Popis lokace: " + description;
+            return Game.makeItLookGood1() + "Aktuální lokace: " + name + "\n" +
+                     description + Game.makeItLookGood2();
         }
     }
 

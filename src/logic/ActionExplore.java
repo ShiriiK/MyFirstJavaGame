@@ -44,27 +44,29 @@ public class ActionExplore implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNemůžeš prozkoumávat věci, dokud si nenastavíš pohlaví.";
+            return d1 + "Nemůžeš prozkoumávat věci, dokud si nenastavíš pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nnNemůžeš prozkoumávat věci, dokud si nenastavíš jméno.";
+            return d1 + "Nemůžeš prozkoumávat věci, dokud si nenastavíš jméno." + d2;
         }
         if (parameters.length < 1) {
-            return "\nMusíš mi říct, co by si chtěl/a prozkoumat.";
+            return d1 + "Musíš mi říct, co by si chtěl/a prozkoumat." + d2;
         }
         if (parameters.length > 1) {
-            return "\nNemůžeš prozkoumávat víc věcí najednou.";
+            return d1 + "Nemůžeš prozkoumávat víc věcí najednou." + d2;
         }
 
         String itemName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getItem(itemName) == null) {
-            return "\nNic takového tu není.";
+            return d1 + "Nic takového tu není." + d2;
         }
 
         Item item = currentLocation.getItem(itemName);
@@ -74,21 +76,21 @@ public class ActionExplore implements IAction {
         if ("velký_strom".equals(itemName) && "taška".equals(item.containedItem())) {
             item.removeItemInItem(foundName);
             currentLocation.addItem(found);
-            return "\nNašel/a jsi: " + foundName;
+            return d1 + "Našel/a jsi: " + foundName + d2;
         }
 
         Inventory inventory = gameState.getInventory();
 
         if (item.containedItem() != null) {
             if ("truhla".equals(itemName) && !inventory.containsItem("univerzální_klíč")) {
-                return "\nTruhla je zamčená, ani brutální síla nepomáhá v jejím otevření.";
+                return d1 + "Truhla je zamčená, ani brutální síla nepomáhá v jejím otevření." + d2;
             }
             item.removeItemInItem(foundName);
             currentLocation.addItem(found);
-            return "\nNašel/a jsi: " + foundName + "\n" +
-                    item.getDescription();
+            return d1 + "Našel/a jsi: " + foundName + "\n" +
+                    item.getDescription() + d2;
         }
 
-        return "\n" + item.getDescription();
+        return d1 + item.getDescription() + d2;
     }
 }

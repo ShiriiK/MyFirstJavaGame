@@ -75,14 +75,14 @@ public class Inventory {
      * @return obsah inventáře
      */
     public String getInventory() {
-        String text = "\nBatoh:";
+        String text =  Game.makeItLookGood1() + "Batoh:";
         for (Item current : content) {
             if (!text.equals("\nBatoh:")) {
                 text += ",";
             }
             text += " " + current.getName();
         }
-        return text;
+        return text + Game.makeItLookGood2();
     }
 
     /**

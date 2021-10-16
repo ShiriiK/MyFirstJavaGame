@@ -42,40 +42,42 @@ public class ActionAttackPartner implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNech svého parťáka zatím odpočívat a vyber si pohlaví.";
+            return d1 + "Nech svého parťáka zatím odpočívat a vyber si pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nNech svého parťáka zatím odpočívat a vyber si jméno.";
+            return d1 + "Nech svého parťáka zatím odpočívat a vyber si jméno." + d2;
         }
         if (phase == 2) {
-            return "\nNech svého parťáka zatím odpočívat a jdi si pro zbraň.";
+            return d1 + "Dojdi si pro zbraň a pak můžete vyrazit do boje." + d2;
         }
         if (parameters.length < 1) {
-            return "\nA a koho chceš zaútočit?";
+            return d1 + "A a koho chceš zaútočit?" + d2;
         }
 
         Partner partner = gameState.getPartner();
         String partnerName = partner.getPartnerName();
 
         if (parameters.length > 1) {
-            return "\nAni " + partnerName + " neumí útočit na více nepřátel najednou.";
+            return d1 + "Ani " + partnerName + " neumí útočit na více nepřátel najednou." + d2;
         }
 
         String npcName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getNpc(npcName) == null) {
-            return "\nNemůžeš útočit na někoho, kdo tu není.";
+            return d1 + "Nemůžeš útočit na někoho, kdo tu není." + d2;
         }
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
         if (attackedNpc.getFriendly()) {
-            return "\nNení důvod útočit na toto npc.";
+            return d1 + "Není důvod útočit na toto npc." + d2;
         }
 
         double partnerStr = partner.getStr();
@@ -83,7 +85,7 @@ public class ActionAttackPartner implements IAction {
 
         if (npcHp <= partnerStr) {
             currentLocation.removeNpc(npcName);
-            return "\nZabil/a jsi: " + npcName + ".";
+            return d1 + "Zabili jste: " + npcName + "." + d2;
         }
 
         double partnerHp = partner.getHp();
@@ -93,12 +95,12 @@ public class ActionAttackPartner implements IAction {
 
         if ((partnerHp - npcStr) <= 0) {
             game.setTheEnd(true);
-            return "Tvůj partner umřel.";
+            return d1 + "Tvůj partner umřel." + d2;
         }
 
-        return "\n" + partnerName + " dal/a " + partnerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
+        return  d1 + partnerName + " dal/a " + partnerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
                 npcName + " útok oplatil a způsobil " + npcStr +
-                " poškození. " + partnerName + " teď má " + partner.getHp() + " životů.";
+                " poškození. " + partnerName + " teď má " + partner.getHp() + " životů." + d2;
     }
 }
 

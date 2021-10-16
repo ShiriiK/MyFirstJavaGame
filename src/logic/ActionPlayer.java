@@ -42,22 +42,24 @@ public class ActionPlayer implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nPředtím, než se budeš moct prohlížet své staty, si nastav pohlaví.";
+            return d1 + "Předtím, než se budeš moct prohlížet své staty, si nastav pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nPředtím, než se budeš moct prohlížet své staty, si nastav jméno.";
+            return d1 + "Předtím, než se budeš moct prohlížet své staty, si nastav jméno." + d2;
         }
         if (phase == 2) {
-            return "\nPředtím, než se budeš moct prohlížet své staty, si vyber zbraň.";
+            return d1 + "Předtím, než se budeš moct prohlížet své staty, si vyber zbraň." + d2;
         }
         if (parameters.length >= 1) {
-            return "\nStačí napsat hráč.";
+            return d1 + "Stačí napsat hráč." + d2;
         }
 
-        return "\n" + gameState.getPlayer().getPlayer();
+        return d1 + gameState.getPlayer().getPlayer() + d2;
     }
 }

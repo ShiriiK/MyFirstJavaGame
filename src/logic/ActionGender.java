@@ -43,12 +43,14 @@ public class ActionGender implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = game.makeItLookGood1();
+        String d2 = game.makeItLookGood2();
 
         if (parameters.length == 0) {
-            return "\nKteré pohlaví si chceš vybrat. Máš na výběr mezi mužem a ženou.";
+            return d1 + "Které pohlaví si chceš vybrat? Máš na výběr mezi mužem a ženou." + d2;
         }
         if (parameters.length > 1) {
-            return "\nMůžeš mít pouze jednou pohlaví.";
+            return d1 + "Můžeš mít pouze jednou pohlaví." + d2;
         }
 
         GameState gameState = game.getGameState();
@@ -56,13 +58,13 @@ public class ActionGender implements IAction {
         String playerGender = player.getPlayerGender();
 
         if (playerGender != null) {
-            return "\nUž sis pohlavní vybral/a.";
+            return d1 + "Už sis pohlavní vybral/a." + d2;
         }
 
         String gender = parameters[0];
 
         if (!("muž".equals(gender)) && !("žena".equals(gender))) {
-            return "\nJe mi líto, že tě zklamu, ale takhle hra zná jen dvě pohlaví.";
+            return d1 + "Je mi líto, že tě zklamu, ale takhle hra zná jen dvě pohlaví." + d2;
         }
 
         player.setPlayerGender(gender);
@@ -92,13 +94,13 @@ public class ActionGender implements IAction {
         }
 
         gameState.setPhase(1);
-        return "\nPohlaví nastaveno na: " + gender + ".\n\n\n" +
+        return  d1 + "Pohlaví nastaveno na: " + gender + d2 + "\n" +
                 "Pomalu otevíráš oči a vidíš před sebou rozmazanou siluetu obrovského muže.\n" +
-                "Mezitím, co se snažíš opartně posadit, se k tobě muž otočí a přispěchá ti na pomoc.\n" +
+                "Mezitím, co se snažíš opartně posadit, se k tobě muž otočí a přispěchá ti na pomoc.\n\n" +
                 "???: Dobré ráno. Jak se cítíš? Slyšel jsem od " + name + ", co stalo. Ti vojáci opravdu nezají hranic...\n " +
                 "Že se nestydí chtít popravit malou holčičku. Vypadá to, že Tua uvěznili za to, že si jí zastal.\n " +
                 "Musíte se ho vydat brzy zachránit. Ale v tomhle stavu si nejsem jistný, jestli to zvládnete...\n " +
-                "Vnímáš mě? Pamatuješ vůbec svoje jméno?\n " +
-                "///Zkus si vzpomenout, jak se jmenuješ. Napiš jméno tvé_jméno///\n";
+                "Vnímáš mě? Pamatuješ vůbec svoje jméno?\n " + d1 +
+                "Zkus si vzpomenout, jak se jmenuješ. Napiš: jméno tvé_jméno" + d2 + "\n\n";
     }
 }

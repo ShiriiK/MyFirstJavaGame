@@ -42,27 +42,29 @@ public class ActionWeaponDrop implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNejdřív si vyber pohlaví.";
+            return d1 + "Nejdřív si vyber pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nNejdřív si vyber jméno.";
+            return d1 + "Nejdřív si vyber jméno." + d2;
         }
         if (phase == 2) {
-            return "\nNejdřív si zbraň aspoň vezmi, než ji budeš odkládat.";
+            return d1 + "Nejdřív si zbraň aspoň vezmi, než ji budeš odkládat." + d2;
         }
         if (parameters.length >= 1) {
-            return "\nStačí napsat odložitz.";
+            return d1 + "Stačí napsat odložitz." + d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
         String locationName = currentLocation.getName();
 
         if (!(locationName.equals("místnost"))) {
-            return "\nZbraň musíš odložit v místnosti za kovárnou.";
+            return d1 + "Zbraň musíš odložit v místnosti za kovárnou." + d2;
         }
 
         Player player = gameState.getPlayer();
@@ -70,6 +72,6 @@ public class ActionWeaponDrop implements IAction {
         player.setPlayerWeapon(null);
         currentLocation.addWeapon(playerWeapon);
         gameState.setPhase(2);
-        return "\nOdložil/a si svou zbraň.";
+        return d1 + "Odložil/a si svou zbraň." + d2;
     }
 }

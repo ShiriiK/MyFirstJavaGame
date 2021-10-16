@@ -42,54 +42,55 @@ public class ActionGo implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nVyber si pohlaví, než někam půjdeš.";
+            return d1 + "Vyber si pohlaví, než někam půjdeš." + d2;
         }
         if (phase == 1) {
-            return "\nVyber si jméno, než někam půjdeš.";
+            return d1 + "Vyber si jméno, než někam půjdeš." + d2;
         }
         if (parameters.length < 1) {
-            return "\nA kam to bude?";
+            return d1 + "A kam to bude?" + d2;
         }
         if (parameters.length > 1) {
-            return "\nNemůžeš jít na víc míst najednou.";
+            return d1 + "Nemůžeš jít na víc míst najednou." + d2;
         }
 
         String targetLocationName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getExit(targetLocationName) == null) {
-            return "\nOdtud se tam nedostaneš.";
+            return d1 + "Odtud se tam nedostaneš." + d2;
         }
 
         Exit targetLocationExit = currentLocation.getExit(targetLocationName);
         Location targetLocation = targetLocationExit.getTargetLocation();
 
-        if (phase != targetLocation.getPhase()) {
-            return "\nOpravdu si myslíš, že tě Gorm nechá opustit oblast kempu bez zbraně? Nějakou si vem.";
+        Inventory inventory = gameState.getInventory();
+
+        if (targetLocationName.equals("žalář") && !inventory.containsItem("pochodeň")) {
+            return d1 + "Bez zdroje světla tam nejdeš." + d2;
+        }
+        if (targetLocationName.equals("cela3")
+                && !inventory.containsItem("klíč") && !inventory.containsItem("univerzální_klíč")) {
+            return d1 + "Tahle cela je zamčená." + d2;
+        }
+        if (targetLocationName.equals("nádvoří")) {
+            return d1 + "Ty mi opravdu nevěříš co?" + d2;
+        }
+
+        if (phase < targetLocation.getPhase()) {
+            return d1 + "Opravdu si myslíš, že tě Gorm nechá opustit oblast kempu bez zbraně? Nějakou si vem." + d2;
         }
 
         for (Npc npc : currentLocation.getNpcs()) {
             if (npc.equals(targetLocationExit.containsNpc(npc))) {
-                return "\n" + npc.getMessage();
+                return d1 + npc.getMessage() + d2;
             }
-        }
-
-
-        Inventory inventory = gameState.getInventory();
-
-        if (targetLocationName.equals("žalář") && !inventory.containsItem("pochodeň")) {
-            return "\nBez pochodně tam nejdeš.";
-        }
-        if (targetLocationName.equals("cela3")
-                && !inventory.containsItem("klíč") && !inventory.containsItem("univerzální_klíč")) {
-            return "\nTahle cela je zamčená.";
-        }
-        if (targetLocationName.equals("nádvoří")) {
-            return "\nTy mi opravdu nevěříš co?";
         }
 
         Player player = gameState.getPlayer();
@@ -100,29 +101,29 @@ public class ActionGo implements IAction {
         if (targetLocationName.equals("cela2")) {
             if (playerHp < dmg) {
                 game.setTheEnd(true);
-                return "\nNěkdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě.";
+                return d1 + "Někdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě." + d2;
             } else {
                 player.setHp(playerHp - dmg);
                 gameState.setCurrentLocation(targetLocation);
-                return "\n" + description + "\nNěkdo tě bruálně napadl zezadu.\n" +
+                return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
                         targetLocationExit.getDamageMessage();
             }
         }
         if (targetLocationName.equals("hora")) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
-            return "\n" + description + "\nZaútočili na tebe divocí králíci.\n" +
+            return d1 + description + "\nZaútočili na tebe divocí králíci." + d2 +
                     targetLocationExit.getDamageMessage();
         }
         if (targetLocationName.equals("les")) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
-            return "\n" + description + "\nZaútočil na tebe troll.\n" +
+            return d1 + description + "\nZaútočil na tebe troll." + d2 +
                     targetLocationExit.getDamageMessage();
         }
 
         gameState.setCurrentLocation(targetLocation);
-        return "\n" + description;
+        return description;
     }
 }
 

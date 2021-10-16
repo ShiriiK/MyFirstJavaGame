@@ -42,36 +42,38 @@ public class ActionTalk implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nS ostatními můžeš mluvit po výběru pohlaví.";
+            return d1 + "S ostatními můžeš mluvit po výběru pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nS ostatními můžeš mluvit po výběru jména.";
+            return d1 + "S ostatními můžeš mluvit po výběru jména." + d2;
         }
         if (parameters.length < 1) {
-            return "\nA s kým chceš mluvit.";
+            return d1 + "A s kým chceš mluvit." + d2;
         }
         if (parameters.length > 1) {
-            return "\nMůžeš mluvit jen s jedním člověkem najednou.";
+            return d1 + "Můžeš mluvit jen s jedním člověkem najednou." + d2;
         }
 
         String npcName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getItem(npcName) != null) {
-            return "\nJeště nejsi na tolik šílený/á, aby si mluvl/a s předmětem...";
+            return d1 + "Ještě nejsi na tolik šílený/á, aby si mluvl/a s předmětem..." + d2;
         }
         if (currentLocation.getNpc(npcName) == null) {
-            return "\nNemůžeš mluvit s někým, kdo tu není.";
+            return d1 + "Nemůžeš mluvit s někým, kdo tu není." + d2;
         }
 
         Npc npc = currentLocation.getNpc(npcName);
 
         if (!npc.getTalk()) {
-            return "\nNení důvod.";
+            return d1 + "Není důvod..." + d2;
         }
 
         Player player = gameState.getPlayer();
@@ -87,8 +89,8 @@ public class ActionTalk implements IAction {
                 if (player.getHp() <= 0) {
                     game.setTheEnd(true);
                 }
-                return "\n" + npc.getChat(npc) + "\n Dědek na tebe zaútočil a způsobil ti " + npc.getStr() + " poškození. " +
-                        "Zbývá ti " + player.getHp() + " zdraví.";
+                return d1 + npc.getChat(npc) + "\n Dědek na tebe zaútočil a způsobil ti " + npc.getStr() + " poškození. " +
+                        "Zbývá ti " + player.getHp() + " zdraví." + d2;
             }
             if (talked == 2 && npcName.equals("stráž")) {
                 game.setTheEnd(true);
@@ -102,7 +104,7 @@ public class ActionTalk implements IAction {
                     Item item = npc.getItemInNpc("univerzální_klíč");
                     npc.removeItemInNpc("univerzální_klíč");
                     inventory.addItem(item);
-                    return "\n" + npc.getChat(npc) + "\nARMIN ti dal univerzální_klíč";
+                    return "\n" + npc.getChat(npc) + d1 + "ARMIN ti dal univerzální_klíč" + d2;
                 } else {
                     return "\nArmin: Něco ti dám, ale uvolni si předtím místo v batohu.";
                 }
@@ -110,6 +112,6 @@ public class ActionTalk implements IAction {
             return "\n" + npc.getChat(npc);
         }
 
-        return "\nUž jste si povídali až až.";
+        return d1 + "Už jste si povídali až až." + d2;
     }
 }

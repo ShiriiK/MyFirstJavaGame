@@ -93,7 +93,7 @@ public class GameBase extends Application {
         ExitPanel exitPanel = new ExitPanel(game.getGameState());
         borderPane.setRight(exitPanel.getListView());
 
-        Scene scene = new Scene(borderPane, 800, 450);
+        Scene scene = new Scene(borderPane, 650, 450);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         userInput.requestFocus();

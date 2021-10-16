@@ -59,9 +59,10 @@ public class Game {
      */
     public String theBeginning() {
         return "\nVítej ve hře Tuova Poprava.\n" +
-                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, " +
-                "stačí napsat help a zobrazí se příkazy, které můžeš použít.\n" +
-                "Nejprve vyber, zda chceš hrát za muže nebo ženu. Napiš pohlaví muž/žena.";
+                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat help\n" +
+                "a zobrazí se příkazy, které můžeš použít." + makeItLookGood1() +
+                "Nejprve vyber, zda chceš hrát za muže nebo ženu. Napiš: pohlaví muž/žena." +
+                makeItLookGood2();
     }
 
     /**
@@ -72,9 +73,9 @@ public class Game {
     public String theEpilog() {
         if (happyEnd) {
             return "\nTue byl zachráněn. Teď je čas vrátit se do tábora a už nikdy se na toto odporné místo nevrátit. \n" +
-                    "Gratuluji k úspěšnému dokončení hry!";
+                    makeItLookGood1() + "Gratuluji k úspěšnému dokončení hry!" + makeItLookGood2();
         } else {
-            return "\nHra skončila. Prohrál/a jste.";
+            return makeItLookGood1() + "Hra skončila. Prohrál/a jsi." + makeItLookGood2();
         }
     }
 
@@ -133,10 +134,21 @@ public class Game {
         for (IAction action : validActions) {
             for (String x : action.getName()) {
                 if (x.equals(actionName)) {
-                    return action.execute(parameters);
+                    return makeItLookGood3() + action.execute(parameters);
                 }
             }
         }
-        return "Nesprávný příkaz.";
+        return makeItLookGood1() + "Nesprávný příkaz." + makeItLookGood2();
+    }
+
+    public static String makeItLookGood1() {
+        return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+    }
+
+    public static String makeItLookGood2() {
+        return "\n‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-\n";
+    }
+    public static String makeItLookGood3() {
+        return "\n--------------------------------------------------------------------------------------------------------\n";
     }
 }

@@ -42,22 +42,24 @@ public class ActionPartner implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nPředtím, než se budeš moct prohlížet staty svého parťáka, si nastav pohlaví.";
+            return d1 + "Předtím, než se budeš moct prohlížet staty svého parťáka, si nastav pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nPředtím, než se budeš moct prohlížet staty svého parťáka, si nastav jméno.";
+            return d1 + "Předtím, než se budeš moct prohlížet staty svého parťáka, si nastav jméno." + d2;
         }
         if (phase == 2) {
-            return "\nPředtím, než se budeš moct prohlížet staty svého parťáka, si vyber zbraň.";
+            return d1 + "Předtím, než se budeš moct prohlížet staty svého parťáka, si vyber zbraň." + d2;
         }
         if (parameters.length >= 1) {
-            return "\nStačí napsat parťák.";
+            return d1 + "Stačí napsat parťák." + d2;
         }
 
-        return "\n" + gameState.getPartner().getPartner();
+        return d1 + gameState.getPartner().getPartner() + d2;
     }
 }

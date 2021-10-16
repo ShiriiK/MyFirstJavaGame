@@ -42,11 +42,14 @@ public class ActionTerminate implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
+
         if (parameters.length >= 1) {
-            return "\nStačí napsat konec, nic víc.";
+            return d1 + "Stačí napsat konec, nic víc." + d2;
         }
 
         game.setTheEnd(true);
-        return "\nHra skončila.";
+        return d1 + "Hra skončila." + d2;
     }
 }

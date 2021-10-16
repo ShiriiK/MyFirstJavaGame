@@ -42,37 +42,39 @@ public class ActionWeapon implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNejdřív si vyber pohlaví.";
+            return d1 + "Nejdřív si vyber pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nNejdřív si vyber jméno.";
+            return d1 + "Nejdřív si vyber jméno." + d2;
         }
         if (parameters.length == 0) {
-            return "\nA kterou zbraň chceš?.";
+            return d1 + "A kterou zbraň chceš?." + d2;
         }
         if (parameters.length > 1) {
-            return "\nMůžeš mít jenom jednu zbraň.";
+            return d1 + "Můžeš mít jenom jednu zbraň." + d2;
         }
 
         String weaponName = parameters[0];
         Location currentLocation = game.getGameState().getCurrentLocation();
 
         if (currentLocation.getWeapon(weaponName) == null) {
-            return "\nTaková zbraň tu není.";
+            return d1 + "Taková zbraň tu není." + d2;
         }
         if (phase == 3) {
-            return "\nMusíš nejdřív položit zbraň, kterou máš u sebe, než si vezmeš jinou.";
+            return d1 + "Musíš nejdřív položit zbraň, kterou máš u sebe, než si vezmeš jinou." + d2;
         }
 
         Npc gorm = game.getGameState().getCurrentLocation().getExit("kovárna").getTargetLocation().getNpc("gorm");
         Weapon weapon = currentLocation.getWeapon(weaponName);
 
         if (weapon.isLocked() && gorm.getItemInNpc("svítící_kámen") == null) {
-            return "\nTuhle zbraň si vzít nemůžeš";
+            return d1 + "Tuhle zbraň si vzít nemůžeš" + d2;
         }
 
         Weapon partnerWeapon = game.getGameState().getPartner().getPartnerWeapon();
@@ -90,7 +92,7 @@ public class ActionWeapon implements IAction {
         currentLocation.removeWeapon(weaponName);
         gameState.getPlayer().setPlayerWeapon(weapon);
         gameState.setPhase(3);
-        return "\nGorm: Dobře, tady máš.\n" +
-                "Zbraň nastavena na: " + weaponName;
+        return "\nGorm: Dobře, tady máš.\n" + d1 +
+                "Zbraň nastavena na: " + weaponName + d2;
     }
 }

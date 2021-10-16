@@ -42,23 +42,25 @@ public class ActionLook implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNastav si pohlaví a pak až pak se rozhlížej.";
+            return d1 + "Nastav si pohlaví a pak až pak se rozhlížej." + d2;
         }
         if (phase == 1) {
-            return "\nNastav si jméno a pak až pak se rozhlížej.";
+            return d1 + "Nastav si jméno a pak až pak se rozhlížej." + d2;
         }
         if (parameters.length >= 1) {
-            return "\nStačí napsat rozhlédnout_se";
+            return d1 + "Stačí napsat rozhlédnout_se" + d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
-        return currentLocation.npcDescription() +
+        return  d1 + currentLocation.npcDescription() +
                 currentLocation.itemDescription() +
                 currentLocation.exitsDescription() +
-                currentLocation.weaponDescription() + "\n";
+                currentLocation.weaponDescription() + d2;
     }
 }

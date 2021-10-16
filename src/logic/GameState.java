@@ -45,7 +45,7 @@ public class GameState implements SubjectOfChange {
     private void createGame() {
         // Vytvoření jednotlivých lokací
         Location camp = new Location("kemp", "Kemp, který jste založili se svými přítale," +
-                "je chráněn silnou magickou bariérou, takže žádný příšery se sem nedostanou.\n", 2);
+                " je chráněn silnou magickou bariérou,\ntakže žádný příšery se sem nedostanou.", 2);
         Location tent = new Location("stan", "Je tu všechno, co jen můžeš potřebovat. " +
                 "Zvláště pohodlná postel, do které můžete vstoupit, jakmile zachráníte Tua.",2);
         Location forge = new Location("kovárna", "Gormovo oblíbené místo. " +

@@ -42,42 +42,44 @@ public class ActionPickUp implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNejdřív si nastav pohlaví.";
+            return d1 + "Nejdřív si nastav pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nNastav si jméno a až pak si sbírej.";
+            return d1 + "Nastav si jméno a až pak si sbírej věci." + d2;
         }
         if (parameters.length < 1) {
-            return "\nA co chceš sebrat?";
+            return d1 + "A co chceš sebrat?" + d2;
         }
         if (parameters.length > 1) {
-            return "\nNemůžeš sbírat víc věcí najednou, vyber si jednu.";
+            return d1 + "Nemůžeš sbírat víc věcí najednou, vyber si jednu." + d2;
         }
 
         String itemName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getItem(itemName) == null) {
-            return "\nNic takového tu není.";
+            return d1 + "Nic takového tu není." + d2;
         }
 
         Item item = currentLocation.getItem(itemName);
 
         if (!item.isPickable()) {
-            return "\nTohle si vzít nemůžeš.";
+            return d1 + "Tohle si vzít nemůžeš." + d2;
         }
         if (gameState.getInventory().addItem(item) == null) {
-            return "\nNemáš už v batohu volné místo.";
+            return d1 + "Nemáš už v batohu volné místo." + d2;
         }
         if (currentLocation.getNpc("stráž") != null && itemName.equals("pochodeň")) {
-            return "\nStráž: Nesahej na to a vypadni!";
+            return "\nStráž: Nesahej na to a vypadni!" + d2;
         }
 
         currentLocation.removeItem(itemName);
-        return "\nSebral/a jsi " + itemName + ".";
+        return d1 + "Sebral/a jsi " + itemName + "." + d2;
     }
 }

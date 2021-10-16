@@ -42,19 +42,21 @@ public class ActionInventory implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nSvůj inventář si můžeš prohlédnout potom, co si nastavíš pohlaví.";
+            return d1 + "Svůj inventář si můžeš prohlédnout potom, co si nastavíš pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nSvůj inventář si můžeš prohlédnout, potom co si nastavíš jméno.";
+            return d1 + "Svůj inventář si můžeš prohlédnout, potom co si nastavíš jméno." + d2;
         }
         if (parameters.length >= 1) {
-            return "\nStačí napsat inventář.";
+            return d1 + "Stačí napsat inventář." + d2;
         }
 
-        return "\n" + gameState.getInventory().getInventory();
+        return gameState.getInventory().getInventory();
     }
 }

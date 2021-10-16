@@ -42,27 +42,29 @@ public class ActionDrop implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();
         if (phase == 0) {
-            return "\nNemůžeš zahazovat věci, dokud sis nevybral/a pohlaví.";
+            return d1 + "Nemůžeš zahazovat věci, dokud sis nevybral/a pohlaví." + d2;
         }
         if (phase == 1) {
-            return "\nNemůžeš zahazovat věci, dokud sis nevybral/a jméno.";
+            return d1 + "Nemůžeš zahazovat věci, dokud sis nevybral/a jméno." + d2;
         }
         if (parameters.length < 1) {
-            return "\nMusíš mi říct, co chceš zahodit.";
+            return d1 + "Musíš mi říct, co chceš zahodit." + d2;
         }
         if (parameters.length > 1) {
-            return "\nNemůžeš zahodit víc věci najednou.";
+            return d1 + "Nemůžeš zahodit víc věci najednou." + d2;
         }
 
         String itemName = parameters[0];
         Inventory inventory = gameState.getInventory();
 
         if (!inventory.containsItem(itemName)) {
-            return "\nNemůžeš zahodit něco, co nemáš.";
+            return d1 + "Nemůžeš zahodit něco, co nemáš." + d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
@@ -71,12 +73,12 @@ public class ActionDrop implements IAction {
         if (("žalář".equals(locationName) || "cela1".equals(locationName)
                 || "cela2".equals(locationName)
                 || "cela3".equals(locationName)) && "pochodeň".equals(itemName)) {
-            return "\nNe, to tě opravdu nenechám udělat.";
+            return d1 + "Ne, to tě opravdu nenechám udělat." + d2;
         }
 
         Item item = inventory.getItem(itemName);
         inventory.removeItem(itemName);
         currentLocation.addItem(item);
-        return "\nZahodil/a jsi " + itemName + ".";
+        return d1 + "Zahodil/a jsi " + itemName + "." + d2;
     }
 }
