@@ -1,8 +1,9 @@
 package logic;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import util.Observer;
+import util.SubjectOfChange;
+
+import java.util.*;
 
 /**
  * Třída reprezentující inventář hráče.
@@ -13,13 +14,16 @@ import java.util.List;
  * @version LS-2021, 2021-05-26
  */
 
-public class Inventory {
+public class Inventory implements SubjectOfChange{
     private static final int MAX_ITEMS = 4; // maximální počet věcí v inventáři
-    private List<Item> content; // seznam věcí v inventáři
+    private Map<String, Item> content; // seznam věcí v inventáři
+
+    private Set<Observer> observerSet = new HashSet<>();
+
 
     // Konstruktor
     public Inventory() {
-        content = new ArrayList<>();
+        content = new HashMap<String, Item>();
     }
 
     /**
@@ -27,8 +31,8 @@ public class Inventory {
      *
      * @return kolekce itemů v inventáři
      */
-    public Collection<Item> getContent() {
-        return new ArrayList<>(content);
+    public Map<String, Item> getContent() {
+        return content;
     }
 
     /**
@@ -48,25 +52,11 @@ public class Inventory {
      */
     public Item addItem(Item item) {
         if (isSpace() && item.isPickable()) {
-            content.add(item);
+            content.put(item.getName(), item);
+            notifyObservers();
             return item;
         }
         return null;
-    }
-
-    /**
-     * Kontroluje, zda je daná věc v inventáři.
-     *
-     * @param item který chceme zkontrolovat
-     * @return true pokud má item hráč v inventáři
-     */
-    public boolean containsItem(String item) {
-        for (Item current : content) {
-            if (current.getName().equals(item)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -76,11 +66,11 @@ public class Inventory {
      */
     public String getInventory() {
         String text =  Game.makeItLookGood1() + "Batoh:";
-        for (Item current : content) {
+        for (String name : content.keySet()) {
             if (!text.equals("\nBatoh:")) {
                 text += ",";
             }
-            text += " " + current.getName();
+            text += " " + name;
         }
         return text + Game.makeItLookGood2();
     }
@@ -93,11 +83,8 @@ public class Inventory {
      */
     public Item getItem(String name) {
         Item item = null;
-        for (Item current : content) {
-            if (current.getName().equals(name)) {
-                item = current;
-                break;
-            }
+        if(content.containsKey(name)) {
+            item = content.get(name);
         }
         return item;
     }
@@ -109,11 +96,30 @@ public class Inventory {
      * @param name název itemu, který chceme odstranit
      */
     public void removeItem(String name) {
-        for (Item current : content) {
-            if (current.getName().equals(name)) {
-                content.remove(current);
-                break;
-            }
+        Item item = null;
+        if (content.containsKey(name)) {
+            item = content.get(name);
+            content.remove(name);
+            notifyObservers();
         }
     }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observerSet.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(Observer observer) {
+        observerSet.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observerSet) {
+            observer.update();
+        }
+    }
+
+    public Set<String> itemsInInventory() { return content.keySet(); }
 }

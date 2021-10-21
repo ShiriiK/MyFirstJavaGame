@@ -1,6 +1,7 @@
 package game;
 
 import gui.ExitPanel;
+import gui.InventoryPanel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -14,6 +15,8 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import logic.Game;
+import logic.Inventory;
+import test.InventoryChecker;
 import test.Runner;
 import ui.TextInterface;
 
@@ -30,7 +33,9 @@ import ui.TextInterface;
 public class GameBase extends Application {
 
     private final Game game = new Game();
-    private TextField userInput;
+    private TextField userInput = new TextField();
+    private ExitPanel exitPanel;
+    private InventoryPanel inventoryPanel;
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
@@ -90,8 +95,11 @@ public class GameBase extends Application {
 
         prepareLowerBox(borderPane, enterCommand);
 
-        ExitPanel exitPanel = new ExitPanel(game.getGameState());
+        exitPanel = new ExitPanel(game.getGameState());
         borderPane.setRight(exitPanel.getListView());
+
+        inventoryPanel = new InventoryPanel(game.getGameState().getInventory());
+        borderPane.setLeft(inventoryPanel.getPanel());
 
         Scene scene = new Scene(borderPane, 650, 450);
         primaryStage.setScene(scene);
@@ -116,7 +124,6 @@ public class GameBase extends Application {
     }
 
     private void prepareTextField(TextArea console) {
-        userInput = new TextField();
         userInput.setOnAction(event ->  {
             String command = userInput.getText();
             console.appendText("\n" + command + "\n");

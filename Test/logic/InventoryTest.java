@@ -47,9 +47,9 @@ class InventoryTest {
         assertEquals(inventory.addItem(item2), item2);
         assertNull(inventory.addItem(item5)); // není pickable
         assertEquals(inventory.addItem(item3), item3);
-        assertTrue(inventory.containsItem("item1"));
-        assertTrue(inventory.containsItem("item2"));
-        assertTrue(inventory.containsItem("item3"));
+        assertTrue(inventory.getContent().containsKey("item1"));
+        assertTrue(inventory.getContent().containsKey("item2"));
+        assertTrue(inventory.getContent().containsKey("item3"));
     }
 
     /**

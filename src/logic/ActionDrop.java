@@ -63,7 +63,8 @@ public class ActionDrop implements IAction {
         String itemName = parameters[0];
         Inventory inventory = gameState.getInventory();
 
-        if (!inventory.containsItem(itemName)) {
+
+        if (!inventory.getContent().containsKey(itemName)) {
             return d1 + "Nemůžeš zahodit něco, co nemáš." + d2;
         }
 

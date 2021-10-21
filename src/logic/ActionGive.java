@@ -63,7 +63,7 @@ public class ActionGive implements IAction {
         String itemName = parameters[1];
         Inventory inventory = gameState.getInventory();
 
-        if (!inventory.containsItem(itemName)) {
+        if (!inventory.getContent().containsKey(itemName)) {
             return d1 + "Nemůžeš někomu dát něco, co nemáš." + d2;
         }
 

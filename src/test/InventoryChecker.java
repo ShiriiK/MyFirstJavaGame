@@ -22,8 +22,8 @@ public class InventoryChecker implements IChecker {
     public CheckResult check(Step step, Game game, String actionResult) {
 
         Set<String> inventory = new TreeSet<>();
-        for (Item item : game.getGameState().getInventory().getContent()) {
-            inventory.add(item.getName());
+        for (String item : game.getGameState().getInventory().itemsInInventory()) {
+            inventory.add(item);
         }
 
         String message = "Inventory: " + String.join(", ", inventory)

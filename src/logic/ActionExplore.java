@@ -82,7 +82,7 @@ public class ActionExplore implements IAction {
         Inventory inventory = gameState.getInventory();
 
         if (item.containedItem() != null) {
-            if ("truhla".equals(itemName) && !inventory.containsItem("univerzální_klíč")) {
+            if ("truhla".equals(itemName) && !inventory.getContent().containsKey("univerzální_klíč")) {
                 return d1 + "Truhla je zamčená, ani brutální síla nepomáhá v jejím otevření." + d2;
             }
             item.removeItemInItem(foundName);

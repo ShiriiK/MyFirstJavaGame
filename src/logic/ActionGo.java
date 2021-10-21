@@ -72,11 +72,11 @@ public class ActionGo implements IAction {
 
         Inventory inventory = gameState.getInventory();
 
-        if (targetLocationName.equals("žalář") && !inventory.containsItem("pochodeň")) {
+        if (targetLocationName.equals("žalář") && !inventory.getContent().containsKey("pochodeň")) {
             return d1 + "Bez zdroje světla tam nejdeš." + d2;
         }
         if (targetLocationName.equals("cela3")
-                && !inventory.containsItem("klíč") && !inventory.containsItem("univerzální_klíč")) {
+                && !inventory.getContent().containsKey("klíč") && !inventory.getContent().containsKey("univerzální_klíč")) {
             return d1 + "Tahle cela je zamčená." + d2;
         }
         if (targetLocationName.equals("nádvoří")) {
