@@ -50,7 +50,7 @@ public class GameState implements SubjectOfChange {
                 "Zvláště pohodlná postel, do které můžete vstoupit, jakmile zachráníte Tua.",2);
         Location forge = new Location("kovárna", "Gormovo oblíbené místo. " +
                 "Když ho budeš potřebovat, tak ho najdeš tady.",2);
-        Location room = new Location("místnost", "Tady si můžeš vybrat svou zbraň.",2);
+        Location room = new Location("zbrojírna", "Tady si můžeš vybrat svou zbraň.",2);
         Location forest = new Location("les", "Temný nebezpečný les, nic dobrého tu nenajdeš.",3);
         Location mountain = new Location("hora", "Je tu poměrně velká hora. " +
                 "Není důvod jít nahoru, ale tady dole ještě může být něco užitečného.\n" +
