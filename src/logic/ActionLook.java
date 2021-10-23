@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionLook implements IAction {
     private Game game;
-    private String[] names = {"rozhlédnout_se", "rozhlédnout"};
+    private String[] names = {"rozhlédni_se"};
 
     /**
      * Konstuktor
@@ -31,7 +31,7 @@ public class ActionLook implements IAction {
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 2);
+        return Arrays.copyOf(names, 1);
     }
 
     /**

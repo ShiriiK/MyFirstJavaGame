@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionWeaponDrop implements IAction {
     private Game game;
-    private String[] names = {"odložitz", "odložit_zbraň"};
+    private String[] names = {"odlož_zbraň"};
 
     /**
      * Konstuktor
@@ -31,7 +31,7 @@ public class ActionWeaponDrop implements IAction {
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 2);
+        return Arrays.copyOf(names, 1);
     }
 
     /**

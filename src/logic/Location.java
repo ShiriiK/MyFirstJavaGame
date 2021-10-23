@@ -1,5 +1,8 @@
 package logic;
 
+import util.Observer;
+import util.SubjectOfChange;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +16,7 @@ import java.util.Set;
  * @version ZS-2021, 2021-10-23
  */
 
-public class Location {
+public class Location implements SubjectOfChange {
     private String name;
     private String description;
     private boolean known;
@@ -22,6 +25,8 @@ public class Location {
     private Set<Npc> npcs;                     //  seznam postav nacházejících se v lokaci
     private Set<Weapon> weapons;
     private int phase;
+
+    private Set<Observer> observers = new HashSet<>();
 
     /**
      * Konstruktor lokace
@@ -125,6 +130,7 @@ public class Location {
         for (Npc current : npcs) {
             if (current.getName().equals(name)) {
                 npcs.remove(current);
+                notifyObservers();
                 break;
             }
         }
@@ -211,6 +217,7 @@ public class Location {
         for (Item current : items) {
             if (current.getName().equals(name)) {
                 item = current;
+                notifyObservers();
                 break;
             }
         }
@@ -245,6 +252,7 @@ public class Location {
         for (Item current : items) {
             if (current.getName().equals(name) && current.isPickable()) {
                 items.remove(current);
+                notifyObservers();
                 break;
             }
         }
@@ -271,6 +279,7 @@ public class Location {
         for (Weapon current : weapons) {
             if (current.getName().equals(name)) {
                 weapon = current;
+                notifyObservers();
                 break;
             }
         }
@@ -305,6 +314,7 @@ public class Location {
         for (Weapon current : weapons) {
             if (current.getName().equals(name) && !current.isLocked()) {// přidat podmínku pro lepší zbraně
                 weapons.remove(current);
+                notifyObservers();
                 break;
             }
         }
@@ -364,5 +374,22 @@ public class Location {
      */
     public Collection<Weapon> getWeapons() {
         return new HashSet<>(weapons);
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o : observers) {
+            o.update();
+        }
     }
 }

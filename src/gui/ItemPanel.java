@@ -9,9 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import logic.Game;
-import logic.GameState;
-import logic.Item;
+import logic.*;
 import util.Observer;
 
 import java.util.Set;
@@ -38,8 +36,13 @@ public class ItemPanel implements Observer {
         this.game = game;
         this.console = console;
         GameState gameState = game.getGameState();
+        Inventory inventory = gameState.getInventory();
+        Location location = gameState.getCurrentLocation();
         init();
         gameState.registerObserver(this);
+        inventory.registerObserver(this);
+        location.registerObserver(this);
+
     }
 
     private void init() {
@@ -79,9 +82,9 @@ public class ItemPanel implements Observer {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String command = " ";
             if (event.getButton() == MouseButton.SECONDARY) {
-                command = "prozkoumat ";
+                command = "prozkoumej ";
             } else {
-                command = "sebrat ";
+                command = "seber ";
             }
             console.appendText("\n" + command + name + "\n");
             String gameAnswer = game.processAction(command + name);

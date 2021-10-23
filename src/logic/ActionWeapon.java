@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionWeapon implements IAction {
     private Game game;
-    private String[] names = {"vzít_zbraň", "zbraň"};
+    private String[] names = {"vzemi_si_zbraň", "zbraň"};
 
     /**
      * Konstuktor

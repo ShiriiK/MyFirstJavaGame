@@ -18,7 +18,7 @@ public class Inventory implements SubjectOfChange{
     private static final int MAX_ITEMS = 4; // maximální počet věcí v inventáři
     private Map<String, Item> content; // seznam věcí v inventáři
 
-    private Set<Observer> observerSet = new HashSet<>();
+    private Set<Observer> observers = new HashSet<>();
 
 
     // Konstruktor
@@ -111,17 +111,17 @@ public class Inventory implements SubjectOfChange{
 
     @Override
     public void registerObserver(Observer observer) {
-        observerSet.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void unregisterObserver(Observer observer) {
-        observerSet.remove(observer);
+        observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observerSet) {
+        for (Observer observer : observers) {
             observer.update();
         }
     }

@@ -6,7 +6,6 @@ import util.SubjectOfChange;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +26,7 @@ public class GameState implements SubjectOfChange {
     private Partner partner;
     private int phase;
 
-    private Set<Observer> observerSet = new HashSet<>();
+    private Set<Observer> observers = new HashSet<>();
 
     /**
      * Konstruktor - inicializuje hru, vytvoří nového hráče, partnera, inventář a nastaví fázi hry.
@@ -247,7 +246,7 @@ public class GameState implements SubjectOfChange {
         Item leftovers = new Item("zbytky", false, "Zbytky po předvčerejším obědě.");
         Item dummy = new Item("panák", false, "Panák na cvičení sbouboje zblízka.");
         Item bucket = new Item("kbelík", false, "Děravý kbelík. Ten opravdu nepotřebuješ.");
-        Item rock = new Item("kámen", true, "kámen");
+        Item rock = new Item("kámen", true, "Prostě kámen.");
         Item permit = new Item("propustka", true, "Propustka do města.");
         Item papers = new Item("papíry", false, "Hromada papírů");
         Item masterKey = new Item("univerzální_klíč", true, "Klíč který otvírá takřka všechno");
@@ -385,17 +384,17 @@ public class GameState implements SubjectOfChange {
 
     @Override
     public void registerObserver(Observer observer) {
-        observerSet.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void unregisterObserver(Observer observer) {
-        observerSet.remove(observer);
+        observers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Observer o : observerSet) {
+        for (Observer o : observers) {
             o.update();
         }
     }

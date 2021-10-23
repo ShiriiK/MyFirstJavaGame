@@ -114,11 +114,11 @@ public class GameBase extends Application {
         borderPane.setRight(exitPanel.getPanel());
 
         //nastavení panelu inventáře
-        inventoryPanel = new InventoryPanel(game.getGameState().getInventory());
+        inventoryPanel = new InventoryPanel(game, console);
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
-        Scene scene = new Scene(borderPane, 1300, 800);
+        Scene scene = new Scene(borderPane, 1350, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         userInput.requestFocus();

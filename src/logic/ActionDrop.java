@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionDrop implements IAction {
     private Game game;
-    private String[] names = {"zahodit", "položit"};
+    private String[] names = {"zahoď", "polož"};
 
     /**
      * Konstuktor

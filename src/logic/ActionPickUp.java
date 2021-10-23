@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionPickUp implements IAction {
     private Game game;
-    private String[] names = {"vzít", "sebrat"};
+    private String[] names = {"vezmi", "seber", "zdvihni"};
 
     /**
      * Konstuktor
@@ -31,7 +31,7 @@ public class ActionPickUp implements IAction {
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 2);
+        return Arrays.copyOf(names, 3);
     }
 
     /**

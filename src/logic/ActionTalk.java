@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionTalk implements IAction {
     private Game game;
-    private String[] names = {"mluvit", "mluvit_s"};
+    private String[] names = {"mluv_s", "promluv_si_s"};
 
     /**
      * Konstuktor

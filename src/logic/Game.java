@@ -59,7 +59,7 @@ public class Game {
      */
     public String theBeginning() {
         return "\nVítej ve hře Tuova Poprava.\n" +
-                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat help\n" +
+                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat nápověda\n" +
                 "a zobrazí se příkazy, které můžeš použít." + makeItLookGood1() +
                 "Nejprve vyber, zda chceš hrát za muže nebo ženu. Napiš: pohlaví muž/žena." +
                 makeItLookGood2();

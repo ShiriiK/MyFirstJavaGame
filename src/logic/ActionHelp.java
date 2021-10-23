@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @version ZS-2021, 2021-10-16
  */
 public class ActionHelp implements IAction {
-    private String[] names = {"help"};
+    private String[] names = {"nápověda"};
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
@@ -36,27 +36,27 @@ public class ActionHelp implements IAction {
 
 
         if (parameters.length >= 1) {
-            return "\nStačí napsat help.";
+            return "\nStačí napsat nápověda.";
         }
 
         return  d1 + "Můžeš použít následující příkazy:\n\n" +
                 "pohlaví + muž/žena\n" +
                 "jméno + jméno\n" +
-                "vzít_zbraň/zbraň + zbraň\n" +
-                "odložitz/odložit_zbraň\n" +
+                "vzemi_si_zbraň/zbraň + zbraň\n" +
+                "odlož_zbraň\n" +
                 "hráč => zobrazí staty hráče.\n" +
                 "parťák/parťačka => zobrazí staty partnera.\n" +
                 "inventář/batoh\n" +
-                "mluvit/mluvit_s + postava\n" +
-                "rozhlédnout_se/rozhlédnout\n" +
-                "prozkoumat/prohledat + předmět\n" +
-                "vzít/sebrat + předmět\n" +
-                "zahodit/položit + předmět\n" +
-                "dát/nabídnout + postava + předmět\n" +
-                "jít/jít_do/jít_k + lokace\n" +
-                "útok/zaútoč_na + postava\n" +
-                "útokp/zaútoč_s_parťákem + postava\n" +
-                "zachránit_tua\n" +
+                "mluv_s/promluv_si_s + postava\n" +
+                "rozhlédni_se\n" +
+                "prozkoumej/prohledej + předmět\n" +
+                "vezmi/seber + předmět\n" +
+                "zahoď/polož + předmět\n" +
+                "dej/nabídn + postava + předmět\n" +
+                "jdi/jdi_do/běž/běž_do + lokace\n" +
+                "zaútoč_na + postava\n" +
+                "zaútoč_s_parťákem_na + postava\n" +
+                "zachraň_tua\n" +
                 "konec" + d2;
     }
 }

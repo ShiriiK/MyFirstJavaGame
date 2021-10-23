@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class ActionExplore implements IAction {
     private Game game;
-    private String[] names = {"prozkoumat", "prohledat"};
+    private String[] names = {"prozkoumej", "prohledej"};
 
     /**
      * Konstuktor
@@ -63,13 +63,22 @@ public class ActionExplore implements IAction {
         }
 
         String itemName = parameters[0];
-        Location currentLocation = gameState.getCurrentLocation();
+        Inventory inventory = gameState.getInventory();
+        Item itemInv = inventory.getItem(itemName);
 
-        if (currentLocation.getItem(itemName) == null) {
-            return d1 + "Nic takového tu není." + d2;
+
+        if (inventory.getItem(itemName) != null) {
+            return d1 + itemInv.getDescription() + d2;
         }
 
+        Location currentLocation = gameState.getCurrentLocation();
         Item item = currentLocation.getItem(itemName);
+
+        if (currentLocation.getItem(itemName) == null) {
+            return d1 + "Nic takového tu není a ani nemáš nic takového u sebe." + d2;
+        }
+
+
         String foundName = currentLocation.getItem(itemName).containedItem();
         Item found = currentLocation.getItem(itemName).getItemInItem(foundName);
 
@@ -78,8 +87,6 @@ public class ActionExplore implements IAction {
             currentLocation.addItem(found);
             return d1 + "Našel/a jsi: " + foundName + d2;
         }
-
-        Inventory inventory = gameState.getInventory();
 
         if (item.containedItem() != null) {
             if ("truhla".equals(itemName) && !inventory.getContent().containsKey("univerzální_klíč")) {

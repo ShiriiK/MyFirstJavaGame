@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionGive implements IAction {
     private Game game;
-    private String[] names = {"dát", "nabídnout"};
+    private String[] names = {"dej", "nabídni"};
 
     /**
      * Konstuktor

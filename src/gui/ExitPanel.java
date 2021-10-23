@@ -78,7 +78,7 @@ public class ExitPanel implements Observer {
      */
     private void clickOnExit(String name, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            String command = "jít ";
+            String command = "jdi ";
             console.appendText("\n" + command + name + "\n");
             String gameAnswer = game.processAction(command + name);
             console.appendText("\n" + gameAnswer + "\n");
