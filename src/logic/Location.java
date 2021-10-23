@@ -2,32 +2,31 @@ package logic;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 /**
  * Instance této třídy představují jednotlivé lokace.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version ZS-2021, 2021-10-23
  */
 
 public class Location {
     private String name;
     private String description;
     private boolean known;
-    private Set<Exit> exits;                //  seznam sousedních lokací
+    private Set<Exit> exits;                     //  seznam sousedních lokací
     private Set<Item> items;                    //  seznam věcí nacházejících se v lokaci
     private Set<Npc> npcs;                     //  seznam postav nacházejících se v lokaci
     private Set<Weapon> weapons;
     private int phase;
 
     /**
-     * Konstruktor
+     * Konstruktor lokace
      *
-     * @param name        jméno lokace
+     * @param name jméno lokace
      * @param description popis lokace
      */
     public Location(String name, String description, int phase) {
@@ -132,15 +131,6 @@ public class Location {
     }
 
     /**
-     * Metoda vrací kolekci všech npc v lokaci.
-     *
-     * @return kolekce všech npc v lokaci
-     */
-    public Collection<Npc> getNpcs() {
-        return new HashSet<>(npcs);
-    }
-
-    /**
      * Metoda pro zaútočení všech npc v lokaci na hráče.
      *
      * @return damage, který dohromady způsobí
@@ -169,7 +159,7 @@ public class Location {
     /**
      * Metoda pro získání odkazu na exit.
      *
-     * @param exitName jméno lokace
+     * @param exitName jméno targetLocation
      * @return odkaz na exit
      */
     public Exit getExit(String exitName) {
@@ -198,24 +188,6 @@ public class Location {
             }
         }
         return text;
-    }
-
-    /**
-     * Metoda vrací kolekci všech sousedních lokací.
-     *
-     * @return kolekce sousedních lokací
-     */
-    public Set<Exit> getExits() {
-        return new HashSet<>(exits);
-    }
-
-    public Set<Location> getTargetLocations(){
-        Set<Exit> exitsSet = getExits();
-        Set<Location> locationsSet = new HashSet<>();
-        for (Exit exit : exitsSet) {
-            locationsSet.add(exit.getTargetLocation());
-        }
-        return locationsSet;
     }
 
     /**
@@ -279,15 +251,6 @@ public class Location {
     }
 
     /**
-     * Metoda vrací kolekci všech itemů v lokaci.
-     *
-     * @return kolekce všech itemů v lokaci
-     */
-    public Collection<Item> getItems() {
-        return new HashSet<>(items);
-    }
-
-    /**
      * Metoda pro vložení zbraně do lokace.
      *
      * @param added zbraň přidaná do lokace
@@ -348,7 +311,54 @@ public class Location {
     }
 
     /**
+     * Metoda vrací kolekci všech npc v lokaci.
+     * Vyžívána testovací třídou CurrentLocationNpcsChecker.
+     * Používá se i při přesuno do jiné lokace, kdy zjistí, jestli v průchodu mezi lokacemi jsou agresivní npc,
+     * které na hráče zaútočí.
+     *
+     * @return kolekce všech npc v lokaci
+     */
+    public Collection<Npc> getNpcs() {
+        return new HashSet<>(npcs);
+    }
+
+    /**
+     * Metoda vrací kolekci všech sousedních lokací.
+     * Vyžívána testovací třídou CurrentLocationExitsChecker a metodou getTargetLocations().
+     *
+     * @return kolekce sousedních lokací
+     */
+    public Set<Exit> getExits() {
+        return new HashSet<>(exits);
+    }
+
+    /**
+     * Metoda využitá gui třídou ExitPanel.
+     *
+     * @return set sousedních lokací
+     */
+    public Set<Location> getTargetLocations(){
+        Set<Exit> exitsSet = getExits();
+        Set<Location> locationsSet = new HashSet<>();
+        for (Exit exit : exitsSet) {
+            locationsSet.add(exit.getTargetLocation());
+        }
+        return locationsSet;
+    }
+
+    /**
+     * Metoda vrací kolekci všech itemů v lokaci.
+     * Vyžívána testovací třídou CurrentLocationItemsChacker.
+     *
+     * @return kolekce všech itemů v lokaci
+     */
+    public Collection<Item> getItems() {
+        return new HashSet<>(items);
+    }
+
+    /**
      * Metoda vrací kolekci všech zbraní v lokaci.
+     * Vyžívána testovací třídou CurrentLocationWeaponsChecker.
      *
      * @return kolekce všech zbraní v lokaci
      */

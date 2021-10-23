@@ -3,7 +3,7 @@ package logic;
 /**
  * Instance této třídy představují jednotlivé zbraně.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version 2021-05-26

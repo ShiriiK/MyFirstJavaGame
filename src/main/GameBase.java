@@ -22,11 +22,11 @@ import ui.TextInterface;
 /**
  * Spouštěcí třída aplikace.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS2021, 2021-10-16
+ * @version ZS2021, 2021-10-23
  */
 
 public class GameBase extends Application {
@@ -60,11 +60,9 @@ public class GameBase extends Application {
                 System.exit(0);
             } else if (args.length == 1 && args[0].equalsIgnoreCase("SHOW_SCENARIOS")) {
                 Runner runner = new Runner();
-
                 System.out.println(runner.showAllScenarios());
             } else if (args.length == 1 && args[0].equalsIgnoreCase("RUN_SCENARIOS")) {
                 Runner runner = new Runner();
-
                 System.out.println(runner.runAllScenarios());
             }  else {
                 System.out.println("\nPro spuštění hry můžeš použít následující parametry:");
@@ -78,32 +76,41 @@ public class GameBase extends Application {
         } else {
             launch(args);
         }
-
     }
 
+    /**
+     * Metoda pro vytvoření scény s grafickým rozhraním a její uspořádání.
+     *
+     * @param primaryStage scéna, kde se zobrazuje grafické rozhraní hry
+     */
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
 
+        //nastavení konzole
         TextArea console = createConcole();
         borderPane.setCenter(console);
 
+        //nastavení prostoru pro zadávání příkazů
         Label enterCommand = new Label("Zadej příkaz: ");
         enterCommand.setFont(Font.font("Arial", FontWeight.BOLD, 16));
 
         prepareTextField(console);
-
         prepareLowerBox(borderPane, enterCommand);
 
+        //nastavení panelu lokace (obrázek aktuální lokace)
         gameAreaPanel = new GameAreaPanel(game.getGameState());
         borderPane.setTop(gameAreaPanel.getAnchorPane());
 
+        //nastavení panelu východů
         exitPanel = new ExitPanel(game, console);
         borderPane.setRight(exitPanel.getPanel());
 
+        //nastavení panelu inventáře
         inventoryPanel = new InventoryPanel(game.getGameState().getInventory());
         borderPane.setLeft(inventoryPanel.getPanel());
 
+        //nastavení scény
         Scene scene = new Scene(borderPane, 950, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
@@ -114,12 +121,14 @@ public class GameBase extends Application {
             Platform.exit();
             System.exit(0);
         });
-
-
-
     }
 
-
+    /**
+     * Motoda pro připravení  spodní části složené z boardPane a labelu na zadání příkazu.
+     *
+     * @param borderPane boarderPane na nastavení pozice
+     * @param enterCommand label na zadání příkazu
+     */
     private void prepareLowerBox(BorderPane borderPane, Label enterCommand) {
         HBox lowerBox = new HBox();
         lowerBox.setAlignment(Pos.CENTER);
@@ -127,6 +136,11 @@ public class GameBase extends Application {
         borderPane.setBottom(lowerBox);
     }
 
+    /**
+     * Metoda pro připravení textového pole, do kterého uživatel zadává příkazy a hra je vyhodnocuje.
+     *
+     * @param console TextArea ve které se vypisují příkazy zadané hráčem a odpovědi hry na tyto příkazy
+     */
     private void prepareTextField(TextArea console) {
         userInput.setOnAction(event ->  {
             String command = userInput.getText();
@@ -141,6 +155,11 @@ public class GameBase extends Application {
         });
     }
 
+    /**
+     * Metoda pro vytvoření console.
+     *
+     * @return vytvořená concole
+     */
     private TextArea createConcole() {
         TextArea console = new TextArea();
         console.setText(game.theBeginning());

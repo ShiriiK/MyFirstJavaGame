@@ -5,7 +5,7 @@ import logic.Game;
 /**
  * Třídy implementující toto rozhraní provádí kontroly testovacího scénáře.
  * <p>
- * Toto rozhraní je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @version LS-2021, 2021-05-23

@@ -3,7 +3,7 @@ package test;
 /**
  * Třída představující krok testovacího scénáře.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová

@@ -11,12 +11,24 @@ import util.Observer;
 import java.io.InputStream;
 import java.util.Set;
 
+/**
+ * Třída implementující rozhraní Observer.
+ * InventoryPanel zobrazuje obsah inventáře hráče.
+ * <p>
+ * Tato třída je součástí jednoduché textové adventury.
+ *
+ * @author Marcel Valový
+ * @author Alena Kalivodová
+ * @version ZS-2021, 2021-10-21
+ */
+
 public class InventoryPanel implements Observer {
 
     private final VBox vbox = new VBox();
     private final FlowPane itemsPanel = new FlowPane();
     private Inventory inventory;
 
+    //Konstruktor
     public InventoryPanel(Inventory inventory) {
         this.inventory = inventory;
         init();
@@ -31,6 +43,9 @@ public class InventoryPanel implements Observer {
         loadImages();
     }
 
+    /**
+     * Metoda pro nastavení itemsPanel.
+     */
     private void loadImages() {
         itemsPanel.getChildren().clear();
         Set<String> itemsSet = inventory.itemsInInventory();
@@ -51,11 +66,5 @@ public class InventoryPanel implements Observer {
 
     public Node getPanel() {
         return vbox;
-    }
-
-    public void gameRestart(Inventory inventory) {
-        this.inventory = inventory;
-        this.inventory.registerObserver(this);
-        update();
     }
 }

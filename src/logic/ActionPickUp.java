@@ -5,10 +5,10 @@ import java.util.Arrays;
 /**
  * Třída implementující příkaz pro odebrání itemů z lokace a jejich následnímu vložení do inventáře.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version ZS-2021, 2021-10-16
  */
 
 public class ActionPickUp implements IAction {

@@ -3,7 +3,7 @@ package logic;
 /**
  * Třídy implementující toho rozhraní zpracovávají příkazy.
  * <p>
- * Toto rozhraní je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @version LS-2021, 2021-05-23

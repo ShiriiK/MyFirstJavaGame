@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Instance této třídy představují exity z lokací.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-26

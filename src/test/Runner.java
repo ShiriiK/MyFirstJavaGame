@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Třída obsahující logiku pro kontrolu testovacích scénářů.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová

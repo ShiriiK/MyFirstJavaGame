@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Instance této třídy představují jednotlivé npc.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-26
@@ -23,6 +23,17 @@ public class Npc {
     private boolean talk;
     private String message;
 
+    //Různé verze konstruktorů na Npc
+
+    /**
+     * Konstruktor pro nepřátelské npc, se kterým lze mluvit i bojovat a zabraňuje vstupu nebo výstupu z/do lokace.
+     *
+     * @param name jméno npc
+     * @param hp životy npc
+     * @param str síla npc
+     * @param talks odpovědi npc
+     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
+     */
 
     public Npc(String name, double hp, double str, List talks, String message) {
         this.name = name;
@@ -36,6 +47,13 @@ public class Npc {
         this.message = message;
     }
 
+    /**
+     * Konstruktor pro přátelské npc, se kterým lze mluvit a zabraňuje vstupu nebo výstupu z/do lokace.
+     *
+     * @param name jméno  npc
+     * @param talks odpovědi npc
+     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
+     */
     public Npc(String name, List talks, String message) {
         this.name = name;
         this.friendly = true;
@@ -46,6 +64,12 @@ public class Npc {
         this.message = message;
     }
 
+    /**
+     * Konstruktor pro přátelské npc, se kterým lze mluvit.
+     *
+     * @param name jméno npc
+     * @param talks odpovědi npc
+     */
     public Npc(String name, List talks) {
         this.name = name;
         this.friendly = true;
@@ -55,7 +79,15 @@ public class Npc {
         this.talk = true;
     }
 
-    // Jiná verze konstuktoru
+    /**
+     * Konstruktor pro nepřátelské npc, se kterým nelze mluvit a zabraňuje vstupu nebo výstupu z/do lokace a
+     * lze s ním bojovat.
+     *
+     * @param name jméno npc
+     * @param hp životy npc
+     * @param str síla npc
+     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
+     */
     public Npc(String name, double hp, double str, String message) {
         this.name = name;
         this.friendly = false;
@@ -66,6 +98,13 @@ public class Npc {
         this.message = message;
     }
 
+    /**
+     * Konstruktor pro nepřátelské npc, se kterým nelze mluvita, ale lze s ním bojovat.
+     *
+     * @param name jméno npc
+     * @param hp životy npc
+     * @param str síla npc
+     */
     public Npc(String name, double hp, double str) {
         this.name = name;
         this.friendly = false;
@@ -169,6 +208,12 @@ public class Npc {
         return talk;
     }
 
+    /**
+     * Metoda pro získání listu všech odpovědí určitého npc.
+     * Využívá se pro získání infromace, zda je s npc vůbec možné mluvit.
+     *
+     * @return list všech odpovědí určitého npc
+     */
     public List<String> getTalks() {
         return talks;
     }
@@ -208,7 +253,7 @@ public class Npc {
     }
 
     /**
-     * Metoda pro získání zprávy, pokud je vstup do lokace nějak omezený.
+     * Metoda pro získání zprávy, pokud je vstup do lokace (nebo výtup z ní) nějak omezený.
      *
      * @return zpráva pro hráče
      */

@@ -3,7 +3,7 @@ package logic;
 /**
  * Třída představující hráče.
  * <p>
- * Tato třída je soušástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-26

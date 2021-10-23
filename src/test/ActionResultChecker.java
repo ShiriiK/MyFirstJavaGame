@@ -5,7 +5,7 @@ import logic.*;
 /**
  * Třída implementující kontrolu odpovědi hry po vykonání příkazu.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová

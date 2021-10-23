@@ -11,7 +11,8 @@ package util;
 public interface Observer {
 
     /**
-     * Reakce na pozorovanou změnu.
+     * Metoda, ve které proběhne aktualizace observra.
+     * Je volaná prostřednictvím metody notifyObserver() z tříd implementujících rozhraní SubjectOfChange.
      */
     void update();
 }

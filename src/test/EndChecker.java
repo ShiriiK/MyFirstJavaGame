@@ -5,7 +5,7 @@ import logic.Game;
 /**
  * Třída implementující kontrolu průběhu hry po vykonání příkazu.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-23

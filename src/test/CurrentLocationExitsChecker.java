@@ -10,7 +10,7 @@ import java.util.TreeSet;
 /**
  * Třída implementující kontrolu exitů z lokace po vykonání příkazu.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová

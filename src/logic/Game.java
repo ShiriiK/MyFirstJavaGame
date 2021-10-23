@@ -10,11 +10,11 @@ import java.util.*;
  * Vypisuje úvodní a závěrečný text hry.
  * Vyhodnocuje jednotlivé příkazy.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version LS-2021, 2021-10-23
  */
 
 public class Game {
@@ -140,6 +140,8 @@ public class Game {
         }
         return makeItLookGood1() + "Nesprávný příkaz." + makeItLookGood2();
     }
+
+    //Metody pro zkrášlení textů vypisovaných do konozole
 
     public static String makeItLookGood1() {
         return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";

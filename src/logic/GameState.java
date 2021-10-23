@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Třída představující stav hry.
+ * Třída představující stav hry a implementující rozhraní SubjectOfChange
  * <p>
  * Iniacializuje lokace, itemy, npc, zbraně a exity.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version ZS-2021, 2021-10-26
  */
 
 public class GameState implements SubjectOfChange {
@@ -28,6 +28,7 @@ public class GameState implements SubjectOfChange {
     private int phase;
 
     private Set<Observer> observerSet = new HashSet<>();
+
     /**
      * Konstruktor - inicializuje hru, vytvoří nového hráče, partnera, inventář a nastaví fázi hry.
      */
@@ -81,6 +82,7 @@ public class GameState implements SubjectOfChange {
         Location cell3 = new Location("cela3", "Malá nechutná cela, na zemi leží téměř bezvládné tělo " +
                 "tvého kamaráda.",3);
 
+        //Přiřazení exitu k lokaci
         Exit campExit = new Exit(camp);
         Exit alleyExit = new Exit(alley);
         Exit forestExit = new Exit(forest);
@@ -137,7 +139,7 @@ public class GameState implements SubjectOfChange {
         //Nastavení počáteční lokace
         currentLocation = camp;
 
-        //Vytvoření postav
+        //Vytvoření npcček
         Npc general = new Npc("generál", 30, 20, Arrays.asList("Generl: Kdo jste!",
                 "General: Pokud nechcete zatěžovat mou mysl svými odpornými jmény, můžete místo toho zatížit mou peněženku.",
                 "General: Zabijte je, už jsem s nimi ztratil víc než dost času."),"Králův vrchní generál tě nenechá odejít. Musíte s ním jednat.");
@@ -188,7 +190,7 @@ public class GameState implements SubjectOfChange {
                 "Když mi dáte trochu peněz, nebo třeba i chleba, dám vám nějaké informace.",
                 "Žebráků si nikdo nevšímá, proto toho tolik víme."));
 
-        //vložení postav do lokací
+        //vložení npcček do lokací
         alley.addNpc(trollKing);
         forge.addNpc(gorm);
         cell1.addNpc(rat2);
@@ -207,6 +209,7 @@ public class GameState implements SubjectOfChange {
         ghetto.addNpc(girl);
         entrence.addNpc(dungeonGuard);
 
+        //vložení npcček do exitů
         gateExit.insertNpc(trollKing);
         cityExit.insertNpc(gateGuard);
         ghettoExit.insertNpc(general);
@@ -290,7 +293,7 @@ public class GameState implements SubjectOfChange {
         passageGuard.insertItem(masterKey);
 
 
-        //vytvoření zbraní
+        //Vytvoření zbraní
         Weapon axe = new Weapon("sekera", 1.5, false);
         Weapon sword = new Weapon("meč", 1.5, false);
         Weapon knife = new Weapon("nůž", 1.3, false);
@@ -299,7 +302,7 @@ public class GameState implements SubjectOfChange {
         Weapon dagger = new Weapon("dýka", 1.8, true);
         Weapon spear = new Weapon("kopí", 2, true);
 
-        //umístění zbraní
+        //Umístění zbraní
         room.addWeapon(axe);
         room.addWeapon(sword);
         room.addWeapon(knife);
@@ -320,6 +323,7 @@ public class GameState implements SubjectOfChange {
 
     /**
      * Metoda pro nastavení aktuální lokace.
+     * Při změně aktuální lokace upozorní observery.
      *
      * @param currentLocation lokace, která bude nastavena jako nová aktuální lokace
      */
@@ -347,7 +351,7 @@ public class GameState implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro získání odkazu na inventář
+     * Metoda pro získání odkazu na inventář.
      *
      * @return odkaz na inventář
      */
@@ -362,6 +366,7 @@ public class GameState implements SubjectOfChange {
      * 1 - není nastavené jméno;
      * 2 - hráč u sebe nemá zbraň;
      * 3 - běžná hra;
+     * 4 - nedosačitelná fáze;
      *
      * @return číslo fáze
      */

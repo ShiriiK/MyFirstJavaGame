@@ -10,7 +10,7 @@ import java.util.TreeSet;
 /**
  * Třída implementující kontrolu npc v aktuální lokaci po vykonání příkazu.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-23

@@ -6,9 +6,9 @@ import util.SubjectOfChange;
 import java.util.*;
 
 /**
- * Třída reprezentující inventář hráče.
+ * Třída reprezentující inventář hráče a implementující rozhraní SubjectOfChange
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
  * @version LS-2021, 2021-05-26
@@ -91,7 +91,12 @@ public class Inventory implements SubjectOfChange{
 
     /**
      * Odstraní item z inventáře, ale nevloží ho aktulní lokace.
-     * Item po odstranění může být předán nějakému npc nebo položen do aktuální lokace.
+     * Item po odstranění může být předán nějakému npc nebo položen do aktuální lokace - to si určí třída,
+     * která tuto metodu využije.
+     * - ActionDrop item vloží do lokace
+     * - ActionGive item dá npc
+     *
+     * Při odstranění upozorní observery.
      *
      * @param name název itemu, který chceme odstranit
      */
@@ -121,5 +126,10 @@ public class Inventory implements SubjectOfChange{
         }
     }
 
+    /**
+     * Metoda využitá gui třídou InventoryPanel
+     *
+     * @return set itemů v intentáři
+     */
     public Set<String> itemsInInventory() { return content.keySet(); }
 }

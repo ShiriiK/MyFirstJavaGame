@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Vytváří instance třídy Game, která představuje logiku hry.
  * Čte vstup od uživatele a předává ho hře.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Jan Říha
  * @author Alena Kalivodová
