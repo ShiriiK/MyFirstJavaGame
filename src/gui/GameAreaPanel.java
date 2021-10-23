@@ -3,7 +3,7 @@ package gui;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import logic.GameState;
 import util.Observer;
 
@@ -15,17 +15,24 @@ import util.Observer;
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-22
+ * @version ZS-2021, 2021-10-23
  */
 
 public class GameAreaPanel implements Observer {
+    private ItemPanel itemsPanel;
+    private NpcPanel npcsPanel;
     private GameState gameState;
-    private AnchorPane anchorPane = new AnchorPane();
+    private BorderPane borderPane = new BorderPane();
 
-    public GameAreaPanel(GameState gameState) {
+    public GameAreaPanel(GameState gameState, ItemPanel itemsPanel, NpcPanel npcsPanel) {
         this.gameState = gameState;
+        this.itemsPanel = itemsPanel;
+        this.npcsPanel = npcsPanel;
         loadArea();
         gameState.registerObserver(this);
+
+        borderPane.setStyle(" -fx-background-color: WHITE;");
+        borderPane.setStyle(" -fx-border-width: 5; -fx-border-color: BLACK; -fx-padding: 5;");
     }
 
     /**
@@ -35,8 +42,11 @@ public class GameAreaPanel implements Observer {
         String location = gameState.getCurrentLocation().getName();
         ImageView currentLocationImageView = new ImageView(new Image
                 (GameState.class.getResourceAsStream("/zdroje/" + location + ".jpg"),
-                        950, 450, false, false));
-        anchorPane.getChildren().add(currentLocationImageView);
+                        860, 450, false, false));
+
+        borderPane.setCenter(currentLocationImageView);
+        borderPane.setLeft(itemsPanel.getPanel());
+        borderPane.setRight(npcsPanel.getPanel());
     }
 
     @Override
@@ -44,7 +54,7 @@ public class GameAreaPanel implements Observer {
         loadArea();
     }
 
-    public Node getAnchorPane() {
-        return anchorPane;
+    public Node getBorderPane() {
+        return borderPane;
     }
 }

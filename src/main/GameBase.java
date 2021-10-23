@@ -1,16 +1,13 @@
 package main;
 
-import gui.ExitPanel;
-import gui.GameAreaPanel;
-import gui.InventoryPanel;
+import gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -36,6 +33,8 @@ public class GameBase extends Application {
     private ExitPanel exitPanel;
     private InventoryPanel inventoryPanel;
     private GameAreaPanel gameAreaPanel;
+    private ItemPanel itemsPanel;
+    private NpcPanel npcsPanel;
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
@@ -86,21 +85,29 @@ public class GameBase extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
+        borderPane.setStyle(" -fx-background-color: WHITE;");
 
         //nastavení konzole
         TextArea console = createConcole();
         borderPane.setCenter(console);
+        console.setFont(Font.font("Garamond", 20));
 
         //nastavení prostoru pro zadávání příkazů
         Label enterCommand = new Label("Zadej příkaz: ");
-        enterCommand.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
 
         prepareTextField(console);
         prepareLowerBox(borderPane, enterCommand);
 
+        //nastavení panelu s itemy v lokaci
+        itemsPanel = new ItemPanel(game.getGameState());
+
+        //nastavení panelu s npc v lokaci
+        npcsPanel = new NpcPanel(game.getGameState());
+
         //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game.getGameState());
-        borderPane.setTop(gameAreaPanel.getAnchorPane());
+        gameAreaPanel = new GameAreaPanel(game.getGameState(), itemsPanel, npcsPanel);
+        borderPane.setTop(gameAreaPanel.getBorderPane());
 
         //nastavení panelu východů
         exitPanel = new ExitPanel(game, console);
@@ -111,7 +118,7 @@ public class GameBase extends Application {
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
-        Scene scene = new Scene(borderPane, 950, 800);
+        Scene scene = new Scene(borderPane, 1300, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         userInput.requestFocus();
@@ -124,7 +131,7 @@ public class GameBase extends Application {
     }
 
     /**
-     * Motoda pro připravení  spodní části složené z boardPane a labelu na zadání příkazu.
+     * Metoda pro připravení  spodní části složené z boardPane a labelu na zadání příkazu.
      *
      * @param borderPane boarderPane na nastavení pozice
      * @param enterCommand label na zadání příkazu

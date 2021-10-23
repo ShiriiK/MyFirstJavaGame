@@ -318,7 +318,7 @@ public class Location {
      *
      * @return kolekce všech npc v lokaci
      */
-    public Collection<Npc> getNpcs() {
+    public Set<Npc> getNpcs() {
         return new HashSet<>(npcs);
     }
 
@@ -352,7 +352,7 @@ public class Location {
      *
      * @return kolekce všech itemů v lokaci
      */
-    public Collection<Item> getItems() {
+    public Set<Item> getItems() {
         return new HashSet<>(items);
     }
 

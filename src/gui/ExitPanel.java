@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import logic.Game;
 import logic.GameState;
 import logic.Location;
@@ -18,7 +20,7 @@ import java.util.Set;
  * Třída implementující rozhraní Observer.
  * ExitPanel zobrazuje obsah sousední lokace.
  * <p>
- * Tato třída je součástí jednoduché textové adventury.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
@@ -28,7 +30,7 @@ import java.util.Set;
 public class ExitPanel implements Observer {
 
     private final VBox vbox = new VBox();
-    private final FlowPane exitsPanel = new FlowPane();
+    private final FlowPane exitPanel = new FlowPane();
     private final TextArea console;
     private Game game;
 
@@ -42,9 +44,10 @@ public class ExitPanel implements Observer {
     }
 
     private void init() {
-        vbox.setPrefWidth(220);
+        vbox.setPrefWidth(220.0);
         Label label = new Label("Sousední lokace: ");
-        vbox.getChildren().addAll(label, exitsPanel);
+        label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
+        vbox.getChildren().addAll(label, exitPanel);
 
         loadCurrentExits();
     }
@@ -53,7 +56,7 @@ public class ExitPanel implements Observer {
      * Metoda pro nastavení exitsPanel.
      */
     private void loadCurrentExits() {
-        exitsPanel.getChildren().clear();
+        exitPanel.getChildren().clear();
         Set<Location> locationsSet = game.getGameState().getCurrentLocation().getTargetLocations();
 
         for (Location location : locationsSet) {
@@ -63,7 +66,7 @@ public class ExitPanel implements Observer {
 
             clickOnExit(name, imageView);
 
-            exitsPanel.getChildren().add(imageView);
+            exitPanel.getChildren().add(imageView);
         }
     }
 
@@ -76,7 +79,7 @@ public class ExitPanel implements Observer {
     private void clickOnExit(String name, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String command = "jít ";
-            console.appendText("\n" + command + "\n");
+            console.appendText("\n" + command + name + "\n");
             String gameAnswer = game.processAction(command + name);
             console.appendText("\n" + gameAnswer + "\n");
         });
