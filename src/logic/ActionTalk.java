@@ -109,7 +109,7 @@ public class ActionTalk implements IAction {
                     return "\nArmin: Něco ti dám, ale uvolni si předtím místo v batohu.";
                 }
             }
-            return "\n" + npc.getChat(npc);
+            return d1 + npc.getChat(npc) + d2;
         }
 
         return d1 + "Už jste si povídali až až." + d2;

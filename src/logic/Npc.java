@@ -225,8 +225,7 @@ public class Npc {
      */
     public String getChat(Npc npc) {
         int i = npc.getTalked();
-        for (String talk : talks)
-        if (talks.indexOf(talk) == talks.size()-1) {
+        if (talked == talks.size()) {
             return "Kecání už bylo dost";
         }
         talked ++;
