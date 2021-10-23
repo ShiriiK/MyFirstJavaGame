@@ -24,7 +24,7 @@ public class InventoryPanel implements Observer {
     }
 
     private void init() {
-        vbox.setPrefWidth(100);
+        vbox.setPrefWidth(220);
         Label label = new Label("Bahot:");
         vbox.getChildren().addAll(label, itemsPanel);
 
@@ -38,7 +38,7 @@ public class InventoryPanel implements Observer {
         for (String item : itemsSet) {
             String pictureName = "/zdroje/" + item + ".png";
             InputStream inputStream = InventoryPanel.class.getResourceAsStream(pictureName);
-            Image image = new Image(inputStream, 50, 50,false, false);
+            Image image = new Image(inputStream, 110, 100,false, false);
             ImageView imageView = new ImageView(image);
             itemsPanel.getChildren().add(imageView);
         }

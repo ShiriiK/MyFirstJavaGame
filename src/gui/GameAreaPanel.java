@@ -27,7 +27,7 @@ public class GameAreaPanel implements Observer {
         String location = gameState.getCurrentLocation().getName();
         ImageView currentLocationImageView = new ImageView(new Image
                 (GameState.class.getResourceAsStream("/zdroje/" + location + ".jpg"),
-                        750, 350, false, false));
+                        950, 450, false, false));
 
         anchorPane.getChildren().add(currentLocationImageView);
     }

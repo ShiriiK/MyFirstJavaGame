@@ -98,13 +98,13 @@ public class GameBase extends Application {
         gameAreaPanel = new GameAreaPanel(game.getGameState());
         borderPane.setTop(gameAreaPanel.getAnchorPane());
 
-        exitPanel = new ExitPanel(game.getGameState());
-        borderPane.setRight(exitPanel.getListView());
+        exitPanel = new ExitPanel(game, console);
+        borderPane.setRight(exitPanel.getPanel());
 
         inventoryPanel = new InventoryPanel(game.getGameState().getInventory());
         borderPane.setLeft(inventoryPanel.getPanel());
 
-        Scene scene = new Scene(borderPane, 750, 700);
+        Scene scene = new Scene(borderPane, 950, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         userInput.requestFocus();
@@ -118,6 +118,7 @@ public class GameBase extends Application {
 
 
     }
+
 
     private void prepareLowerBox(BorderPane borderPane, Label enterCommand) {
         HBox lowerBox = new HBox();
@@ -146,5 +147,4 @@ public class GameBase extends Application {
         console.setEditable(false);
         return console;
     }
-
 }

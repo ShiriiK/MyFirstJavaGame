@@ -205,10 +205,18 @@ public class Location {
      *
      * @return kolekce sousedních lokací
      */
-    public Collection<Exit> getExits() {
+    public Set<Exit> getExits() {
         return new HashSet<>(exits);
     }
 
+    public Set<Location> getTargetLocations(){
+        Set<Exit> exitsSet = getExits();
+        Set<Location> locationsSet = new HashSet<>();
+        for (Exit exit : exitsSet) {
+            locationsSet.add(exit.getTargetLocation());
+        }
+        return locationsSet;
+    }
 
     /**
      * Slouží k přidání itemů do lokace.
