@@ -103,7 +103,7 @@ public class GameBase extends Application {
         itemsPanel = new ItemPanel(game, console);
 
         //nastavení panelu s npc v lokaci
-        npcsPanel = new NpcPanel(game.getGameState());
+        npcsPanel = new NpcPanel(game, console);
 
         //nastavení panelu lokace (obrázek aktuální lokace)
         gameAreaPanel = new GameAreaPanel(game.getGameState(), itemsPanel, npcsPanel);
