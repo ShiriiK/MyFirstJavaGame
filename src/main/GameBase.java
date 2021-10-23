@@ -100,7 +100,7 @@ public class GameBase extends Application {
         prepareLowerBox(borderPane, enterCommand);
 
         //nastavení panelu s itemy v lokaci
-        itemsPanel = new ItemPanel(game.getGameState());
+        itemsPanel = new ItemPanel(game, console);
 
         //nastavení panelu s npc v lokaci
         npcsPanel = new NpcPanel(game.getGameState());

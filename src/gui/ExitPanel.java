@@ -71,7 +71,7 @@ public class ExitPanel implements Observer {
     }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na obrázek sousední lokace
+     * Metoda pro zpracování akce, kdy hráč klikne na obrázek sousední lokace a pokusí se do této lokace přemístit
      *
      * @param name jméno lokace
      * @param imageView obrázek lokace
