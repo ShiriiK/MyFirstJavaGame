@@ -76,7 +76,7 @@ public class ActionAttackPartner implements IAction {
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
-        if (attackedNpc.getFriendly()) {
+        if (attackedNpc.isFriendly()) {
             return d1 + "Není důvod útočit na toto npc." + d2;
         }
 
@@ -85,6 +85,12 @@ public class ActionAttackPartner implements IAction {
 
         if (npcHp <= partnerStr) {
             currentLocation.removeNpc(npcName);
+            for (Npc npc : currentLocation.getNpcs()) {
+                if (!npc.isFriendly()) {
+                    return d1 + "Zabili jste: " + npcName + "." + d2;
+                }
+            }
+            gameState.setInCombat(false);
             return d1 + "Zabili jste: " + npcName + "." + d2;
         }
 
@@ -98,6 +104,7 @@ public class ActionAttackPartner implements IAction {
             return d1 + "Tvůj partner umřel." + d2;
         }
 
+        gameState.setInCombat(true);
         return  d1 + partnerName + " dal/a " + partnerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
                 npcName + " útok oplatil a způsobil " + npcStr +
                 " poškození. " + partnerName + " teď má " + partner.getHp() + " životů." + d2;

@@ -87,6 +87,10 @@ public class ActionGo implements IAction {
             return d1 + "Opravdu si myslíš, že tě Gorm nechá opustit oblast kempu bez zbraně? Nějakou si vem." + d2;
         }
 
+        if (gameState.isInCombat()) {
+            return d1 + "Neutíkej a nejdřív dobojuj." + d2;
+        }
+
         for (Npc npc : currentLocation.getNpcs()) {
             if (npc.equals(targetLocationExit.containsNpc(npc))) {
                 return d1 + npc.getMessage() + d2;
@@ -105,19 +109,22 @@ public class ActionGo implements IAction {
             } else {
                 player.setHp(playerHp - dmg);
                 gameState.setCurrentLocation(targetLocation);
+                gameState.setInCombat(true);
                 return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
                         targetLocationExit.getDamageMessage();
             }
         }
-        if (targetLocationName.equals("hora")) {
+        if (targetLocationName.equals("hora") && !targetLocation.getNpcs().isEmpty()) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
+            gameState.setInCombat(true);
             return d1 + description + "\nZaútočili na tebe divocí králíci." + d2 +
                     targetLocationExit.getDamageMessage();
         }
-        if (targetLocationName.equals("les")) {
+        if (targetLocationName.equals("les")  && !targetLocation.getNpcs().isEmpty()) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
+            gameState.setInCombat(true);
             return d1 + description + "\nZaútočil na tebe troll." + d2 +
                     targetLocationExit.getDamageMessage();
         }

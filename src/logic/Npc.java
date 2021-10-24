@@ -128,7 +128,7 @@ public class Npc {
      *
      * @return true pokud je to přátelské npc a false, pokud je nepřátelské
      */
-    public boolean getFriendly() {
+    public boolean isFriendly() {
         return friendly;
     }
 

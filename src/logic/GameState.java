@@ -25,6 +25,7 @@ public class GameState implements SubjectOfChange {
     private Player player;
     private Partner partner;
     private int phase;
+    private boolean inCombat;
 
     private Set<Observer> observers = new HashSet<>();
 
@@ -37,6 +38,7 @@ public class GameState implements SubjectOfChange {
         player = new Player(null, null, null, 20, 0);
         partner = new Partner(null, null, 20, 0);
         phase = 0;
+        inCombat = false;
     }
 
     /**
@@ -56,14 +58,15 @@ public class GameState implements SubjectOfChange {
                 "Není důvod jít nahoru, ale tady dole ještě může být něco užitečného.\n" +
                 "Ale teď bys měl/a něco udělat s králíky, kteří na tebe z ničeho nic zaútočili.\n" +
                 "Schovávají se, ale pokud se vrátíš, pravděpodobně zaútočí znovu.\n",3);
-        Location lake = new Location("jezero", "Jezero na západní straně tábora. Strávili jste tu spoustu nocí.",3);
-        Location alley = new Location("alej", "Alej vedoucí k městské bráně. " +
+        Location lake = new Location("jezero",
+                "Jezero na západní straně tábora. Strávili jste tu spoustu nocí.",3);
+        Location alley = new Location("alej", "Alej vedoucí k městské bráně. \n" +
                 "Jediným problémem je, že se tu potuluje obrovský troll, kterého je třeba se zbavit, než půjdete k bráně.\n",3);
         Location gate = new Location("brána", "Přísně střežená brána a jediná cesta, která vede do města. \n" +
                 "Stráž: Zastavte prosím a ukažte mi doklady o povolení k vstupu, pokud je nemáte, nemohu vás pustit dovnitř.",3);
-        Location city = new Location("město", "Odporné místo plné špíny. " +
-                "Není tu jediná věc, která by se vám na tomhle místě líbila. A aby to bylo ještě lepší, narazili jste na " +
-                "králova vrchního generála.\n" +
+        Location city = new Location("město", "Odporné místo plné špíny. \n" +
+                "Není tu jediná věc, která by se ti na tomhle místě líbila. \n" +
+                "A aby to bylo ještě lepší, narazili jste s parťákem na králova vrchního generála.\n" +
                 "Generál: Vy dva se zastavte. Kdo jste a co tu chcete, připadáte mi dost povědomí, ale ne v dobrém slova smyslu.\n" +
                 "///Nyní máš dvě možnosti. Dát mu něco, co by mohlo utišit jeho zvědavost, nebo bojovat.///",3);
         Location ghetto = new Location("ghetto", "Chudá část města a zároveň jeho největší část. " +
@@ -72,14 +75,14 @@ public class GameState implements SubjectOfChange {
                 "Na nádvoří se nedostaneš ať by ses snažil/a sebevíc. Prostě mi s tímhle věř\n.",3);
         Location coutyard = new Location("nádvoří", "",4);
         Location entrence = new Location("vchod", "Vchod do pozdemí, který je podezdřele málo střežený.",3);
-        Location dungeon = new Location("žalář", "Podzemní žalář. Je tu velká tma, ale pochodeň pomáhá vidět " +
-                "alespoň pár kroků dopředu.\n" +
+        Location dungeon = new Location("žalář",
+                "Podzemní žalář. Je tu velká tma, ale pochodeň pomáhá vidět alespoň pár kroků dopředu.\n" +
                 " Také to vypadá, že je tu jen jedna cesta dovnitř a ven, když nepočítám vchody do tří cel.",3);
         Location cell1 = new Location("cela1", "Malá cela, ve které jsou jen krysy.",3);
         Location cell2 = new Location("cela2", "Poměrně velká cela s mnoha tmavými zákoutími. " +
                 "Raději buďte opatrný/á",3);
-        Location cell3 = new Location("cela3", "Malá nechutná cela, na zemi leží téměř bezvládné tělo " +
-                "tvého kamaráda.",3);
+        Location cell3 = new Location("cela3",
+                "Malá nechutná cela, na zemi leží téměř bezvládné tělo tvého kamaráda.",3);
 
         //Přiřazení exitu k lokaci
         Exit campExit = new Exit(camp);
@@ -139,10 +142,13 @@ public class GameState implements SubjectOfChange {
         currentLocation = camp;
 
         //Vytvoření npcček
-        Npc general = new Npc("generál", 30, 20, Arrays.asList("Generl: Kdo jste!",
+        Npc general = new Npc("generál", 30, 20, Arrays.asList(
+                "Generl: Kdo jste!",
                 "General: Pokud nechcete zatěžovat mou mysl svými odpornými jmény, můžete místo toho zatížit mou peněženku.",
-                "General: Zabijte je, už jsem s nimi ztratil víc než dost času."),"Králův vrchní generál tě nenechá odejít. Musíte s ním jednat.");
-        Npc dungeonGuard = new Npc("stráž", 20, 5, Arrays.asList("Stráž: Nemáte tu co dělat, vypadněte.",
+                "General: Zabijte je, už jsem s nimi ztratil víc než dost času."),
+                "Králův vrchní generál tě nenechá odejít. Musíte s ním jednat.");
+        Npc dungeonGuard = new Npc("stráž", 20, 5, Arrays.asList(
+                "Stráž: Nemáte tu co dělat, vypadněte.",
                 "Stráž: Řekl jsem vám, abyste odešeli, tady je malé varování.",
                 "Stráž: Měli jste mě poslouchat, už mám dost..."),
                 "Zbavte se strážce a vezměte si pochodeň, než půjdete dovnitř..");
@@ -165,17 +171,20 @@ public class GameState implements SubjectOfChange {
                 "Strážný vás nepustí dovnitř, pokud mu nepředložíte doklady o povolení ke vstupu do města.");
         Npc passageGuard = new Npc("stráž_průchodu", Arrays.asList(
                 "Stráž: Nejste přátelé toho chlapce, kterého chtějí pověsit? Jo, to jste to vy. Počkejte, nenahlásím vás.\n" +
-                        "Ta holčička, kterou zachránil před popravou... to byla moje mladší sestra. Mimochodem, jmenuju se Armin.",
+                        "Ta holčička, kterou zachránil před popravou... to byla moje mladší sestra. \n" +
+                        "Mimochodem, jmenuju se Armin.",
                 "Armin: Nemůžu vám moc pomoct, už tak neši rodinu bedlivě sledují, ale můžu vám dát tohle.",
                 "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík.\n" +
-                        "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě odejde do hospody"));
+                        "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě\n" +
+                        " odejde do hospody"));
         Npc grayRabbit = new Npc("šedý_zajíc", 2, 1);
         Npc rabbit = new Npc("zajíc", 2, 1);
         Npc whiteRabbit = new Npc("bílý_zajíc", 2, 1);
         Npc rat = new Npc("krysa", 1, 1);
         Npc rat2 = new Npc("krysa", 1, 1);
         Npc troll = new Npc("troll", 20, 5);
-        Npc trollKing = new Npc("přerostlý_troll", 30, 10, "Musíš se nejdřív zbavit přerostlého trolla.");
+        Npc trollKing = new Npc("přerostlý_troll", 30, 10,
+                "Musíš se nejdřív zbavit přerostlého trolla.");
         Npc tue = new Npc("tue", Arrays.asList(
                 "...",
                 "...J--st-se to vy ka-a-ma-rá--di?",
@@ -380,6 +389,22 @@ public class GameState implements SubjectOfChange {
      */
     public void setPhase(int phase) {
         this.phase = phase;
+    }
+
+    /**
+     * Metoda, která je zavolána, když hráč začne bojovat a hnedka soubouj nebokončí a pomocí níž je nastavena hodnota
+     * parametru inCombat na true.
+     *
+     * Nebo je zalována, když hráč zabije npc, se kterým bojoval a hodnota parametru je nastavena na false.
+     *
+     * @param inCombat true - hráč bojuje, false - hráč nebojuje
+     */
+    public void setInCombat(boolean inCombat) {
+        this.inCombat = inCombat;
+    }
+
+    public boolean isInCombat() {
+        return inCombat;
     }
 
     @Override

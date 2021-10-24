@@ -145,7 +145,7 @@ public class Location implements SubjectOfChange {
         double dmg = 0;
         if (!npcs.isEmpty()) {
             for (Npc current : npcs) {
-                if (!current.getFriendly()) {
+                if (!current.isFriendly()) {
                     dmg += current.getStr();
                 }
             }

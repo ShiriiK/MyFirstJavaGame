@@ -72,7 +72,7 @@ public class ActionAttack implements IAction {
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
-        if (attackedNpc.getFriendly()) {
+        if (attackedNpc.isFriendly()) {
             if ("gorm".equals(npcName)) {
                 return d1 + "Proč útočit na Gorma????" + d2;
             }
@@ -85,7 +85,13 @@ public class ActionAttack implements IAction {
 
         if (npcHp <= playerStr) {
             currentLocation.removeNpc(npcName);
-            return d1 + "Zabil/a si: " + npcName + "." + d2;
+            for (Npc npc : currentLocation.getNpcs()) {
+                if (!npc.isFriendly()) {
+                    return d1 + "Zabil/a jste: " + npcName + "." + d2;
+                }
+            }
+            gameState.setInCombat(false);
+            return d1 + "Zabil/a jste: " + npcName + "." + d2;
         }
 
         double playerHp = player.getHp();
@@ -98,6 +104,7 @@ public class ActionAttack implements IAction {
             return d1 + "Umřel/a jsi." + d2;
         }
 
+        gameState.setInCombat(true);
         return  d1 + "Dal/a si " + playerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
                 npcName + " ti útok oplatil a způsobil ti " + npcStr +
                 " poškození. Teď máš " + player.getHp() + " životů." + d2;
