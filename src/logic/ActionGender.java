@@ -11,7 +11,6 @@ import java.util.Arrays;
  * @version ZS-2021, 2021-10-16
  */
 
-
 public class ActionGender implements IAction {
     private Game game;
     private String[] names = {"pohlaví"};
@@ -101,6 +100,6 @@ public class ActionGender implements IAction {
                 "Že se nestydí chtít popravit malou holčičku. Vypadá to, že Tua uvěznili za to, že si jí zastal.\n " +
                 "Musíte se ho vydat brzy zachránit. Ale v tomhle stavu si nejsem jistný, jestli to zvládnete...\n " +
                 "Vnímáš mě? Pamatuješ vůbec svoje jméno?\n " + d1 +
-                "Zkus si vzpomenout, jak se jmenuješ. Napiš: jméno tvé_jméno" + d2 + "\n\n";
+                "Zkus si vzpomenout, jak se jmenuješ. Napiš: jméno tvé_jméno" + d2;
     }
 }

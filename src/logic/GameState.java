@@ -389,6 +389,7 @@ public class GameState implements SubjectOfChange {
      */
     public void setPhase(int phase) {
         this.phase = phase;
+        notifyObservers();
     }
 
     /**

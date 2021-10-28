@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -11,7 +10,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import logic.*;
 import util.Observer;
-
 import java.util.Set;
 
 /**

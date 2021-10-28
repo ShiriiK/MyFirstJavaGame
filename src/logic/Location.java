@@ -76,6 +76,13 @@ public class Location implements SubjectOfChange {
     }
 
     /**
+     * @return metoada pro vrácení popisu lokace
+     */
+    public  String getDescription() {
+        return  description;
+    }
+
+    /**
      * Metoda pro vložení npc do lokace.
      *
      * @param npc npc, které má být do lokace vloženo
@@ -322,9 +329,6 @@ public class Location implements SubjectOfChange {
 
     /**
      * Metoda vrací kolekci všech npc v lokaci.
-     * Vyžívána testovací třídou CurrentLocationNpcsChecker.
-     * Používá se i při přesuno do jiné lokace, kdy zjistí, jestli v průchodu mezi lokacemi jsou agresivní npc,
-     * které na hráče zaútočí.
      *
      * @return kolekce všech npc v lokaci
      */
@@ -333,8 +337,7 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací kolekci všech sousedních lokací.
-     * Vyžívána testovací třídou CurrentLocationExitsChecker a metodou getTargetLocations().
+     * Metoda vrací kolekci všech exitů.
      *
      * @return kolekce sousedních lokací
      */
@@ -343,7 +346,7 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda využitá gui třídou ExitPanel.
+     * Metoda vrací kolekci všech sousedních lokací.
      *
      * @return set sousedních lokací
      */
@@ -358,7 +361,6 @@ public class Location implements SubjectOfChange {
 
     /**
      * Metoda vrací kolekci všech itemů v lokaci.
-     * Vyžívána testovací třídou CurrentLocationItemsChacker.
      *
      * @return kolekce všech itemů v lokaci
      */
@@ -368,11 +370,10 @@ public class Location implements SubjectOfChange {
 
     /**
      * Metoda vrací kolekci všech zbraní v lokaci.
-     * Vyžívána testovací třídou CurrentLocationWeaponsChecker.
      *
      * @return kolekce všech zbraní v lokaci
      */
-    public Collection<Weapon> getWeapons() {
+    public Set<Weapon> getWeapons() {
         return new HashSet<>(weapons);
     }
 

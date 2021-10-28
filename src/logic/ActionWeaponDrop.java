@@ -63,7 +63,7 @@ public class ActionWeaponDrop implements IAction {
         Location currentLocation = gameState.getCurrentLocation();
         String locationName = currentLocation.getName();
 
-        if (!(locationName.equals("místnost"))) {
+        if (!(locationName.equals("zbrojírna"))) {
             return d1 + "Zbraň musíš odložit v místnosti za kovárnou." + d2;
         }
 

@@ -14,7 +14,6 @@ import javafx.scene.text.FontWeight;
 import logic.Game;
 import logic.Inventory;
 import util.Observer;
-
 import java.io.InputStream;
 import java.util.Set;
 

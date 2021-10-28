@@ -92,7 +92,6 @@ public class ActionWeapon implements IAction {
         currentLocation.removeWeapon(weaponName);
         gameState.getPlayer().setPlayerWeapon(weapon);
         gameState.setPhase(3);
-        return "\nGorm: Dobře, tady máš.\n" + d1 +
-                "Zbraň nastavena na: " + weaponName + d2;
+        return d1 + "Zbraň nastavena na: " + weaponName + d2;
     }
 }

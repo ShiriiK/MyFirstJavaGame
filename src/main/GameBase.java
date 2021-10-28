@@ -34,7 +34,7 @@ public class GameBase extends Application {
     private InventoryPanel inventoryPanel;
     private GameAreaPanel gameAreaPanel;
     private ItemPanel itemsPanel;
-    private NpcPanel npcsPanel;
+    private RightPanel npcsPanel;
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
@@ -103,10 +103,10 @@ public class GameBase extends Application {
         itemsPanel = new ItemPanel(game, console);
 
         //nastavení panelu s npc v lokaci
-        npcsPanel = new NpcPanel(game, console);
+        npcsPanel = new RightPanel(game, console);
 
         //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game.getGameState(), itemsPanel, npcsPanel);
+        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, console);
         borderPane.setTop(gameAreaPanel.getBorderPane());
 
         //nastavení panelu východů
@@ -118,9 +118,10 @@ public class GameBase extends Application {
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
-        Scene scene = new Scene(borderPane, 1350, 800);
+        Scene scene = new Scene(borderPane, 1350, 850);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
+        primaryStage.setResizable(false);
         userInput.requestFocus();
         primaryStage.show();
 
@@ -151,7 +152,7 @@ public class GameBase extends Application {
     private void prepareTextField(TextArea console) {
         userInput.setOnAction(event ->  {
             String command = userInput.getText();
-            console.appendText("\n" + command + "\n");
+            console.appendText(command);
             userInput.setText("");
             String gameAnswer = game.processAction(command);
             console.appendText("\n" + gameAnswer + "\n");

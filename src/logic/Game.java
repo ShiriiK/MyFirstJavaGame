@@ -134,7 +134,7 @@ public class Game {
         for (IAction action : validActions) {
             for (String x : action.getName()) {
                 if (x.equals(actionName)) {
-                    return makeItLookGood3() + action.execute(parameters);
+                    return action.execute(parameters);
                 }
             }
         }
@@ -149,9 +149,5 @@ public class Game {
 
     public static String makeItLookGood2() {
         return "\n‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-\n";
-    }
-
-    public static String makeItLookGood3() {
-        return "\n--------------------------------------------------------------------------------------------------------\n";
     }
 }

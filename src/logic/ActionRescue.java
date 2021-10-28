@@ -44,7 +44,6 @@ public class ActionRescue implements IAction {
     public String execute(String[] parameters) {
         String d1 = Game.makeItLookGood1();
         String d2 = Game.makeItLookGood2();
-        String d3 = Game.makeItLookGood3();
 
         if (parameters.length >= 1) {
             return d1 + "Stačí napsat jen zachránit_tua, nic víc" + d2;
@@ -58,6 +57,6 @@ public class ActionRescue implements IAction {
 
         game.setHappyEnd(true);
         game.setTheEnd(true);
-        return d3 + "Hra skončila." + d3;
+        return "Hra skončila.";
     }
 }
