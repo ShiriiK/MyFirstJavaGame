@@ -129,8 +129,8 @@ public class ActionGive implements IAction {
         if (npcName.equals("žebrák") && itemName.equals("peníz")) {
             npc.setTalked(3);
             Location entrance = gameState.getCurrentLocation().getExit("vchod").getTargetLocation();
-            Item bear = new Item("pivo", true, "Prostě obyčejný pivo.");
-            entrance.addItem(bear);
+            Item beer = new Item("pivo", true, "Prostě obyčejný pivo.");
+            entrance.addItem(beer);
             inventory.removeItem(itemName);
             return d1 + "Dal/a jsi žebrákovi peníz." + d2 +
                     "Díky díky. Jinak nejsem hlupák, moc dobře vím, kdo jste a koho tu hledáte. Takže infromace přímo pro vás.\n" +

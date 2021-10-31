@@ -71,9 +71,9 @@ public class ActionDrop implements IAction {
         Location currentLocation = gameState.getCurrentLocation();
         String locationName = currentLocation.getName();
 
-        if (("žalář".equals(locationName) || "cela1".equals(locationName)
-                || "cela2".equals(locationName)
-                || "cela3".equals(locationName)) && "pochodeň".equals(itemName)) {
+        if (("žalář".equals(locationName) || "cela_na_levo".equals(locationName)
+                || "cela_uprostřed".equals(locationName)
+                || "cela_na_pravo".equals(locationName)) && "pochodeň".equals(itemName)) {
             return d1 + "Ne, to tě opravdu nenechám udělat." + d2;
         }
 

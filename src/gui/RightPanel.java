@@ -43,7 +43,8 @@ public class RightPanel implements Observer {
     }
 
     private void init() {
-        hBox.setPrefWidth(220.0);
+        hBox.setPrefWidth(450.0);
+        hBox.setPrefHeight(570.0);
         hBox.getChildren().add(rightPanel);
 
         loadNpcs();
@@ -60,8 +61,8 @@ public class RightPanel implements Observer {
 
                 for (Weapon weapon : weaponSet) {
                     String name = weapon.getName();
-                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".png")),
-                        110.0, 100.0, false, false));
+                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+                        200.0, 125.0, false, false));
 
                     clickOnWeapon(name, imageView);
 
@@ -72,8 +73,8 @@ public class RightPanel implements Observer {
 
                 for (Npc npc : npcSet) {
                     String name = npc.getName();
-                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".png")),
-                            110.0, 100.0, false, false));
+                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+                            200.0, 100.0, false, false));
 
                     clickOnNpc(name, imageView);
 

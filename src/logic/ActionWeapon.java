@@ -82,7 +82,7 @@ public class ActionWeapon implements IAction {
         if (partnerWeapon == null) {
             if (partnerName.equals("Yrsa")) {
                 gameState.getPartner().setPartnerWeapon
-                        (currentLocation.getWeapon("nůž"));
+                        (currentLocation.getWeapon("meč"));
             } else if (partnerName.equals("Torsten")) {
                 gameState.getPartner().setPartnerWeapon
                         (currentLocation.getWeapon("sekera"));

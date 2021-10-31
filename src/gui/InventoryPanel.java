@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import logic.Game;
@@ -45,9 +46,11 @@ public class InventoryPanel implements Observer {
     }
 
     private void init() {
-        vbox.setPrefWidth(220);
+        vbox.setPrefWidth(500.0);
+        vbox.setPrefHeight(400.0);
         Label label = new Label("Bahot:");
         label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
+        label.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(label, inventoryPanel);
 
         loadImages();
@@ -57,18 +60,20 @@ public class InventoryPanel implements Observer {
      * Metoda pro nastavení inventoryPanel.
      */
     private void loadImages() {
-        inventoryPanel.getChildren().clear();
-        Set<String> itemsSet = game.getGameState().getInventory().itemsInInventory();
+        if (game.getGameState().getPhase() >= 2) {
+            inventoryPanel.getChildren().clear();
+            Set<String> itemsSet = game.getGameState().getInventory().itemsInInventory();
 
-        for (String item : itemsSet) {
-            String pictureName = "/zdroje/" + item + ".png";
-            InputStream inputStream = InventoryPanel.class.getResourceAsStream(pictureName);
-            Image image = new Image(inputStream, 110, 100,false, false);
-            ImageView imageView = new ImageView(image);
+            for (String item : itemsSet) {
+                String pictureName = "/zdroje/" + item + ".jpg";
+                InputStream inputStream = InventoryPanel.class.getResourceAsStream(pictureName);
+                Image image = new Image(inputStream, 250.0, 150.0, false, false);
+                ImageView imageView = new ImageView(image);
 
-            cilickOnItemInInventory(item, imageView);
+                cilickOnItemInInventory(item, imageView);
 
-            inventoryPanel.getChildren().add(imageView);
+                inventoryPanel.getChildren().add(imageView);
+            }
         }
     }
 

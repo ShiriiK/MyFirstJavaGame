@@ -210,6 +210,7 @@ public class Location implements SubjectOfChange {
      */
     public void addItem(Item added) {
         items.add(added);
+        notifyObservers();
     }
 
 

@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -8,8 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import logic.Game;
 import logic.GameState;
 import logic.Location;
@@ -44,9 +47,12 @@ public class ExitPanel implements Observer {
     }
 
     private void init() {
-        vbox.setPrefWidth(220.0);
+        vbox.setPrefWidth(500.0);
+        vbox.setPrefHeight(400.0);
         Label label = new Label("Sousední lokace: ");
         label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
+        label.setTextFill(Color.WHITE);
+        vbox.setAlignment(Pos.TOP_CENTER);
         vbox.getChildren().addAll(label, exitPanel);
 
         loadCurrentExits();
@@ -56,17 +62,19 @@ public class ExitPanel implements Observer {
      * Metoda pro nastavení exitsPanel.
      */
     private void loadCurrentExits() {
-        exitPanel.getChildren().clear();
-        Set<Location> locationsSet = game.getGameState().getCurrentLocation().getTargetLocations();
+        if (game.getGameState().getPhase() >= 2) {
+            exitPanel.getChildren().clear();
+            Set<Location> locationsSet = game.getGameState().getCurrentLocation().getTargetLocations();
 
-        for (Location location : locationsSet) {
-            String name = location.getName();
-            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
-                    110,100,false, false));
+            for (Location location : locationsSet) {
+                String name = location.getName();
+                ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+                        250, 100, false, false));
 
-            clickOnExit(name, imageView);
+                clickOnExit(name, imageView);
 
-            exitPanel.getChildren().add(imageView);
+                exitPanel.getChildren().add(imageView);
+            }
         }
     }
 

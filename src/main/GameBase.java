@@ -7,12 +7,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import logic.Game;
+import logic.GameState;
 import test.Runner;
 import ui.TextInterface;
 
@@ -85,16 +89,17 @@ public class GameBase extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
-        borderPane.setStyle(" -fx-background-color: WHITE;");
+        borderPane.setStyle(" -fx-background-color: BLACK;");
 
         //nastavení konzole
         TextArea console = createConcole();
         borderPane.setCenter(console);
-        console.setFont(Font.font("Garamond", 20));
+        console.setFont(Font.font("Garamond", 20.0));
 
         //nastavení prostoru pro zadávání příkazů
         Label enterCommand = new Label("Zadej příkaz: ");
-        enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
+        enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25.0));
+        enterCommand.setTextFill(Color.WHITE);
 
         prepareTextField(console);
         prepareLowerBox(borderPane, enterCommand);
@@ -118,7 +123,7 @@ public class GameBase extends Application {
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
-        Scene scene = new Scene(borderPane, 1350, 850);
+        Scene scene = new Scene(borderPane, 1900.0, 1000.0);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         primaryStage.setResizable(false);
@@ -138,10 +143,10 @@ public class GameBase extends Application {
      * @param enterCommand label na zadání příkazu
      */
     private void prepareLowerBox(BorderPane borderPane, Label enterCommand) {
-        HBox lowerBox = new HBox();
-        lowerBox.setAlignment(Pos.CENTER);
-        lowerBox.getChildren().addAll(enterCommand, userInput);
-        borderPane.setBottom(lowerBox);
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(enterCommand, userInput);
+        borderPane.setBottom(hBox);
     }
 
     /**
@@ -170,6 +175,10 @@ public class GameBase extends Application {
      */
     private TextArea createConcole() {
         TextArea console = new TextArea();
+        console.setMaxWidth(800.0);
+        console.setMaxHeight(400.0);
+        console.setPrefWidth(800.0);
+        console.setPrefHeight(400.0);
         console.setText(game.theBeginning());
         console.setEditable(false);
         return console;

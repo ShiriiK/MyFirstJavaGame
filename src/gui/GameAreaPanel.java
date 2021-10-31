@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Game;
 import logic.GameState;
@@ -46,13 +47,14 @@ public class GameAreaPanel implements Observer {
         gameState.registerObserver(this);
 
         borderPane.setStyle(" -fx-background-color: WHITE;");
-        borderPane.setStyle(" -fx-border-width: 5; -fx-border-color: BLACK; -fx-padding: 5;");
+        borderPane.setStyle(" -fx-padding: 5;");
     }
 
     /**
      * Metoda pro nastavení anchodPane pro zobrazení obrázku aktuální lokace
      */
     private void loadArea() {
+        borderPane.setMaxHeight(570.0);
         if (game.getGameState().getPhase() == 0) {
             ChooseGenderButtons();
 
@@ -64,7 +66,8 @@ public class GameAreaPanel implements Observer {
             String locationName = location.getName();
 
             Label locationLabel = new Label("Aktuální lokace: " + locationName);
-            locationLabel.setFont(Font.font("Garamond", 50));
+            locationLabel.setFont(Font.font("Garamond", 30));
+            locationLabel.setTextFill(Color.WHITE);
 
             Tooltip locationTip = new Tooltip(location.getDescription());
             locationTip.setFont(Font.font("Garamond", 30));
@@ -77,7 +80,7 @@ public class GameAreaPanel implements Observer {
 
             ImageView center = new ImageView(new Image
                     (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
-                            860, 450, false, false));
+                            1000.0, 570.0, false, false));
             
             borderPane.setCenter(center);
             borderPane.setLeft(itemsPanel.getPanel());
@@ -88,11 +91,13 @@ public class GameAreaPanel implements Observer {
     private void ChooseNameTextField() {
         Label label = new Label("Vyber si jméno: ");
         label.setFont(Font.font("Garamond", 70));
+        label.setTextFill(Color.WHITE);
 
         TextField userInput = new TextField();
         userInput.requestFocus();
         userInput.setFont(Font.font("Garamond", 70));
         userInput.setAlignment(Pos.CENTER);
+
 
         userInput.setOnAction(e -> {
             String name = userInput.getText();
@@ -103,8 +108,8 @@ public class GameAreaPanel implements Observer {
         });
 
         VBox vBox = new VBox();
-        vBox.setPrefWidth(860);
-        vBox.setPrefHeight(450);
+        vBox.setPrefWidth(1000.0);
+        vBox.setPrefHeight(570.0);
         vBox.getChildren().addAll(label, userInput);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(15.0);
@@ -115,6 +120,7 @@ public class GameAreaPanel implements Observer {
     private void ChooseGenderButtons() {
         Label label = new Label("Vyber si pohlaví: ");
         label.setFont(Font.font("Garamond", 70));
+        label.setTextFill(Color.WHITE);
 
         Button female = new Button("Žena");
         female.setFont(Font.font("Garamond", 50));
@@ -134,8 +140,8 @@ public class GameAreaPanel implements Observer {
         });
 
         VBox vBox = new VBox();
-        vBox.setPrefWidth(860);
-        vBox.setPrefHeight(450);
+        vBox.setPrefWidth(1000.0);
+        vBox.setPrefHeight(570.0);
         vBox.getChildren().addAll(label, female, male);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(15.0);

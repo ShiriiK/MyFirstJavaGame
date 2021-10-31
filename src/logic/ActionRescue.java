@@ -51,7 +51,7 @@ public class ActionRescue implements IAction {
 
         Location currentLocation = game.getGameState().getCurrentLocation();
 
-        if (!currentLocation.getName().equals("cela3")) {
+        if (!currentLocation.getName().equals("cela_na_pravo")) {
             return d1 + "Aby si mohl/a zachrnít Tua, musíš být tam, kde je vězněn" + d2;
         }
 

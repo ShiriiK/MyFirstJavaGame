@@ -25,7 +25,7 @@ import java.util.Set;
 public class ItemPanel implements Observer {
 
     private Game game;
-    private HBox hbox = new HBox();
+    private HBox hBox = new HBox();
     private FlowPane itemPanel = new FlowPane();
     private TextArea console;
 
@@ -44,8 +44,9 @@ public class ItemPanel implements Observer {
     }
 
     private void init() {
-        hbox.setPrefWidth(220.0);
-        hbox.getChildren().add(itemPanel);
+        hBox.setPrefWidth(450.0);
+        hBox.setPrefHeight(570.0);
+        hBox.getChildren().add(itemPanel);
 
         loadItems();
     }
@@ -59,8 +60,8 @@ public class ItemPanel implements Observer {
 
         for (Item item : itemsSet) {
             String name = item.getName();
-            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".png")),
-                    110.0, 100.0, false, false));
+            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+                    200.0, 100.0, false, false));
 
             clickOnItem(name, imageView);
 
@@ -96,6 +97,6 @@ public class ItemPanel implements Observer {
     }
 
     public Node getPanel() {
-        return hbox;
+        return hBox;
     }
 }

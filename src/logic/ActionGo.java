@@ -75,7 +75,7 @@ public class ActionGo implements IAction {
         if (targetLocationName.equals("žalář") && !inventory.getContent().containsKey("pochodeň")) {
             return d1 + "Bez zdroje světla tam nejdeš." + d2;
         }
-        if (targetLocationName.equals("cela3")
+        if (targetLocationName.equals("cela_na_pravo")
                 && !inventory.getContent().containsKey("klíč") && !inventory.getContent().containsKey("univerzální_klíč")) {
             return d1 + "Tahle cela je zamčená." + d2;
         }
@@ -102,7 +102,7 @@ public class ActionGo implements IAction {
         double dmg = targetLocationExit.getDamage();
         String description = targetLocation.longDescription();
 
-        if (targetLocationName.equals("cela2")) {
+        if (targetLocationName.equals("cela_uprostřed")) {
             if (playerHp < dmg) {
                 game.setTheEnd(true);
                 return d1 + "Někdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě." + d2;
@@ -118,7 +118,7 @@ public class ActionGo implements IAction {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
             gameState.setInCombat(true);
-            return d1 + description + "\nZaútočili na tebe divocí králíci." + d2 +
+            return d1 + description + "\nZaútočila na tebe divoká zvířata." + d2 +
                     targetLocationExit.getDamageMessage();
         }
         if (targetLocationName.equals("les")  && !targetLocation.getNpcs().isEmpty()) {

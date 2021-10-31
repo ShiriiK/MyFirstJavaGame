@@ -46,18 +46,18 @@ public class GameState implements SubjectOfChange {
      */
     private void createGame() {
         // Vytvoření jednotlivých lokací
-        Location camp = new Location("kemp", "Kemp, který jste založili se svými přítale," +
-                " je chráněn silnou magickou bariérou,\ntakže žádný příšery se sem nedostanou.", 2);
-        Location tent = new Location("stan", "Je tu všechno, co jen můžeš potřebovat. " +
-                "Zvláště pohodlná postel, do které můžete vstoupit, jakmile zachráníte Tua.",2);
+        Location hidden_field = new Location("skrytá_louka",
+                "Skrytá louka na kterou jste narazili s přáteli během průzkumu lesa, je chráněna silnou " +
+                        "\nmagickou bariérou, takže žádné příšery se sem nedostanou.", 2);
+        Location home = new Location("dům", "Je tu všechno, co jen můžeš potřebovat.",2);
+        Location dining_room = new Location("jídelna", "Dobře vybavená jídelna.", 2);
+        Location room = new Location("pokoj", "Teplý pokoj.", 2);
         Location forge = new Location("kovárna", "Gormovo oblíbené místo. " +
                 "Když ho budeš potřebovat, tak ho najdeš tady.",2);
-        Location room = new Location("zbrojírna", "Tady si můžeš vybrat svou zbraň.",2);
+        Location armory = new Location("zbrojírna", "Tady si můžeš vybrat svou zbraň.",2);
         Location forest = new Location("les", "Temný nebezpečný les, nic dobrého tu nenajdeš.",3);
         Location mountain = new Location("hora", "Je tu poměrně velká hora. " +
-                "Není důvod jít nahoru, ale tady dole ještě může být něco užitečného.\n" +
-                "Ale teď bys měl/a něco udělat s králíky, kteří na tebe z ničeho nic zaútočili.\n" +
-                "Schovávají se, ale pokud se vrátíš, pravděpodobně zaútočí znovu.\n",3);
+                "Není důvod jít nahoru, ale tady dole ještě může být něco užitečného.\n",3);
         Location lake = new Location("jezero",
                 "Jezero na západní straně tábora. Strávili jste tu spoustu nocí.",3);
         Location alley = new Location("alej", "Alej vedoucí k městské bráně. \n" +
@@ -71,31 +71,33 @@ public class GameState implements SubjectOfChange {
                 "///Nyní máš dvě možnosti. Dát mu něco, co by mohlo utišit jeho zvědavost, nebo bojovat.///",3);
         Location ghetto = new Location("ghetto", "Chudá část města a zároveň jeho největší část. " +
                 "Není moc důvodů, proč tu zůstávat déle, než je nutné.\n",3);
-        Location passage = new Location("průchod", "Průchod na hlavní nádvoří. " +
-                "Na nádvoří se nedostaneš ať by ses snažil/a sebevíc. Prostě mi s tímhle věř\n.",3);
+        Location street = new Location("ulice", "Ulice vedoucí na hlavní nádvoří. " +
+                "Na nádvoří se nedostaneš ať by ses snažil/a sebevíc. Prostě mi s tímhle věř.\n.",3);
         Location coutyard = new Location("nádvoří", "",4);
         Location entrence = new Location("vchod", "Vchod do pozdemí, který je podezdřele málo střežený.",3);
         Location dungeon = new Location("žalář",
                 "Podzemní žalář. Je tu velká tma, ale pochodeň pomáhá vidět alespoň pár kroků dopředu.\n" +
                 " Také to vypadá, že je tu jen jedna cesta dovnitř a ven, když nepočítám vchody do tří cel.",3);
-        Location cell1 = new Location("cela1", "Malá cela, ve které jsou jen krysy.",3);
-        Location cell2 = new Location("cela2", "Poměrně velká cela s mnoha tmavými zákoutími. " +
+        Location cell1 = new Location("cela_na_levo", "Malá cela, ve které jsou jen krysy.",3);
+        Location cell2 = new Location("cela_uprostřed", "Poměrně velká cela s mnoha tmavými zákoutími. " +
                 "Raději buďte opatrný/á",3);
-        Location cell3 = new Location("cela3",
-                "Malá nechutná cela, na zemi leží téměř bezvládné tělo tvého kamaráda.",3);
+        Location cell3 = new Location("cela_na_pravo",
+                "Malá nechutná cela, v níž na zemi leží téměř bezvládné tělo tvého kamaráda.",3);
 
         //Přiřazení exitu k lokaci
-        Exit campExit = new Exit(camp);
+        Exit hiddne_fieldExit = new Exit(hidden_field);
+        Exit dining_roomExit = new Exit(dining_room);
+        Exit roomExit = new Exit(room);
         Exit alleyExit = new Exit(alley);
         Exit forestExit = new Exit(forest);
         Exit lakeExit = new Exit(lake);
         Exit mountainExit = new Exit(mountain);
         Exit forgeExit = new Exit(forge);
-        Exit tentExit = new Exit(tent);
-        Exit roomExit = new Exit(room);
+        Exit homeExit = new Exit(home);
+        Exit armoryExit = new Exit(armory);
         Exit dungeonExit = new Exit(dungeon);
         Exit ghettoExit = new Exit(ghetto);
-        Exit passageExit = new Exit(passage);
+        Exit passageExit = new Exit(street);
         Exit entrenceExit = new Exit(entrence);
         Exit gateExit = new Exit(gate);
         Exit cityExit = new Exit(city);
@@ -105,18 +107,22 @@ public class GameState implements SubjectOfChange {
         Exit cell3Exit = new Exit(cell3);
 
         //Přiřazení východů z jednotlivých lokací
-        alley.addExit(campExit);
+        alley.addExit(hiddne_fieldExit);
         alley.addExit(gateExit);
-        camp.addExit(alleyExit);
-        camp.addExit(forestExit);
-        camp.addExit(lakeExit);
-        camp.addExit(mountainExit);
-        camp.addExit(tentExit);
-        camp.addExit(forgeExit);
-        forge.addExit(campExit);
-        forge.addExit(roomExit);
-        room.addExit(forgeExit);
-        tent.addExit(campExit);
+        hidden_field.addExit(alleyExit);
+        hidden_field.addExit(forestExit);
+        hidden_field.addExit(lakeExit);
+        hidden_field.addExit(mountainExit);
+        hidden_field.addExit(homeExit);
+        hidden_field.addExit(forgeExit);
+        forge.addExit(hiddne_fieldExit);
+        forge.addExit(armoryExit);
+        armory.addExit(forgeExit);
+        home.addExit(hiddne_fieldExit);
+        home.addExit(dining_roomExit);
+        home.addExit(roomExit);
+        room.addExit(homeExit);
+        dining_room.addExit(homeExit);
         cell1.addExit(dungeonExit);
         cell2.addExit(dungeonExit);
         city.addExit(ghettoExit);
@@ -125,12 +131,12 @@ public class GameState implements SubjectOfChange {
         city.addExit(gateExit);
         gate.addExit(alleyExit);
         gate.addExit(cityExit);
-        forest.addExit(campExit);
+        forest.addExit(hiddne_fieldExit);
         ghetto.addExit(cityExit);
-        lake.addExit(campExit);
-        mountain.addExit(campExit);
-        passage.addExit(cityExit);
-        passage.addExit(coutyardExit);
+        lake.addExit(hiddne_fieldExit);
+        mountain.addExit(hiddne_fieldExit);
+        street.addExit(cityExit);
+        street.addExit(coutyardExit);
         entrence.addExit(cityExit);
         entrence.addExit(dungeonExit);
         dungeon.addExit(cell1Exit);
@@ -139,7 +145,7 @@ public class GameState implements SubjectOfChange {
         dungeon.addExit(entrenceExit);
 
         //Nastavení počáteční lokace
-        currentLocation = camp;
+        currentLocation = hidden_field;
 
         //Vytvoření npcček
         Npc general = new Npc("generál", 30, 20, Arrays.asList(
@@ -177,11 +183,9 @@ public class GameState implements SubjectOfChange {
                 "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík.\n" +
                         "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě\n" +
                         " odejde do hospody"));
-        Npc grayRabbit = new Npc("šedý_zajíc", 2, 1);
-        Npc rabbit = new Npc("zajíc", 2, 1);
-        Npc whiteRabbit = new Npc("bílý_zajíc", 2, 1);
-        Npc rat = new Npc("krysa", 1, 1);
-        Npc rat2 = new Npc("krysa", 1, 1);
+        Npc wolf = new Npc("vlk", 10, 3);
+        Npc bear = new Npc("medvěd", 10, 3);
+        Npc rat = new Npc("obří_krysa", 10, 3);
         Npc troll = new Npc("troll", 20, 5);
         Npc trollKing = new Npc("přerostlý_troll", 30, 10,
                 "Musíš se nejdřív zbavit přerostlého trolla.");
@@ -201,19 +205,17 @@ public class GameState implements SubjectOfChange {
         //vložení npcček do lokací
         alley.addNpc(trollKing);
         forge.addNpc(gorm);
-        cell1.addNpc(rat2);
+        cell1.addNpc(rat);
         cell2.addNpc(brutalGuard);
         cell3.addNpc(tue);
         city.addNpc(general);
         city.addNpc(beggar);
         gate.addNpc(gateGuard);
         forest.addNpc(troll);
-        ghetto.addNpc(rat);
         lake.addNpc(frog);
-        mountain.addNpc(grayRabbit);
-        mountain.addNpc(rabbit);
-        mountain.addNpc(whiteRabbit);
-        passage.addNpc(passageGuard);
+        mountain.addNpc(wolf);
+        mountain.addNpc(bear);
+        street.addNpc(passageGuard);
         ghetto.addNpc(girl);
         entrence.addNpc(dungeonGuard);
 
@@ -226,6 +228,7 @@ public class GameState implements SubjectOfChange {
         gateExit.insertNpc(general);
         dungeonExit.insertNpc(dungeonGuard);
 
+
         //vytvoření itemů
         Item bigRock = new Item("velký_kámen", false, "Jediná věc, která zde vyčnívá.");
         Item shinyRock = new Item("svítící_kámen", true, "Modrý svítící kámen, " +
@@ -235,7 +238,7 @@ public class GameState implements SubjectOfChange {
                 "Pod jejími kořeny je vidět truhla. A ještě více pod ní je vidět i něco jiného. " +
                 "Zkus to ještě trochu prozkoumat.");
         Item bag = new Item("taška", true, "Taška plná zlaťáků.");
-        Item deadBody = new Item("mrtvé_tělo", false, "Mrtvola nějakého muže. Fuj.");
+        Item deadBody = new Item("mrtvola", false, "Mrtvola nějakého muže. Fuj.");
         Item key = new Item("klíč", true, "Rezavě vypadající klíč, co asi tak otevírá?");
         Item bush = new Item("keř", false, "Keř vedle stanu. " +
                 "Gorm si z něj rád trhá borůvky.");
@@ -257,7 +260,7 @@ public class GameState implements SubjectOfChange {
         Item bucket = new Item("kbelík", false, "Děravý kbelík. Ten opravdu nepotřebuješ.");
         Item rock = new Item("kámen", true, "Prostě kámen.");
         Item permit = new Item("propustka", true, "Propustka do města.");
-        Item papers = new Item("papíry", false, "Hromada papírů");
+        Item book = new Item("kniha", false, "Hromada papírů");
         Item masterKey = new Item("univerzální_klíč", true, "Klíč který otvírá takřka všechno");
         Item chest = new Item("truhla", false, "");
         Item bag2 = new Item("taška", true, "Další taška plná peněz.");
@@ -267,23 +270,23 @@ public class GameState implements SubjectOfChange {
         Item coin = new Item("peníz", true, "Drobák za který si nic moc nekoupíš.");
 
         //Vložení itemů do lokací
-        camp.addItem(rock);
-        camp.addItem(bush);
-        camp.addItem(dummy);
-        camp.addItem(bucket);
+        hidden_field.addItem(rock);
+        hidden_field.addItem(bush);
+        hidden_field.addItem(dummy);
+        hidden_field.addItem(bucket);
         forge.addItem(hammer);
         forge.addItem(oldAnvil);
         forge.addItem(tools);
         forge.addItem(furnace);
-        tent.addItem(beds);
-        tent.addItem(fireplace);
-        tent.addItem(equipment);
-        tent.addItem(pot);
-        tent.addItem(carpet);
-        tent.addItem(jug);
-        tent.addItem(leftovers);
-        tent.addItem(papers);
-        papers.insertItem(permit);
+        home.addItem(fireplace);
+        home.addItem(equipment);
+        home.addItem(carpet);
+        dining_room.addItem(jug);
+        dining_room.addItem(pot);
+        dining_room.addItem(leftovers);
+        room.addItem(beds);
+        room.addItem(book);
+        book.insertItem(permit);
         beds.insertItem(pillow);
         leftovers.insertItem(bread);
         mountain.addItem(hugeTree);
@@ -304,20 +307,20 @@ public class GameState implements SubjectOfChange {
         //Vytvoření zbraní
         Weapon axe = new Weapon("sekera", 1.5, false);
         Weapon sword = new Weapon("meč", 1.5, false);
-        Weapon knife = new Weapon("nůž", 1.3, false);
-        Weapon broadsword = new Weapon("broadsword", 2, true);
+        Weapon kyj = new Weapon("kyj", 1.3, false);
+        Weapon halberd = new Weapon("halberda", 2, true);
         Weapon greatsword = new Weapon("greatsword", 2.2, true);
         Weapon dagger = new Weapon("dýka", 1.8, true);
         Weapon spear = new Weapon("kopí", 2, true);
 
         //Umístění zbraní
-        room.addWeapon(axe);
-        room.addWeapon(sword);
-        room.addWeapon(knife);
-        room.addWeapon(broadsword);
-        room.addWeapon(greatsword);
-        room.addWeapon(dagger);
-        room.addWeapon(spear);
+        armory.addWeapon(axe);
+        armory.addWeapon(sword);
+        armory.addWeapon(kyj);
+        armory.addWeapon(halberd);
+        armory.addWeapon(greatsword);
+        armory.addWeapon(dagger);
+        armory.addWeapon(spear);
     }
 
     /**
