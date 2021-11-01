@@ -2,7 +2,6 @@ package logic;
 
 import util.Observer;
 import util.SubjectOfChange;
-
 import java.util.*;
 
 /**
@@ -11,7 +10,7 @@ import java.util.*;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version LS-2021, 2021-11-01
  */
 
 public class Inventory implements SubjectOfChange{
@@ -23,7 +22,7 @@ public class Inventory implements SubjectOfChange{
 
     // Konstruktor
     public Inventory() {
-        content = new HashMap<String, Item>();
+        content = new HashMap<>();
     }
 
     /**
@@ -101,13 +100,18 @@ public class Inventory implements SubjectOfChange{
      * @param name název itemu, který chceme odstranit
      */
     public void removeItem(String name) {
-        Item item = null;
         if (content.containsKey(name)) {
-            item = content.get(name);
             content.remove(name);
             notifyObservers();
         }
     }
+
+    /**
+     * Metoda pro vrácení jmen itemů v inventáři.
+     *
+     * @return set jmen itemů v intentáři
+     */
+    public Set<String> itemsInInventory() { return content.keySet(); }
 
     @Override
     public void registerObserver(Observer observer) {
@@ -126,10 +130,5 @@ public class Inventory implements SubjectOfChange{
         }
     }
 
-    /**
-     * Metoda využitá gui třídou InventoryPanel
-     *
-     * @return set itemů v intentáři
-     */
-    public Set<String> itemsInInventory() { return content.keySet(); }
+
 }

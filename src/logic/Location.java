@@ -2,8 +2,6 @@ package logic;
 
 import util.Observer;
 import util.SubjectOfChange;
-
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +11,7 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-23
+ * @version ZS-2021, 2021-11-01
  */
 
 public class Location implements SubjectOfChange {
@@ -26,7 +24,7 @@ public class Location implements SubjectOfChange {
     private Set<Weapon> weapons;
     private int phase;
 
-    private Set<Observer> observers = new HashSet<>();
+    private static Set<Observer> observers = new HashSet<>();
 
     /**
      * Konstruktor lokace
@@ -212,7 +210,6 @@ public class Location implements SubjectOfChange {
         items.add(added);
         notifyObservers();
     }
-
 
     /**
      * Metoda vrací odkaz na item.

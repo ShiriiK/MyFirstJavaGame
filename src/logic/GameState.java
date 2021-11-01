@@ -3,7 +3,6 @@ package logic;
 
 import util.Observer;
 import util.SubjectOfChange;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +15,7 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-26
+ * @version ZS-2021, 2021-11-01
  */
 
 public class GameState implements SubjectOfChange {
@@ -26,6 +25,10 @@ public class GameState implements SubjectOfChange {
     private Partner partner;
     private int phase;
     private boolean inCombat;
+    private Npc attackedNpc;
+    private boolean isInteracting;
+    private Npc comunicatingNpc;
+
 
     private Set<Observer> observers = new HashSet<>();
 
@@ -39,6 +42,9 @@ public class GameState implements SubjectOfChange {
         partner = new Partner(null, null, 20, 0);
         phase = 0;
         inCombat = false;
+        isInteracting = false;
+        attackedNpc = new Npc(null,false,0.0,0.0,false, null, null);
+        comunicatingNpc = new Npc(null,false,0.0,0.0,false, null, null);
     }
 
     /**
@@ -148,19 +154,20 @@ public class GameState implements SubjectOfChange {
         currentLocation = hidden_field;
 
         //Vytvoření npcček
-        Npc general = new Npc("generál", 30, 20, Arrays.asList(
+        Npc general = new Npc("generál", false, 30.0, 20.0, true, Arrays.asList(
                 "Generl: Kdo jste!",
                 "General: Pokud nechcete zatěžovat mou mysl svými odpornými jmény, můžete místo toho zatížit mou peněženku.",
                 "General: Zabijte je, už jsem s nimi ztratil víc než dost času."),
                 "Králův vrchní generál tě nenechá odejít. Musíte s ním jednat.");
-        Npc dungeonGuard = new Npc("stráž", 20, 5, Arrays.asList(
+        Npc dungeonGuard = new Npc("stráž", false, 20.0, 5.0, true, Arrays.asList(
                 "Stráž: Nemáte tu co dělat, vypadněte.",
                 "Stráž: Řekl jsem vám, abyste odešeli, tady je malé varování.",
                 "Stráž: Měli jste mě poslouchat, už mám dost..."),
                 "Zbavte se strážce a vezměte si pochodeň, než půjdete dovnitř..");
-        Npc brutalGuard = new Npc("brutal_guard", 20, 20);
-        Npc frog = new Npc("žába", 1, 1);
-        Npc gorm = new Npc("gorm", Arrays.asList(
+        Npc brutalGuard = new Npc("brutal_guard", false, 20.0, 20.0, false, null,
+                null);
+        Npc frog = new Npc("žába", false,1.0, 1.0, false, null, null);
+        Npc gorm = new Npc("gorm", true, 100.0,100.0, true, Arrays.asList(
                 "Gorm: Chudák Tue, neměli jste se do té popravy plést...\n" +
                         "Ale chápu, že jste se prostě nemohli dívat, jak veřejně popravují malou holčičku...",
                 "Gorm: Bude obtížné dostat se do města, ale zřejmě ho drží ve skrytém podzemím\n" +
@@ -169,38 +176,38 @@ public class GameState implements SubjectOfChange {
                         " pokud jste si ho ještě nevzali, tak to udělejte. Jinak se tam pravděpodobně vůbec nedostanete.",
                 "Gorm: No jo, tak už běž, Tue tě potřebuje.",
                 "Gorm: Ty máš nějakou povídací, co?",
-                "Gorm: Ale notak, já tu mám práci"));
-        Npc gateGuard = new Npc("stráž_brány", Arrays.asList(
+                "Gorm: Ale notak, já tu mám práci"), null);
+        Npc gateGuard = new Npc("stráž_brány", true, 100.0, 100.0, true, Arrays.asList(
                 "Stráž: Co to tedy bude? Máte povolení, nebo ne?",
                 "Stráž: No tak, jsou tu další lidé, kteří se chtějí dostat do města.",
                 "Stráž: ... Mám zavolat ostatním strážným, aby vás odvedli, nebo co?"),
                 "Strážný vás nepustí dovnitř, pokud mu nepředložíte doklady o povolení ke vstupu do města.");
-        Npc passageGuard = new Npc("stráž_průchodu", Arrays.asList(
+        Npc passageGuard = new Npc("stráž_průchodu", true, 100.0, 100.0, true, Arrays.asList(
                 "Stráž: Nejste přátelé toho chlapce, kterého chtějí pověsit? Jo, to jste to vy. Počkejte, nenahlásím vás.\n" +
                         "Ta holčička, kterou zachránil před popravou... to byla moje mladší sestra. \n" +
                         "Mimochodem, jmenuju se Armin.",
                 "Armin: Nemůžu vám moc pomoct, už tak neši rodinu bedlivě sledují, ale můžu vám dát tohle.",
                 "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík.\n" +
                         "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě\n" +
-                        " odejde do hospody"));
-        Npc wolf = new Npc("vlk", 10, 3);
-        Npc bear = new Npc("medvěd", 10, 3);
-        Npc rat = new Npc("obří_krysa", 10, 3);
-        Npc troll = new Npc("troll", 20, 5);
-        Npc trollKing = new Npc("přerostlý_troll", 30, 10,
+                        " odejde do hospody"),null);
+        Npc wolf = new Npc("vlk", false,10.0, 3.0, false, null, null);
+        Npc bear = new Npc("medvěd", false, 10.0, 3.0, false, null, null);
+        Npc rat = new Npc("obří_krysa", false,10.0, 3.0, false, null, null);
+        Npc troll = new Npc("troll", false,20, 5, false, null, null);
+        Npc trollKing = new Npc("přerostlý_troll", false, 30, 10, false,null,
                 "Musíš se nejdřív zbavit přerostlého trolla.");
-        Npc tue = new Npc("tue", Arrays.asList(
+        Npc tue = new Npc("tue", true, 1.0,1.0, true, Arrays.asList(
                 "...",
                 "...J--st-se to vy ka-a-ma-rá--di?",
-                "........."));
-        Npc girl = new Npc("malá_holčička", Arrays.asList(
+                "........."), null);
+        Npc girl = new Npc("malá_holčička", true, 100.0,100.0, true, Arrays.asList(
                 "...Máma říká, že bych neměla mluvit s cizími lidmi. Ale vy mi nepřipadáte špatný.",
                 "Nedávno mi zlobiví kluci z královského dvora vzali plyšovou hračku tomíka. Teď se nemám v noci s čím mazlit.",
-                "Bez něj mi tu je velmi smutno."));
-        Npc beggar = new Npc("žebrák", Arrays.asList(
+                "Bez něj mi tu je velmi smutno."), null);
+        Npc beggar = new Npc("žebrák", true, 100.0, 100.0, true, Arrays.asList(
                 "Dobří lidé, dejte něco chudému žebrákovi.",
                 "Když mi dáte trochu peněz, nebo třeba i chleba, dám vám nějaké informace.",
-                "Žebráků si nikdo nevšímá, proto toho tolik víme."));
+                "Žebráků si nikdo nevšímá, proto toho tolik víme."), null);
 
         //vložení npcček do lokací
         alley.addNpc(trollKing);
@@ -405,10 +412,66 @@ public class GameState implements SubjectOfChange {
      */
     public void setInCombat(boolean inCombat) {
         this.inCombat = inCombat;
+        notifyObservers();
     }
 
+    /**
+     * Metoda pro nastavení, zda je hráč v souboji.
+     * @return true - je, false - není
+     */
     public boolean isInCombat() {
         return inCombat;
+    }
+
+    /**
+     * Metoda pro nastavení npc, se kterým hráč bojuje.
+     * @param attackedNpcName jméno npc
+     */
+    public void setAttackedNpc(String attackedNpcName) {
+        this.attackedNpc = getCurrentLocation().getNpc(attackedNpcName);
+        notifyObservers();
+    }
+
+    /**
+     * Metoda pro vrácení npc, se kterým hráč bojuje
+     * @return odkaz na npc
+     */
+    public Npc getAttackedNpc(){
+        return attackedNpc;
+    }
+
+    /**
+     * Metoda pro nastavení, zda hráč komunikuje.
+     * @param isInteracting true - jo, false - ne
+     */
+    public void setInteracting(boolean isInteracting) {
+        this.isInteracting = isInteracting;
+        notifyObservers();
+    }
+
+    /**
+     * Metoda zjištění, zda hráč komunikuje.
+     * @return true - jo, false - ne
+     */
+    public boolean isInteracting() {
+        return isInteracting;
+    }
+
+    /**
+     * Metoda pro nastavení npc, se kterým hráč komunikuje.
+     * @param comunicatingNpc npc
+     */
+    public void setComunicatingNpc(String comunicatingNpc) {
+        this.comunicatingNpc = getCurrentLocation().getNpc(comunicatingNpc);
+        notifyObservers();
+    }
+
+    /**
+     * Metoda pro vrácení odkazu na npc, se kterým má hráč komunikovat.
+     * @return npc
+     */
+    public Npc getComunicatingNpc(){
+        return comunicatingNpc;
     }
 
     @Override

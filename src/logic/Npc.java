@@ -10,7 +10,7 @@ import java.util.List;
  * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
+ * @version LS-2021, 2021-11-01
  */
 public class Npc {
     private String name;
@@ -18,100 +18,31 @@ public class Npc {
     private double hp;
     private double str;
     private Collection<Item> npcItems;
-    private List<String> talks = new ArrayList<>();
+    private List<String> talks;
     private int talked;
     private boolean talk;
     private String message;
 
-    //Různé verze konstruktorů na Npc
-
     /**
-     * Konstruktor pro nepřátelské npc, se kterým lze mluvit i bojovat a zabraňuje vstupu nebo výstupu z/do lokace.
-     *
+     * Kostruktor pro npc
      * @param name jméno npc
+     * @param friendly určuje, zda je možné s npc bojovat (true - nejde, false - jde)
      * @param hp životy npc
      * @param str síla npc
-     * @param talks odpovědi npc
-     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
+     * @param talk určuje, zda je možné s npc mluvit (true - jde, false - nejde)
+     * @param talks všechny možné rozhovory s npc
+     * @param message zpráva, která je vrácena, když npc nějakým způsobem zabraňuje v přechodu mezi lokacemi
      */
-
-    public Npc(String name, double hp, double str, List talks, String message) {
+    public Npc(String name, boolean friendly, double hp, double str, boolean talk, List talks, String message) {
         this.name = name;
-        this.friendly = false;
+        this.friendly = friendly;
         this.hp = hp;
         this.str = str;
-        this.npcItems = new ArrayList<>();
+        this.talk = talk;
         this.talks = talks;
         this.talked = 0;
-        this.talk = true;
         this.message = message;
-    }
-
-    /**
-     * Konstruktor pro přátelské npc, se kterým lze mluvit a zabraňuje vstupu nebo výstupu z/do lokace.
-     *
-     * @param name jméno  npc
-     * @param talks odpovědi npc
-     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
-     */
-    public Npc(String name, List talks, String message) {
-        this.name = name;
-        this.friendly = true;
         this.npcItems = new ArrayList<>();
-        this.talks = talks;
-        this.talked = 0;
-        this.talk = true;
-        this.message = message;
-    }
-
-    /**
-     * Konstruktor pro přátelské npc, se kterým lze mluvit.
-     *
-     * @param name jméno npc
-     * @param talks odpovědi npc
-     */
-    public Npc(String name, List talks) {
-        this.name = name;
-        this.friendly = true;
-        this.npcItems = new ArrayList<>();
-        this.talks = talks;
-        this.talked = 0;
-        this.talk = true;
-    }
-
-    /**
-     * Konstruktor pro nepřátelské npc, se kterým nelze mluvit a zabraňuje vstupu nebo výstupu z/do lokace a
-     * lze s ním bojovat.
-     *
-     * @param name jméno npc
-     * @param hp životy npc
-     * @param str síla npc
-     * @param message zpráva zobrazovaná při zamítnutí povolení k opuštění lokace nebo vstupu do lokace
-     */
-    public Npc(String name, double hp, double str, String message) {
-        this.name = name;
-        this.friendly = false;
-        this.hp = hp;
-        this.str = str;
-        this.npcItems = new ArrayList<>();
-        this.talk = false;
-        this.message = message;
-    }
-
-    /**
-     * Konstruktor pro nepřátelské npc, se kterým nelze mluvita, ale lze s ním bojovat.
-     *
-     * @param name jméno npc
-     * @param hp životy npc
-     * @param str síla npc
-     */
-    public Npc(String name, double hp, double str) {
-        this.name = name;
-        this.friendly = false;
-        this.hp = hp;
-        this.str = str;
-        this.npcItems = new ArrayList<>();
-        this.talk = false;
     }
 
     /**

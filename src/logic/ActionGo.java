@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
+ * @version ZS-2021, 2021-11-01
  */
 
 public class ActionGo implements IAction {
@@ -109,6 +109,7 @@ public class ActionGo implements IAction {
             } else {
                 player.setHp(playerHp - dmg);
                 gameState.setCurrentLocation(targetLocation);
+                gameState.setAttackedNpc("brutální_stráž");
                 gameState.setInCombat(true);
                 return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
                         targetLocationExit.getDamageMessage();
@@ -117,6 +118,7 @@ public class ActionGo implements IAction {
         if (targetLocationName.equals("hora") && !targetLocation.getNpcs().isEmpty()) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
+            gameState.setAttackedNpc("medvěd");
             gameState.setInCombat(true);
             return d1 + description + "\nZaútočila na tebe divoká zvířata." + d2 +
                     targetLocationExit.getDamageMessage();
@@ -124,9 +126,11 @@ public class ActionGo implements IAction {
         if (targetLocationName.equals("les")  && !targetLocation.getNpcs().isEmpty()) {
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
+            gameState.setAttackedNpc("troll");
             gameState.setInCombat(true);
             return d1 + description + "\nZaútočil na tebe troll." + d2 +
                     targetLocationExit.getDamageMessage();
+
         }
 
         gameState.setCurrentLocation(targetLocation);

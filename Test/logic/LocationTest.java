@@ -24,8 +24,8 @@ class LocationTest {
     Exit location3Exit = new Exit(location3);
     Exit location4Exit = new Exit(location4);
 
-    Npc npc1 = new Npc("npc1", 2.5, 1);
-    Npc npc2 = new Npc("npc2", 2.5, 2);
+    Npc npc1 = new Npc("npc1", true,2.5, 1, false, null, null);
+    Npc npc2 = new Npc("npc2", true,2.5, 2.0, false, null, null);
 
     Item item1 = new Item("item1", true, "ii");
     Item item2 = new Item("item2", false, "ii");

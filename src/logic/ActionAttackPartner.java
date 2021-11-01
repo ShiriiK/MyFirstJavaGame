@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
+ * @version ZS-2021, 2021-11-01
  */
 
 public class ActionAttackPartner implements IAction {

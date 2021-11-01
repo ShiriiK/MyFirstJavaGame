@@ -19,7 +19,7 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-23
+ * @version ZS-2021, 2021-11-01
  */
 
 public class RightPanel implements Observer {
@@ -55,7 +55,7 @@ public class RightPanel implements Observer {
       */
     private void loadNpcs() {
         rightPanel.getChildren().clear();
-
+            //Pokud je hráč ve zbrojírně, tak se nezobrazjí v rightPanel npc, ale braně
             if (game.getGameState().getCurrentLocation().getName().equals("zbrojírna")) {
                 Set<Weapon> weaponSet = game.getGameState().getCurrentLocation().getWeapons();
 
@@ -68,15 +68,18 @@ public class RightPanel implements Observer {
 
                     rightPanel.getChildren().add(imageView);
                 }
+            //Klasické zobrazení npc
             } else {
                 Set<Npc> npcSet = game.getGameState().getCurrentLocation().getNpcs();
 
                 for (Npc npc : npcSet) {
                     String name = npc.getName();
+                    Boolean friendly = npc.isFriendly();
+                    Boolean talk = npc.getTalk();
                     ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
                             200.0, 100.0, false, false));
 
-                    clickOnNpc(name, imageView);
+                    clickOnNpc(name, imageView, friendly, talk);
 
                     rightPanel.getChildren().add(imageView);
                 }
@@ -92,10 +95,12 @@ public class RightPanel implements Observer {
      */
     private void clickOnWeapon(String name, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            //Prvotní nastavení zbraně
             if (game.getGameState().getPlayer().getPlayerWeapon() == null) {
                 console.appendText("vzemi_si_zbraň " + name);
                 String gameAnswer = game.processAction("vzemi_si_zbraň " + name);
                 console.appendText(gameAnswer);
+            //Výměna zbraně za jinou
             } else {
                 console.appendText("odlož_zbraň");
                 String gameAnswer1 = game.processAction("odlož_zbraň");
@@ -110,23 +115,32 @@ public class RightPanel implements Observer {
 
     /**
      * Metoda pro zpracování akce, kdy hráč klikne na obrázek npc v lokaci
-     * - kliknutí pravým tlačítkem: pokusí se promluvit si s npc
-     * - kliknutí levý tlačítkem: pokusí se zaútočit na npc
+     * - kliknutí pravým tlačítkem: nastaví interacting na true
+     * - kliknutí levý tlačítkem: nastaví combat na true
      *
      * @param name - jméno npc
      * @param imageView - obrázek npc
      */
-    private void clickOnNpc(String name, ImageView imageView) {
+    private void clickOnNpc(String name, ImageView imageView, Boolean friendly, Boolean talk) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            String command = " ";
+            //Nastavení interacting
             if (event.getButton() == MouseButton.SECONDARY) {
-                command = "promluv_si_s ";
+                if (!talk) {
+                    console.appendText("\nS tímto npc toho moc nevykomunikuješ.");
+                }
+                game.getGameState().setComunicatingNpc(name);
+                game.getGameState().setInteracting(true);
+                console.appendText("\nZačal si komunikovat s " + name + "\n");
+            //Nastavení combat
             } else {
-                command = "zaútoč_na ";
+                if (friendly) {
+                    console.appendText("\nNemá smysl začínat s tímto npc souboj");
+                } else {
+                    game.getGameState().setAttackedNpc(name);
+                    game.getGameState().setInCombat(true);
+                    console.appendText("\nZačal si souboj s " + name + "\n");
+                }
             }
-            console.appendText("\n" + command + name + "\n");
-            String gameAnswer = game.processAction(command + name);
-            console.appendText("\n" + gameAnswer + "\n");
         });
     }
 
