@@ -19,7 +19,7 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
+ * @version ZS-2021, 2021-11-02
  */
 
 public class RightPanel implements Observer {

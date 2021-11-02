@@ -38,8 +38,8 @@ public class GameState implements SubjectOfChange {
     public GameState() {
         createGame();
         inventory = new Inventory();
-        player = new Player(null, null, null, 20, 0);
-        partner = new Partner(null, null, 20, 0);
+        player = new Player(null, null, null, 20.0, 0.0, 0.0, "nic");
+        partner = new Partner(null, null, 20.0, 0.0,0.0);
         phase = 0;
         inCombat = false;
         isInteracting = false;

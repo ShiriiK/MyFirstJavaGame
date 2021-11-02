@@ -15,14 +15,18 @@ public class Player {
     private Weapon playerWeapon;
     private double hp;
     private double str;
+    private double dex;
+    private String profession;
 
     // Konstruktor
-    public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str) {
+    public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, double dex, String profession) {
         this.playerName = playerName;
         this.playerGender = playerGender;
         this.playerWeapon = playerWeapon;
         this.hp = hp;
         this.str = str;
+        this.dex = dex;
+        this.profession = profession;
     }
 
     /**
@@ -127,7 +131,43 @@ public class Player {
      *
      * @param str hráče
      */
-    public void setStr(int str) {
+    public void setStr(double str) {
         this.str = str;
+    }
+
+    /**
+     * Metoda pro získání dex hráče
+     *
+     * @return dex hráče
+     */
+    public double getDex() {
+        return dex;
+    }
+
+    /**
+     * Metoda pro nastavení dex hráče
+     *
+     * @param dex hráče
+     */
+    public void setDex(double dex) {
+        this.dex = dex;
+    }
+
+    /**
+     * Metoda pro získání profese hráče
+     *
+     * @return profese hráče
+     */
+    public String getProfession() {
+        return profession;
+    }
+
+    /**
+     * Metoda pro nastavení profese hráče
+     *
+     * @param profession hráče
+     */
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }

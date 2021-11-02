@@ -91,6 +91,12 @@ public class ActionAttack implements IAction {
                 }
             }
             gameState.setInCombat(false);
+            if (player.getPlayerGender().equals("male")) {
+                player.setDex(15.0);
+            } else {
+                player.setDex(20.0);
+            }
+
             return d1 + "Zabil/a jste: " + npcName + "." + d2;
         }
 

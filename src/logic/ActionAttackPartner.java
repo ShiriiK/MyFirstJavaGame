@@ -91,6 +91,11 @@ public class ActionAttackPartner implements IAction {
                 }
             }
             gameState.setInCombat(false);
+            if (partner.getPartnerName().equals("Torsten")) {
+                partner.setDex(15.0);
+            } else {
+                partner.setDex(20.0);
+            }
             return d1 + "Zabili jste: " + npcName + "." + d2;
         }
 

@@ -58,8 +58,8 @@ public class GameAreaPanel implements Observer {
     /**
      * Metoda pro nastavení top borderPane v GameBase.
      * Existuje 5 možných druhů, které se mohou objevit
-     *  1) výběr pohlaví
-     *  2) výběr jména
+     *  1) výběr pohlaví - kliknutím na tlačítko muž nebo žena si hráč vybere pohlaví
+     *  2) výběr jména - zobrazí se textfield, kam může hráč zadat jméno
      *  3) zobrazení aktuální lokace společně s itemy a npc/zbraněmi v ní
      *  4) souboj s npc
      *  5) komunikace s npc
@@ -68,40 +68,48 @@ public class GameAreaPanel implements Observer {
         borderPane.getChildren().clear();
         borderPane.setMaxHeight(570.0);
         if (game.getGameState().getPhase() == 0) {
-            ChooseGenderButtons();
-
+            chooseGenderButtons();
+        } else if (game.getGameState().getPlayer().getProfession().equals("nic")) {
+            selectProfession();
         } else if (game.getGameState().getPhase() == 1) {
-            ChooseNameTextField();
-
+            chooseNameTextField();
         } else if (game.getGameState().isInCombat()){
-            InCombatField();
+            inCombatField();
         } else if (game.getGameState().isInteracting()){
             comunicatingField();
         } else {
-            Location location = game.getGameState().getCurrentLocation();
-            String locationName = location.getName();
-
-            Label locationLabel = new Label("Aktuální lokace: " + locationName);
-            locationLabel.setFont(Font.font("Garamond", 30));
-            locationLabel.setTextFill(Color.WHITE);
-
-            Tooltip locationTip = new Tooltip(location.getDescription());
-            locationTip.setFont(Font.font("Garamond", 30));
-            locationLabel.setTooltip(locationTip);
-
-            HBox hBox = new HBox(locationLabel);
-            hBox.setAlignment(Pos.CENTER);
-
-            borderPane.setTop(hBox);
-
-            ImageView center = new ImageView(new Image
-                    (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
-                            1000.0, 570.0, false, false));
-            
-            borderPane.setCenter(center);
-            borderPane.setLeft(itemsPanel.getPanel());
-            borderPane.setRight(rightPanel.getPanel());
+            normalScreen();
         }
+    }
+
+    /**
+     * Metoda pro načtení běžné obrazovky - zahrnuje obrázek aktuální lokace uprostřed, label s jejm názvem nahoře,
+     * v pravo jsou pak zobrazeny itemy v aktuální lokaci a v levo npc nebp zbraně v aktální lokaci
+     */
+    private void normalScreen() {
+        Location location = game.getGameState().getCurrentLocation();
+        String locationName = location.getName();
+
+        Label locationLabel = new Label("Aktuální lokace: " + locationName);
+        locationLabel.setFont(Font.font("Garamond", 30));
+        locationLabel.setTextFill(Color.WHITE);
+
+        Tooltip locationTip = new Tooltip(location.getDescription());
+        locationTip.setFont(Font.font("Garamond", 30));
+        locationLabel.setTooltip(locationTip);
+
+        HBox hBox = new HBox(locationLabel);
+        hBox.setAlignment(Pos.CENTER);
+
+        borderPane.setTop(hBox);
+
+        ImageView center = new ImageView(new Image
+                (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
+                        1000.0, 570.0, false, false));
+
+        borderPane.setCenter(center);
+        borderPane.setLeft(itemsPanel.getPanel());
+        borderPane.setRight(rightPanel.getPanel());
     }
 
     /**
@@ -112,13 +120,14 @@ public class GameAreaPanel implements Observer {
         ImageView playerImageView;
         if (player.getPlayerGender().equals("female")) {
             playerImageView = new ImageView(new Image
-                    (GameState.class.getResourceAsStream("/zdroje/player_female.jpg"),
+                    (GameState.class.getResourceAsStream("/zdroje/"+ player.getProfession() +"_žena.jpg"),
                             900.0, 570.0, false, false));
         } else {
             playerImageView = new ImageView(new Image
-                    (GameState.class.getResourceAsStream("/zdroje/player_male.jpg"),
+                    (GameState.class.getResourceAsStream("/zdroje/"+player.getProfession()+"_muž.jpg"),
                             900.0, 570.0, false, false));
         }
+
 
         borderPane.setLeft(playerImageView);
 
@@ -201,17 +210,17 @@ public class GameAreaPanel implements Observer {
     /**
      * Metoda pro načtení obrazovky, když je hráč v souboji.
      */
-    private void InCombatField() {
+    private void inCombatField() {
         //Nastavení obrázku hráče
         Player player = game.getGameState().getPlayer();
         ImageView playerImageView;
         if (player.getPlayerGender().equals("female")) {
             playerImageView = new ImageView(new Image
-                    (GameState.class.getResourceAsStream("/zdroje/player_female.jpg"),
+                    (GameState.class.getResourceAsStream("/zdroje/"+ player.getProfession() +"_žena.jpg"),
                             900.0, 570.0, false, false));
         } else {
             playerImageView = new ImageView(new Image
-                    (GameState.class.getResourceAsStream("/zdroje/player_male.jpg"),
+                    (GameState.class.getResourceAsStream("/zdroje/"+player.getProfession()+"_muž.jpg"),
                             900.0, 570.0, false, false));
         }
 
@@ -255,7 +264,7 @@ public class GameAreaPanel implements Observer {
     /**
      * Metoda pro načtení druhé obrazovky, která objeví po výběru pohlaví.
      */
-    private void ChooseNameTextField() {
+    private void chooseNameTextField() {
         Label label = new Label("Vyber si jméno: ");
         label.setFont(Font.font("Garamond", 70));
         label.setTextFill(Color.WHITE);
@@ -288,7 +297,7 @@ public class GameAreaPanel implements Observer {
     /**
      * Metoda pro načtení první zobrazené obrazovky.
      */
-    private void ChooseGenderButtons() {
+    private void chooseGenderButtons() {
         Label label = new Label("Vyber si pohlaví: ");
         label.setFont(Font.font("Garamond", 70));
         label.setTextFill(Color.WHITE);
@@ -317,6 +326,69 @@ public class GameAreaPanel implements Observer {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(15.0);
         borderPane.setCenter(vBox);
+    }
+
+    private void selectProfession() {
+        Label label = new Label("Vyber si profesi: ");
+        label.setFont(Font.font("Garamond", 70));
+        label.setTextFill(Color.WHITE);
+
+        Button archer = new Button("lukostřelec");
+        archer.setFont(Font.font("Garamond", 50));
+
+        Button assassin = new Button("assassin");
+        assassin.setFont(Font.font("Garamond", 50));
+
+        Button barbarian = new Button("barbar");
+        barbarian.setFont(Font.font("Garamond", 50));
+
+        Button dwarf = new Button("trpaslík");
+        dwarf.setFont(Font.font("Garamond", 50));
+
+        Button knight = new Button("rytíř");
+        knight.setFont(Font.font("Garamond", 50));
+
+        Button wizard = new Button("čaroděj");
+        wizard.setFont(Font.font("Garamond", 50));
+
+        archer.setOnAction(e ->{
+            console.appendText("profese lukostřelec");
+            String gameAnswer = game.processAction("profese lukostřelec");
+            console.appendText(gameAnswer);
+        });
+        assassin.setOnAction(e ->{
+            console.appendText("profese assassin");
+            String gameAnswer = game.processAction("profese assassin");
+            console.appendText(gameAnswer);
+        });
+        barbarian.setOnAction(e ->{
+            console.appendText("profese barbar");
+            String gameAnswer = game.processAction("profese barbar");
+            console.appendText(gameAnswer);
+        });
+        dwarf.setOnAction(e ->{
+            console.appendText("profese trpaslík");
+            String gameAnswer = game.processAction("profese trpaslík");
+            console.appendText(gameAnswer);
+        });
+        knight.setOnAction(e ->{
+            console.appendText("profese rytíř");
+            String gameAnswer = game.processAction("profese rytíř");
+            console.appendText(gameAnswer);
+        });
+        wizard.setOnAction(e ->{
+            console.appendText("profese čaroděj");
+            String gameAnswer = game.processAction("profese čaroděj");
+            console.appendText(gameAnswer);
+        });
+
+        HBox hBox = new HBox();
+        hBox.setPrefWidth(1000.0);
+        hBox.setPrefHeight(570.0);
+        hBox.getChildren().addAll(label,archer,assassin,barbarian,dwarf,knight,wizard);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(15.0);
+        borderPane.setCenter(hBox);
     }
 
     @Override

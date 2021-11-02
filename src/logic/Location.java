@@ -9,7 +9,7 @@ import java.util.Set;
  * Instance této třídy představují jednotlivé lokace.
  * <p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ *;
  * @author Alena Kalivodová
  * @version ZS-2021, 2021-11-01
  */
@@ -41,6 +41,10 @@ public class Location implements SubjectOfChange {
         items = new HashSet<>();
         npcs = new HashSet<>();
         weapons = new HashSet<>();
+    }
+
+    public boolean isKnown() {
+        return known;
     }
 
     public int getPhase() {

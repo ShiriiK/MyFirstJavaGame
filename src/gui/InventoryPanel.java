@@ -48,7 +48,7 @@ public class InventoryPanel implements Observer {
     private void init() {
         vbox.setPrefWidth(500.0);
         vbox.setPrefHeight(400.0);
-        Label label = new Label("Bahot:");
+        Label label = new Label("Batoh:");
         label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
         label.setTextFill(Color.WHITE);
         vbox.getChildren().addAll(label, inventoryPanel);

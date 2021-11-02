@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PartnerTest {
 
     Weapon weapon = new Weapon("weapon", 2, false);
-    Partner partner = new Partner("Yrsa", weapon, 20, 20);
+    Partner partner = new Partner("Yrsa", weapon, 20, 20,0.0);
 
     /**
      * Test jestli má partner správně nastavené staty.
