@@ -85,18 +85,6 @@ public class ActionAttack implements IAction {
 
         if (npcHp <= playerStr) {
             currentLocation.removeNpc(npcName);
-            for (Npc npc : currentLocation.getNpcs()) {
-                if (!npc.isFriendly()) {
-                    return d1 + "Zabil/a jste: " + npcName + "." + d2;
-                }
-            }
-            gameState.setInCombat(false);
-            if (player.getPlayerGender().equals("male")) {
-                player.setDex(15.0);
-            } else {
-                player.setDex(20.0);
-            }
-
             return d1 + "Zabil/a jste: " + npcName + "." + d2;
         }
 

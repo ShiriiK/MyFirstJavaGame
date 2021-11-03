@@ -91,6 +91,15 @@ public class Npc {
     }
 
     /**
+     * Metoda pro nastavení str npc
+     *
+     * @param str
+     */
+    public void setStr(double str) {
+        this.str = str;
+    }
+
+    /**
      * Metoda pro vložení itemu do npc.
      *
      * @param item který má být do npc přidán

@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     Weapon weapon = new Weapon("weapon", 2, false);
-    Player player = new Player("Haha", "male", weapon, 20, 20,0.0, null);
+    Player player = new Player("Haha", "male", weapon, 20, 20, null);
 
     /**
      * Test jestli má hráč správně nastavené staty.

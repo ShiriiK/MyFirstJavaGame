@@ -14,16 +14,13 @@ public class Partner {
     private Weapon partnerWeapon;
     private double hp;
     private double str;
-    private double dex;
-
 
     // Konstruktor
-    public Partner(String partnerName, Weapon partnerWeapon, double hp, double str, double dex) {
+    public Partner(String partnerName, Weapon partnerWeapon, double hp, double str) {
         this.partnerName = partnerName;
         this.partnerWeapon = partnerWeapon;
         this.hp = hp;
         this.str = str;
-        this.dex = dex;
     }
 
     /**
@@ -38,7 +35,8 @@ public class Partner {
         return "\nJméno: " + partnerName + "\n" +
                 "Zbraň: " + getPartnerWeapon().getName() + "\n" +
                 "Životy: " + hp + "\n" +
-                "Síla: " + str * (getPartnerWeapon().getMultiplicator());
+                "Síla: " + str * (getPartnerWeapon().getMultiplicator()) +
+                "Rasa: viking";
     }
 
     /**
@@ -95,23 +93,6 @@ public class Partner {
         this.str = str;
     }
 
-    /**
-     * Metoda pro získání dex partnera
-     *
-     * @return dex partnera
-     */
-    public double getDex() {
-        return dex;
-    }
-
-    /**
-     * Metoda pro nastavení dex partnera
-     *
-     * @param dex partnera
-     */
-    public void setDex(double dex) {
-        this.dex = dex;
-    }
 
     /**
      * Metoda pro získání zbraně partnera.

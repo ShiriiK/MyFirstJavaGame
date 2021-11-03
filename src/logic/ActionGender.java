@@ -71,21 +71,17 @@ public class ActionGender implements IAction {
 
         if ("muž".equals(gender)) {
             partner.setPartnerName("Yrsa");
-            partner.setStr(8.0);
-            partner.setHp(20.0);
-            partner.setDex(20.0);
+            partner.setStr(5.0);
+            partner.setHp(50.0);
             player.setStr(10.0);
-            player.setHp(30.0);
-            player.setDex(15.0);
+            player.setHp(70.0);
         }
         if ("žena".equals(gender)) {
             partner.setPartnerName("Torsten");
             partner.setStr(10.0);
-            partner.setHp(30.0);
-            partner.setDex(15.0);
-            player.setStr(8);
-            player.setHp(20);
-            player.setDex(20.0);
+            partner.setHp(70.0);
+            player.setStr(5.0);
+            player.setHp(50.0);
         }
 
         String partnerName = partner.getPartnerName();

@@ -6,6 +6,8 @@ import util.SubjectOfChange;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Třída představující stav hry a implementující rozhraní SubjectOfChange
@@ -28,7 +30,12 @@ public class GameState implements SubjectOfChange {
     private Npc attackedNpc;
     private boolean isInteracting;
     private Npc comunicatingNpc;
-
+    private Set<Race> races;
+    private Race playersRace;
+    private double negetedDmg;
+    private double bonusDmg;
+    private boolean usedAttack3;
+    private boolean usedCharge;
 
     private Set<Observer> observers = new HashSet<>();
 
@@ -38,13 +45,25 @@ public class GameState implements SubjectOfChange {
     public GameState() {
         createGame();
         inventory = new Inventory();
-        player = new Player(null, null, null, 20.0, 0.0, 0.0, "nic");
-        partner = new Partner(null, null, 20.0, 0.0,0.0);
+        playersRace = new Race ("nic",null,null);
+        player = new Player(null, null, null, 20.0, 0.0, playersRace);
+        partner = new Partner(null, null, 20.0, 0.0);
         phase = 0;
         inCombat = false;
         isInteracting = false;
         attackedNpc = new Npc(null,false,0.0,0.0,false, null, null);
         comunicatingNpc = new Npc(null,false,0.0,0.0,false, null, null);
+        negetedDmg = 0.0;
+        bonusDmg = 0.0;
+
+        Race elf = new Race("elf","volání_entů", "elfí_běsnění");
+        Race dark_elf = new Race("temný_elf","pomatení", "volání_krve");
+        Race barbarian = new Race("barbar", "zuřivý_skok", "bojový_tanec");
+        Race dwarf = new Race("trpaslík","přivolání_blesků", "runová_bouře");
+        Race human = new Race("člověk","meč_spravedlnosti", "modlitba");
+        Race mage = new Race("mág","ohnivá_koule", "zaklínání");
+
+        races = Stream.of(elf,dark_elf,barbarian,dwarf,human,mage).collect(Collectors.toSet());
     }
 
     /**
@@ -154,19 +173,19 @@ public class GameState implements SubjectOfChange {
         currentLocation = hidden_field;
 
         //Vytvoření npcček
-        Npc general = new Npc("generál", false, 30.0, 20.0, true, Arrays.asList(
+        Npc general = new Npc("generál", false, 150.0, 20.0, true, Arrays.asList(
                 "Generl: Kdo jste!",
                 "General: Pokud nechcete zatěžovat mou mysl svými odpornými jmény, můžete místo toho zatížit mou peněženku.",
                 "General: Zabijte je, už jsem s nimi ztratil víc než dost času."),
                 "Králův vrchní generál tě nenechá odejít. Musíte s ním jednat.");
-        Npc dungeonGuard = new Npc("stráž", false, 20.0, 5.0, true, Arrays.asList(
+        Npc dungeonGuard = new Npc("stráž", false, 100.0, 5.0, true, Arrays.asList(
                 "Stráž: Nemáte tu co dělat, vypadněte.",
                 "Stráž: Řekl jsem vám, abyste odešeli, tady je malé varování.",
                 "Stráž: Měli jste mě poslouchat, už mám dost..."),
                 "Zbavte se strážce a vezměte si pochodeň, než půjdete dovnitř..");
-        Npc brutalGuard = new Npc("brutal_guard", false, 20.0, 20.0, false, null,
+        Npc brutalGuard = new Npc("brutal_guard", false, 130.0, 20.0, false, null,
                 null);
-        Npc frog = new Npc("žába", false,1.0, 1.0, false, null, null);
+        Npc frog = new Npc("žába", false,50.0, 1.0, false, null, null);
         Npc gorm = new Npc("gorm", true, 100.0,100.0, true, Arrays.asList(
                 "Gorm: Chudák Tue, neměli jste se do té popravy plést...\n" +
                         "Ale chápu, že jste se prostě nemohli dívat, jak veřejně popravují malou holčičku...",
@@ -190,11 +209,11 @@ public class GameState implements SubjectOfChange {
                 "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík.\n" +
                         "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě\n" +
                         " odejde do hospody"),null);
-        Npc wolf = new Npc("vlk", false,10.0, 3.0, false, null, null);
-        Npc bear = new Npc("medvěd", false, 10.0, 3.0, false, null, null);
-        Npc rat = new Npc("obří_krysa", false,10.0, 3.0, false, null, null);
-        Npc troll = new Npc("troll", false,20, 5, false, null, null);
-        Npc trollKing = new Npc("přerostlý_troll", false, 30, 10, false,null,
+        Npc wolf = new Npc("vlk", false,80.0, 3.0, false, null, null);
+        Npc bear = new Npc("medvěd", false, 80.0, 3.0, false, null, null);
+        Npc rat = new Npc("obří_krysa", false,90.0, 3.0, false, null, null);
+        Npc troll = new Npc("troll", false,90, 5, false, null, null);
+        Npc trollKing = new Npc("přerostlý_troll", false, 150, 10, false,null,
                 "Musíš se nejdřív zbavit přerostlého trolla.");
         Npc tue = new Npc("tue", true, 1.0,1.0, true, Arrays.asList(
                 "...",
@@ -328,6 +347,19 @@ public class GameState implements SubjectOfChange {
         armory.addWeapon(greatsword);
         armory.addWeapon(dagger);
         armory.addWeapon(spear);
+
+
+    }
+
+    public Race getRace(String name){
+        Race race = null;
+        for (Race current : races){
+            if(current.getName().equals(name)){
+                race = current;
+                break;
+            }
+        }
+        return race;
     }
 
     /**
@@ -472,6 +504,38 @@ public class GameState implements SubjectOfChange {
      */
     public Npc getComunicatingNpc(){
         return comunicatingNpc;
+    }
+
+    public double getNegetedDmg() {
+        return negetedDmg;
+    }
+
+    public void setNegetedDmg(double negetedDmg) {
+        this.negetedDmg = negetedDmg;
+    }
+
+    public double getBonusDmg() {
+        return bonusDmg;
+    }
+
+    public void setBonusDmg(double bonusDmg) {
+        this.bonusDmg = bonusDmg;
+    }
+
+    public boolean isUsedAttack3() {
+        return usedAttack3;
+    }
+
+    public void setUsedAttack3(boolean usedAttack3) {
+        this.usedAttack3 = usedAttack3;
+    }
+
+    public boolean isUsedCharge() {
+        return usedCharge;
+    }
+
+    public void setUsedCharge(boolean usedCharge) {
+        this.usedCharge = usedCharge;
     }
 
     @Override

@@ -85,17 +85,6 @@ public class ActionAttackPartner implements IAction {
 
         if (npcHp <= partnerStr) {
             currentLocation.removeNpc(npcName);
-            for (Npc npc : currentLocation.getNpcs()) {
-                if (!npc.isFriendly()) {
-                    return d1 + "Zabili jste: " + npcName + "." + d2;
-                }
-            }
-            gameState.setInCombat(false);
-            if (partner.getPartnerName().equals("Torsten")) {
-                partner.setDex(15.0);
-            } else {
-                partner.setDex(20.0);
-            }
             return d1 + "Zabili jste: " + npcName + "." + d2;
         }
 

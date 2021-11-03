@@ -15,18 +15,16 @@ public class Player {
     private Weapon playerWeapon;
     private double hp;
     private double str;
-    private double dex;
-    private String profession;
+    private Race race;
 
     // Konstruktor
-    public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, double dex, String profession) {
+    public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, Race race) {
         this.playerName = playerName;
         this.playerGender = playerGender;
         this.playerWeapon = playerWeapon;
         this.hp = hp;
         this.str = str;
-        this.dex = dex;
-        this.profession = profession;
+        this.race = race;
     }
 
     /**
@@ -135,22 +133,8 @@ public class Player {
         this.str = str;
     }
 
-    /**
-     * Metoda pro získání dex hráče
-     *
-     * @return dex hráče
-     */
-    public double getDex() {
-        return dex;
-    }
-
-    /**
-     * Metoda pro nastavení dex hráče
-     *
-     * @param dex hráče
-     */
-    public void setDex(double dex) {
-        this.dex = dex;
+    public double getStrWithoutWeapon(){
+        return str;
     }
 
     /**
@@ -158,16 +142,34 @@ public class Player {
      *
      * @return profese hráče
      */
-    public String getProfession() {
-        return profession;
+    public Race getRace() {
+        return race;
     }
 
     /**
      * Metoda pro nastavení profese hráče
      *
-     * @param profession hráče
+     * @param race hráče
      */
-    public void setProfession(String profession) {
-        this.profession = profession;
+    public void setRace(Race race) {
+        this.race = race;
+        switch(race.getName()){
+            case("elf"):
+                setStr(getStrWithoutWeapon()+5);
+                break;
+            case("temný_elf"):
+                setStr(getStrWithoutWeapon()+5);
+                break;
+            case("barbar"):
+                setHp(getHp()+10);
+            case("trpaslík"):
+                setHp(getHp()+10);
+            case("člověk"):
+                setHp(getHp()+3);
+                setStr(getStrWithoutWeapon()+3);
+            case("mág"):
+                setStr(getStrWithoutWeapon()+12);
+        }
     }
+
 }

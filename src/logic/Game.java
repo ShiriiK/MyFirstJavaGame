@@ -50,7 +50,8 @@ public class Game {
         validActions.add(new ActionGive(this));
         validActions.add(new ActionRescue(this));
         validActions.add(new ActionTalk(this));
-        validActions.add(new ActionProfession(this));
+        validActions.add(new ActionRace(this));
+        validActions.add(new ActionEnhancedCombat(this));
     }
 
     /**
