@@ -29,7 +29,7 @@ public class GameState implements SubjectOfChange {
     private boolean inCombat;
     private Npc attackedNpc;
     private boolean isInteracting;
-    private Npc comunicatingNpc;
+    private Npc interactingNpc;
     private Set<Race> races;
     private Race playersRace;
     private double negetedDmg;
@@ -52,7 +52,7 @@ public class GameState implements SubjectOfChange {
         inCombat = false;
         isInteracting = false;
         attackedNpc = new Npc(null,false,0.0,0.0,false, null, null);
-        comunicatingNpc = new Npc(null,false,0.0,0.0,false, null, null);
+        interactingNpc = new Npc(null,false,0.0,0.0,false, null, null);
         negetedDmg = 0.0;
         bonusDmg = 0.0;
 
@@ -379,6 +379,8 @@ public class GameState implements SubjectOfChange {
      */
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+        setInteracting(false);
+        setInteractingNpc(null);
         notifyObservers();
     }
 
@@ -491,10 +493,10 @@ public class GameState implements SubjectOfChange {
 
     /**
      * Metoda pro nastavení npc, se kterým hráč komunikuje.
-     * @param comunicatingNpc npc
+     * @param interactingNpc npc
      */
-    public void setComunicatingNpc(String comunicatingNpc) {
-        this.comunicatingNpc = getCurrentLocation().getNpc(comunicatingNpc);
+    public void setInteractingNpc(String interactingNpc) {
+        this.interactingNpc = getCurrentLocation().getNpc(interactingNpc);
         notifyObservers();
     }
 
@@ -502,8 +504,8 @@ public class GameState implements SubjectOfChange {
      * Metoda pro vrácení odkazu na npc, se kterým má hráč komunikovat.
      * @return npc
      */
-    public Npc getComunicatingNpc(){
-        return comunicatingNpc;
+    public Npc getInteractingNpc(){
+        return interactingNpc;
     }
 
     public double getNegetedDmg() {

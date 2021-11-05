@@ -36,6 +36,11 @@ public class GameBase extends Application {
     private GameAreaPanel gameAreaPanel;
     private ItemPanel itemsPanel;
     private RightPanel npcsPanel;
+    private ScreenSelectGender selectGender;
+    private ScreenSelectRace selectRace;
+    private ScreenSelectName selectName;
+    private ScreenCombat combat;
+    private ScreenInteracting interacting;
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
@@ -107,8 +112,22 @@ public class GameBase extends Application {
         //nastavení panelu s npc v lokaci
         npcsPanel = new RightPanel(game, console);
 
+        //nastavení pohlaví
+        selectGender = new ScreenSelectGender(game, console);
+
+        //nastavení rasy
+        selectRace = new ScreenSelectRace(game,console);
+
+        //nastavení jména
+        selectName = new ScreenSelectName(game, console);
+
+        //nastavení zobrazení souboje
+        combat = new ScreenCombat(game, console);
+
+        interacting = new ScreenInteracting(game, console);
+
         //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, console);
+        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, selectGender, selectRace, selectName, combat, interacting, console);
         borderPane.setTop(gameAreaPanel.getBorderPane());
 
         //nastavení panelu východů

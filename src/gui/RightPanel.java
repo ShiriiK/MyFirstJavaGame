@@ -128,7 +128,7 @@ public class RightPanel implements Observer {
                 if (!talk) {
                     console.appendText("\nS tímto npc toho moc nevykomunikuješ.");
                 }
-                game.getGameState().setComunicatingNpc(name);
+                game.getGameState().setInteractingNpc(name);
                 game.getGameState().setInteracting(true);
                 console.appendText("\nZačal si komunikovat s " + name + "\n");
             //Nastavení combat
