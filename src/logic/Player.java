@@ -38,6 +38,7 @@ public class Player {
         }
         return "\nPohlaví: " + playerGender + "\n" +
                 "Jméno: " + playerName + "\n" +
+                "Rasa: " + race + "\n" +
                 "Zbraň: " + getPlayerWeapon().getName() + "\n" +
                 "Životy: " + hp + "\n" +
                 "Síla: " + str * (getPlayerWeapon().getMultiplicator());

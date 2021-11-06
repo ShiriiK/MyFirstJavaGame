@@ -82,195 +82,190 @@ public class ActionEnhancedCombat implements IAction {
 
         Player player = gameState.getPlayer();
         String race = gameState.getPlayer().getRace().getName();
+        //síla hráče = str * multiplikátor zbraně
         double playerStr = player.getStr();
-        double npcHp = attackedNpc.getHp();
+        //hp hráče ve chvíli,kdy zaútočil
         double playerHp = player.getHp();
-        double npcStr = attackedNpc.getStr();
-        double dmg = 0;
+        //bere se ve chvíli, kdy hráč útočí, tudíž v něm není zahrnutý bonus dmg, který si útokem může nastavit
         double bonusDmg = gameState.getBonusDmg();
+        //bere se ve chvíli, kdy hráč útočí, tudíž v něm není zahrnutý negeted dmg, který si útokem může nastavit
         double negetedDmg = gameState.getNegetedDmg();
+        //síla npc na začátku souboje
+        double npcStr = attackedNpc.getStr();
+        //hp npc na začátku souboje
+        double npcHp = attackedNpc.getHp();
+        //dmg, který hráč dá
+        double dmg = 0;
+        //bonus dmg nastavený toto kolo
+        double setBonusDmg = 0.0;
+        //negeted dmg nastavený toto kolo
+        double setNegetedDmg = 0.0;
+        //čílso, o kolik se sníží původní síla npc
+        double loweredStr = 0.0;
+        //nastavení se na true pokud hráč spellem nastaví npc str na 1
+        boolean setNpcDmgToOne = false;
 
         if(attackName.equals("útok_z_dálky")){
             dmg = playerStr/2.0 + bonusDmg;
-            gameState.setNegetedDmg(5.0);
+            gameState.setNegetedDmg(10.0);
 
-            String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-            if (killed != null) return killed;
-
-            String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-            if (death != null) return death;
-
-            //Message při pokračování souboje
-            return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+            setNegetedDmg = 10.0;
         }
         if(attackName.equals("útok_z_blízka")) {
             dmg = playerStr + bonusDmg;
-
-            String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-            if (killed != null) return killed;
-
-            String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-            if (death != null) return death;
-
-            //Message při pokračování souboje
-            return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
         }
+
+        boolean usedAttack = gameState.isUsedAttack3();
+        boolean usedCharge = gameState.isUsedCharge();
 
         switch(race){
             case("elf"):
-                if(attackName.equals("volání_entů")){
+                if(attackName.equals("volání_entů") && !usedAttack){
                     dmg = 15.0 + bonusDmg;
-
-                    String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-                    if (killed != null) return killed;
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("elfí_běsnění")) {
+                    gameState.setUsedAttack3(true);
+                    break;
+                } else if (attackName.equals("elfí_běsnění") && !usedCharge) {
                     dmg = 0.0 + bonusDmg;
-                    gameState.setNegetedDmg(50.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    setNegetedDmg = 50.0;
+                    gameState.setUsedCharge(true);
+                    break;
                 }
             case("temný_elf"):
-                if(attackName.equals("pomatení")){
+                if(attackName.equals("pomatení") && !usedAttack){
                     attackedNpc.setStr(1.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("volání_krve")) {
-                    dmg = 0.0;
-                    gameState.setBonusDmg(15.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    setNpcDmgToOne = true;
+                    gameState.setUsedAttack3(true);
+                    break;
+                } else if (attackName.equals("volání_krve") && !usedCharge) {
+                    dmg = 0.0 + bonusDmg;
+                    setBonusDmg = 15.0;
+                    gameState.setUsedCharge(true);
+                    break;
                 }
             case("barbar"):
-                if(attackName.equals("zuřivý_skok")){
+                if(attackName.equals("zuřivý_skok") && !usedAttack){
                     dmg = 20 + bonusDmg;
-                    String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-                    if (killed != null) return killed;
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("bojový_tanec")) {
-                    gameState.setNegetedDmg(-10.0);
-                    gameState.setBonusDmg(20.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    gameState.setUsedAttack3(true);
+                    break;
+                } else if (attackName.equals("bojový_tanec") && !usedCharge) {
+                    setNegetedDmg = -10.0;
+                    setBonusDmg = 20.0;
+                    gameState.setUsedCharge(true);
+                    break;
                 }
             case("trpaslík"):
-                if(attackName.equals("přivolání_blesků")){
+                if(attackName.equals("přivolání_blesků") && !usedAttack){
                     dmg = 20 + bonusDmg;
-                    String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-                    if (killed != null) return killed;
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("runová_bouře")) {
-                    gameState.setNegetedDmg(-5.0);
+                    gameState.setUsedAttack3(true);
+                    break;
+                } else if (attackName.equals("runová_bouře") && !usedCharge) {
                     attackedNpc.setStr(attackedNpc.getStr()-20);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    setNegetedDmg = -5.0;
+                    loweredStr = -20.0;
+                    gameState.setUsedCharge(true);
+                    break;
                 }
             case("člověk"):
-                if(attackName.equals("meč_spravedlnosti")){
+                if(attackName.equals("meč_spravedlnosti") && !usedAttack){
                     dmg = 15 + bonusDmg;
-
-                    String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-                    if (killed != null) return killed;
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("modlitba")) {
-                    gameState.setNegetedDmg(15.0);
-                    gameState.setBonusDmg(15.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    gameState.setUsedAttack3(true);
+                    break;
+                } else if (attackName.equals("modlitba") && !usedCharge) {
+                    setBonusDmg = 15.0;
+                    setNegetedDmg = 15.0;
+                    gameState.setUsedCharge(true);
+                    break;
                 }
             case("mág"):
-                if(attackName.equals("ohnivá_koule")){
+                if(attackName.equals("ohnivá_koule") && !usedAttack){
                    dmg = 25.0 + bonusDmg;
-
-                    String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
-                    if (killed != null) return killed;
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
-                } else if (attackName.equals("zaklínání")){
+                   gameState.setUsedAttack3(true);
+                   break;
+                } else if (attackName.equals("zaklínání") && !usedCharge){
                     attackedNpc.setStr(1.0);
-                    gameState.setBonusDmg(15.0);
-
-                    String death = playerPossibleDeath(d1, d2, attackedNpc, player, npcHp, playerHp, npcStr, dmg, negetedDmg);
-                    if (death != null) return death;
-
-                    //Message při pokračování souboje
-                    return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg);
+                    setBonusDmg = 15.0;
+                    setNpcDmgToOne = true;
+                    gameState.setUsedCharge(true);
+                    break;
+                }
+                if(!attackName.equals("útok_z_blízka") && !attackName.equals("útok_z_dálky")){
+                    return  d1 + "Tvoje postava nemá takový útok nebo byl již vyčerpán maximální počet použití." + d2;
                 }
         }
-            return  "Tvoje postava nemá takový útok.";
+        String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
+        if (killed != null) return killed;
+
+        return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg, setBonusDmg,setNegetedDmg, setNpcDmgToOne, loweredStr);
     }
 
-    private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc, Player player, double npcStr, double dmg) {
+    private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc, Player player, double npcStr, double dmg, double setBonusDmg, double setNegetedDmg, boolean setNpcDmgToOne, double loweredStr) {
         gameState.setInCombat(true);
-        return  d1 + "Dal/a si " + dmg + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
-                "Příští kolo vyblokuješ navíc " + gameState.getNegetedDmg() + " poškození a dáš navíc " + gameState.getBonusDmg() +
-                " poškození.\n" + npcName + " ti útok oplatil a způsobil ti " + npcStr +
-                " poškození. Teď máš " + player.getHp() + " životů." + d2;
-    }
 
-    private String playerPossibleDeath(String d1, String d2, Npc attackedNpc, Player player, double npcHp, double playerHp, double npcStr, double dmg, double negetedDmg) {
-        attackedNpc.setHp(npcHp - dmg);
-        double npcDmg = 0;
-        if(npcStr<negetedDmg){
-            npcDmg = 0;
-        } else {
-            npcDmg = npcStr-negetedDmg;
+        //NASTAVOVÁNÍ MESSEGŮ
+        String dmgMessege = "";
+        double newNpcHp = attackedNpc.getHp()-dmg;
+        if ((dmg >0.0)) {
+            dmgMessege = "Dal/a si " + dmg + " poškození.\n Tvůj oponent teď má " + newNpcHp + " životů.\n";
         }
-        player.setHp(playerHp - npcDmg);
+        String negetedMessege = "";
+        //spojení nevyužitých bloků z předchozích kol s právě získaným blokem
+        double negetedDmg = gameState.getNegetedDmg() + setNegetedDmg;
+        if(negetedDmg>0){
+            negetedMessege = "Blok nastaven na " + negetedDmg + " poškození.\n";
+        }
+        String bonusMessege = "";
+        if(setBonusDmg>0.0){
+            bonusMessege = "Příští kolo dáš navíc " + setBonusDmg + " poškození.\n";
+        }
+        double newStr = npcStr-loweredStr;
+        String npcStrMessege ="";
+        if(loweredStr>0.0){
+            if (newStr < 0.0) {
+                newStr = 0.0;
+            }
+            npcStrMessege = "Síle tvého nepřítele byla snížena z " + npcStr + " na " + newStr + ".\n";
+            attackedNpc.setStr(newStr);
+        }
+        String oneDmgMessege = "";
+        if(setNpcDmgToOne){
+            oneDmgMessege = "Snížení síly npc na naprosté minimum.\n";
+            gameState.getAttackedNpc().setStr(1.0);
+        }
+        String takenDmgMessege = "";
+        double restOfNegeted = negetedDmg - npcStr;
+        double takenDmg = npcStr - negetedDmg;
+        if(negetedDmg>0.0) {
+            if (newStr < negetedDmg) {
+                takenDmgMessege = "Vyblokováno " + npcStr + " poškození.\n Další kolo můžeš vyblokovat ještě " + restOfNegeted + "poškození.\n";
+            } else {
+                takenDmgMessege = "Vyblokováno " + negetedDmg + " poškození. Do dalšího kola už ti blok nezbyl a " + npcName + " ti dal " + takenDmg + "poškození.\n";
+            }
+        } else {
+            takenDmgMessege = npcName + "ti dal " + npcStr + "poškození.\n";
+        }
 
-        if (playerHp < npcStr) {
+        //NASTAVENÍ HODNOT UVNITŘ HRY
+        double restOfHp;
+        if(takenDmg<0.0){
+            restOfHp = player.getHp();
+        } else {
+            restOfHp = player.getHp() - takenDmg;
+        }
+
+        player.setHp(restOfHp);
+        attackedNpc.setHp(newNpcHp);
+        gameState.setNegetedDmg(restOfNegeted);
+        gameState.setBonusDmg(setBonusDmg);
+
+        if(restOfHp < 0.0){
             game.setTheEnd(true);
             return d1 + "Umřel/a jsi." + d2;
         }
-        return null;
+
+        //Znovu vrátí dmg npc na jeho původní hodnotu
+        attackedNpc.setStr(npcStr);
+
+        return  d1 + dmgMessege + negetedMessege + bonusMessege + npcStrMessege + oneDmgMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + d2;
     }
 
     private String killedNpc(String d1, String d2, GameState gameState, String npcName, Location currentLocation, double npcHp, double dmg) {
@@ -278,9 +273,11 @@ public class ActionEnhancedCombat implements IAction {
             currentLocation.removeNpc(npcName);
             gameState.setUsedCharge(false);
             gameState.setUsedAttack3(false);
-            gameState.setNegetedDmg(0);
-            gameState.setBonusDmg(0);
+            gameState.setNegetedDmg(0.0);
+            gameState.setBonusDmg(0.0);
             gameState.setInCombat(false);
+            gameState.setUsedCharge(false);
+            gameState.setUsedAttack3(false);
             return d1 + "Zabil/a jste: " + npcName + "." + d2;
         }
         return null;
