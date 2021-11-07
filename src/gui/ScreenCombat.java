@@ -125,27 +125,16 @@ public class ScreenCombat implements Observer {
      * @param player hráč
      */
     private void SetButtons(Player player) {
-        melee.setFont(Font.font("Garamond", 50));
         Tooltip meleeTip = new Tooltip("Útok z blízka, který dá " + player.getStr() + " poškození \n" +
                 "plus bonusové poškození, pokud tedy nějaké máš.");
-        meleeTip.setFont(Font.font("Garamond", 30));
         Tooltip.install(melee, meleeTip);
-
-        ranged.setFont(Font.font("Garamond", 50));
         Tooltip rangedTip = new Tooltip("Útok z blízka, který dá " + (player.getStr()/2) + " poškození \n" +
                 "plus bonusové poškození, pokud tedy nějaké máš, a nastaví blok na 20 poškození.");
-        rangedTip.setFont(Font.font("Garamond", 30));
         Tooltip.install(ranged,rangedTip);
-
-        specialAttacck.setFont(Font.font("Garamond", 50));
-        charge.setFont(Font.font("Garamond", 50));
 
 
         Tooltip specialTip = new Tooltip("");
-        specialTip.setFont(Font.font("Garamond", 30));
-
         Tooltip chargeTip = new Tooltip("");
-        chargeTip.setFont(Font.font("Garamond", 30));
 
         String race = player.getRace().getName();
         switch (race){

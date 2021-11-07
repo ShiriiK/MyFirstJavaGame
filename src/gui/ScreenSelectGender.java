@@ -40,18 +40,18 @@ public class ScreenSelectGender {
      */
     private void init() {
         Label label = new Label("Vyber si pohlaví: ");
-        label.setFont(Font.font("Garamond", 70));
-        label.setTextFill(Color.WHITE);
+        label.setFont(Font.font("Garamond"));
+        label.setStyle("-fx-font-size: 70.0");
+
 
         Button female = new Button("Žena");
-        female.setFont(Font.font("Garamond", 50));
         Tooltip femaleTip = new Tooltip("Když si vybereš, že chceš být žena tak:\n" +
                 "Budeš mít 80 životů a 30 síly.");
         femaleTip.setFont(Font.font("Garamond", 30));
         Tooltip.install(female, femaleTip);
 
-        Button male = new Button("Muž");
-        male.setFont(Font.font("Garamond", 50));
+        Button male = new Button("Muž");;
+
         Tooltip maleTip = new Tooltip("Když si vybereš, že chceš být muž tak:\n" +
                 "Budeš mít 100 životů a 20 síly.");
         maleTip.setFont(Font.font("Garamond", 30));

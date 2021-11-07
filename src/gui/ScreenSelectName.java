@@ -38,8 +38,7 @@ public class ScreenSelectName {
      */
     private void init() {
         Label label = new Label("Vyber si jméno: ");
-        label.setFont(Font.font("Garamond", 70));
-        label.setTextFill(Color.WHITE);
+        label.setStyle("-fx-font-size: 70.0");
 
         TextField userInput = new TextField();
         userInput.setFont(Font.font("Garamond", 50));

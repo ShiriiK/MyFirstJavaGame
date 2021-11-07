@@ -70,16 +70,11 @@ public class ItemPanel implements Observer {
 
             clickOnItem(itemName, imageView);
 
-            setTooltip(item, imageView);
+            Tooltip tip = new Tooltip(item.getDisplayName());
+            Tooltip.install(imageView, tip);
 
             flowPane.getChildren().add(imageView);
         }
-    }
-
-    private void setTooltip(Item item, ImageView imageView) {
-        Tooltip tip = new Tooltip(item.getDisplayName());
-        tip.setFont(Font.font("Garamond", 30));
-        Tooltip.install(imageView, tip);
     }
 
     /**

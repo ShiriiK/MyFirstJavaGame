@@ -41,8 +41,8 @@ public class ScreenSelectRace {
      */
     private void init() {
         Label label = new Label("Vyber si rasu: ");
-        label.setFont(Font.font("Garamond", 70));
-        label.setTextFill(Color.WHITE);
+        label.setStyle("-fx-font-size: 70.0");
+
 
         setButtons();
 
@@ -66,35 +66,23 @@ public class ScreenSelectRace {
 
 
         Button elf = new Button("Elf");
-        elf.setFont(Font.font("Garamond", 50));
         Tooltip.install(elf,elfTip);
 
         Button darkElf = new Button("Temný elf");
-        darkElf.setFont(Font.font("Garamond", 50));
         Tooltip.install(darkElf,dakrElfTip);
 
         Button barbarian = new Button("Barbar");
-        barbarian.setFont(Font.font("Garamond", 50));
         Tooltip.install(barbarian,barbarianTip);
 
         Button dwarf = new Button("Trpaslík");
-        dwarf.setFont(Font.font("Garamond", 50));
         Tooltip.install(dwarf,dwarfTip);
 
         Button human = new Button("Člověk");
-        human.setFont(Font.font("Garamond", 50));
         Tooltip.install(human,humanTip);
 
         Button mage = new Button("Mág");
         mage.setFont(Font.font("Garamond", 50));
         Tooltip.install(mage,mageTip);
-
-        elfTip.setFont(Font.font("Garamond", 30));
-        dakrElfTip.setFont(Font.font("Garamond", 30));
-        barbarianTip.setFont(Font.font("Garamond", 30));
-        dwarfTip.setFont(Font.font("Garamond", 30));
-        humanTip.setFont(Font.font("Garamond", 30));
-        mageTip.setFont(Font.font("Garamond", 30));
 
         action(elf, darkElf, barbarian, dwarf, human, mage);
 

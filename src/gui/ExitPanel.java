@@ -17,8 +17,6 @@ import logic.Game;
 import logic.GameState;
 import logic.Location;
 import util.Observer;
-
-import java.nio.channels.FileLock;
 import java.util.Set;
 
 /**
@@ -55,8 +53,6 @@ public class ExitPanel implements Observer {
      */
     private void init() {
         Label label = new Label("Sousední lokace: ");
-        label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
-        label.setTextFill(Color.WHITE);
 
         exitsPanel.getChildren().addAll(label, flowPane);
         exitsPanel.setPrefWidth(500.0);
@@ -81,17 +77,12 @@ public class ExitPanel implements Observer {
 
                 clickOnExit(locationName, imageView);
 
-                setTooltip(location, imageView);
+                Tooltip tip = new Tooltip(location.getDisplayName());
+                Tooltip.install(imageView, tip);
 
                 flowPane.getChildren().add(imageView);
             }
         }
-    }
-
-    private void setTooltip(Location location, ImageView imageView) {
-        Tooltip tip = new Tooltip(location.getDisplayName());
-        tip.setFont(Font.font("Garamond", 30));
-        Tooltip.install(imageView, tip);
     }
 
     /**

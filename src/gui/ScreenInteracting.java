@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.Game;
+import logic.GameState;
 import logic.Npc;
 import logic.Player;
 import util.Observer;
@@ -35,8 +36,6 @@ public class ScreenInteracting implements Observer {
 
     private final Game game;
     private final TextArea console;
-    private ImageView playerImageView = new ImageView();
-    private ImageView npcImageVIew = new ImageView();
     private final HBox interactingScreen = new HBox();
 
     //Konstruktor
@@ -62,7 +61,6 @@ public class ScreenInteracting implements Observer {
         //Nastavení ImageView npc
         setNpcImageView();
 
-        interactingScreen.getChildren().addAll(playerImageView, npcImageVIew);
     }
 
     /**
@@ -70,15 +68,15 @@ public class ScreenInteracting implements Observer {
      */
     private void setPlayerImageView() {
         Player player = game.getGameState().getPlayer();
-        Image playerImage;
+        ImageView playerImageView;
         if (player.getPlayerGender().equals("žena")) {
-            playerImage = new Image("/zdroje/"+ player.getRace().getName() +"_žena.jpg",
-                    900.0, 470.0, false, false);
+            playerImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_žena.jpg"),
+                    900.0, 470.0, false, false));
         } else {
-            playerImage = new Image ("/zdroje/"+ player.getRace().getName() +"_muž.jpg",
-                    900.0, 470.0, false, false);
+            playerImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_muž.jpg"),
+                    900.0, 470.0, false, false));
         }
-        playerImageView.setImage(playerImage);
+        interactingScreen.getChildren().addAll(playerImageView);
     }
 
     /**
@@ -88,12 +86,12 @@ public class ScreenInteracting implements Observer {
         Npc npc = game.getGameState().getInteractingNpc();
         String npcName = npc.getName();
 
-        Image npcImage = new Image
-                ("/zdroje/" + npcName + ".jpg", 900.0, 470.0, false, false);
+        ImageView npcImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ npcName +".jpg"),
+                    900.0, 470.0, false, false));
 
-        npcImageVIew.setImage(npcImage);
+        interactingScreen.getChildren().addAll(npcImageView);
 
-        npcImageVIew.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zobrazí rozhovor s npc
             if (event.getButton() == MouseButton.PRIMARY) {
                 console.appendText("\npromluv_si_s "+ npcName + "\n");

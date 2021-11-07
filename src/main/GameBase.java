@@ -91,7 +91,7 @@ public class GameBase extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
-        borderPane.setStyle(" -fx-background-color: BLACK;");
+        //borderPane.setStyle(" -fx-background-color: BLACK;");
 
         //nastavení konzole
         TextArea console = createConcole();
@@ -100,8 +100,10 @@ public class GameBase extends Application {
 
         //nastavení prostoru pro zadávání příkazů
         Label enterCommand = new Label("Zadej příkaz: ");
-        enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25.0));
-        enterCommand.setTextFill(Color.WHITE);
+        enterCommand.setStyle("-fx-font-size: 25.0");
+        enterCommand.setStyle("-fx-font-weight: BOLD");
+        //enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25.0));
+        //enterCommand.setTextFill(Color.WHITE);
 
         prepareTextField(console);
         prepareLowerBox(borderPane, enterCommand);
@@ -140,6 +142,7 @@ public class GameBase extends Application {
 
         //nastavení scény
         Scene scene = new Scene(borderPane, 1900.0, 1000.0);
+        scene.getStylesheets().add("adventura.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Adventura");
         primaryStage.setResizable(false);

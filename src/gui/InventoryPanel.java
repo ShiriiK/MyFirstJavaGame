@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -53,12 +54,11 @@ public class InventoryPanel implements Observer {
      */
     private void init() {
         Label label = new Label("Batoh:");
-        label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
-        label.setTextFill(Color.WHITE);
 
         inventoryPanel.getChildren().addAll(label, flowPane);
         inventoryPanel.setPrefWidth(500.0);
         inventoryPanel.setPrefHeight(400.0);
+        inventoryPanel.setAlignment(Pos.TOP_CENTER);
 
         loadImages();
     }
@@ -79,17 +79,12 @@ public class InventoryPanel implements Observer {
 
                 cilickOnItemInInventory(itemName, imageView);
 
-                setTooltip(itemName, imageView);
+                Tooltip tip = new Tooltip(game.getGameState().getInventory().getItem(itemName).getDisplayName());
+                Tooltip.install(imageView, tip);
 
                 flowPane.getChildren().add(imageView);
             }
         }
-    }
-
-    private void setTooltip(String itemName, ImageView imageView) {
-        Tooltip tip = new Tooltip(game.getGameState().getInventory().getItem(itemName).getDisplayName());
-        tip.setFont(Font.font("Garamond", 30));
-        Tooltip.install(imageView, tip);
     }
 
     /**

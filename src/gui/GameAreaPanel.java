@@ -1,13 +1,14 @@
 package gui;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.*;
@@ -69,6 +70,7 @@ public class GameAreaPanel implements Observer {
      */
     private void loadArea() {
         gameMainScreen.getChildren().clear();
+        gameMainScreen.setTop(prepareMenu());
         gameMainScreen.setMaxHeight(570.0);
         if (game.getGameState().getPhase() == 0) {
             gameMainScreen.setCenter(selectGender.getSelectGender());
@@ -87,6 +89,30 @@ public class GameAreaPanel implements Observer {
         }
     }
 
+    private MenuBar prepareMenu() {
+        MenuBar menuBar = new MenuBar();
+
+        Menu fileMenu = new Menu("Soubor");
+        Menu helpMenu = new Menu("Nápověda");
+
+        ImageView icon = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/icon.jpg"),
+                40.0,25.0,false, true));
+
+        MenuItem newGame = new MenuItem("Nová hra", icon);
+        newGame.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
+        MenuItem end = new MenuItem("Konec");
+        MenuItem about = new MenuItem("O aplikace");
+        MenuItem help = new MenuItem("Nápověda");
+
+        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
+        fileMenu.getItems().addAll(newGame,separatorMenuItem,end);
+        helpMenu.getItems().addAll(about,help);
+
+        menuBar.getMenus().addAll(fileMenu,helpMenu);
+
+        return  menuBar;
+    }
+
     /**
      * Metoda pro nastavení běžné obrazovky.
      */
@@ -95,23 +121,20 @@ public class GameAreaPanel implements Observer {
         String locationName = location.getName();
 
         Label locationLabel = new Label("Aktuální lokace: " + location.getDisplayName());
-        locationLabel.setFont(Font.font("Garamond", 30));
-        locationLabel.setTextFill(Color.WHITE);
+        locationLabel.setStyle("-fx-font-size: 30.0");
 
         Tooltip locationTip = new Tooltip(location.getDescription());
-        locationTip.setFont(Font.font("Garamond", 30));
         locationLabel.setTooltip(locationTip);
 
         HBox hBox = new HBox(locationLabel);
         hBox.setAlignment(Pos.CENTER);
 
-        gameMainScreen.setTop(hBox);
-
         ImageView center = new ImageView(new Image
                 (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
                         1000.0, 570.0, false, false));
 
-        gameMainScreen.setCenter(center);
+        VBox vBox = new VBox(hBox, center);
+        gameMainScreen.setCenter(vBox);
         gameMainScreen.setLeft(itemsPanel.getPanel());
         gameMainScreen.setRight(rightPanel.getPanel());
     }

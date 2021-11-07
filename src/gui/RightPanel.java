@@ -72,7 +72,6 @@ public class RightPanel implements Observer {
                     clickOnWeapon(name, imageView);
 
                     Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplikátor: " + weapon.getMultiplicator());
-                    tip.setFont(Font.font("Garamond", 30));
                     Tooltip.install(imageView, tip);
 
                     flowPane.getChildren().add(imageView);
@@ -91,7 +90,6 @@ public class RightPanel implements Observer {
                     clickOnNpc(name, imageView, friendly, talk);
 
                     Tooltip tip = new Tooltip(npc.getDisplayName());
-                    tip.setFont(Font.font("Garamond", 30));
                     Tooltip.install(imageView, tip);
 
                     flowPane.getChildren().add(imageView);

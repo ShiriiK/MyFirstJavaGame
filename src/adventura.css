@@ -1,0 +1,52 @@
+.root {
+    -fx-font-family: Garamond;
+    -fx-background-color: BLACK;
+    -fx-fill: #44FFFF;
+
+}
+.root .text{
+    -fx-fill: WHITE;
+}
+.root .label{
+    -fx-font-size: 25.0;
+}
+.button{
+    -fx-background-color: WHITE;
+    -fx-padding: 25.0;
+}
+.root .tooltip{
+    -fx-text-fill: WHITE;
+    -fx-font-family: Garamond;
+    -fx-font-size: 30.0;
+}
+.button .text{
+    -fx-font-family: Garamond;
+    -fx-font-size: 50.0;
+    -fx-fill: BLACK;
+}
+
+/**
+Nastavení menu
+ */
+.menu-bar {
+    -fx-background-color: transparent;
+    -fx-font-size: 20.0;
+    -fx-fill: WHITE;
+}
+.menu {
+    -fx-label-padding: 3px;
+}
+.menu .label, .menu-item .label {
+    -fx-text-fill: #eee;
+}
+.menu:hover, .menu:focused, .menu:pressed {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+.menu-item:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+}
+.context-menu {
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+}
+
+
