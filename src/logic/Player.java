@@ -41,7 +41,12 @@ public class Player {
      */
     public String getPlayer() {
         if (getPlayerWeapon() == null) {
-            return null;
+            return "\nPohlaví: " + playerGender + "\n" +
+                    "Jméno: " + playerName + "\n" +
+                    "Rasa: " + race.getName() + "\n" +
+                    "Zbraň: \n" +
+                    "Životy: " + hp + "\n" +
+                    "Síla: " + str ;
         }
         return "\nPohlaví: " + playerGender + "\n" +
                 "Jméno: " + playerName + "\n" +

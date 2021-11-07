@@ -1,0 +1,8 @@
+.button .text{
+    -fx-font-family: Garamond;
+    -fx-font-size: 20.0;
+    -fx-fill: WHITE;
+}
+.button {
+    -fx-background-color: BLACK;
+}

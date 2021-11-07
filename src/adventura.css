@@ -11,7 +11,6 @@
     -fx-font-size: 25.0;
 }
 .button{
-    -fx-background-color: WHITE;
     -fx-padding: 25.0;
 }
 .root .tooltip{

@@ -91,7 +91,6 @@ public class GameBase extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
-        //borderPane.setStyle(" -fx-background-color: BLACK;");
 
         //nastavení konzole
         TextArea console = createConcole();
@@ -102,8 +101,6 @@ public class GameBase extends Application {
         Label enterCommand = new Label("Zadej příkaz: ");
         enterCommand.setStyle("-fx-font-size: 25.0");
         enterCommand.setStyle("-fx-font-weight: BOLD");
-        //enterCommand.setFont(Font.font("Garamond", FontWeight.BOLD, 25.0));
-        //enterCommand.setTextFill(Color.WHITE);
 
         prepareTextField(console);
         prepareLowerBox(borderPane, enterCommand);
@@ -129,7 +126,7 @@ public class GameBase extends Application {
         interacting = new ScreenInteracting(game, console);
 
         //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat);
+        gameAreaPanel = new GameAreaPanel(game, console, primaryStage,itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat);
         borderPane.setTop(gameAreaPanel.getGameMainScreen());
 
         //nastavení panelu východů
@@ -196,8 +193,6 @@ public class GameBase extends Application {
         TextArea console = new TextArea();
         console.setMaxWidth(800.0);
         console.setMaxHeight(400.0);
-        console.setPrefWidth(800.0);
-        console.setPrefHeight(400.0);
         console.setText(game.theBeginning());
         console.setEditable(false);
         return console;

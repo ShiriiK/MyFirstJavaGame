@@ -3,6 +3,7 @@ package gui;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,7 +12,11 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import logic.*;
+import main.GameBase;
 import util.Observer;
 
 /**
@@ -34,14 +39,18 @@ public class GameAreaPanel implements Observer {
     private final ScreenCombat combat;
     private final ScreenInteracting interacting;
     private final Game game;
+    private final TextArea console;
+    private final Stage stage;
     private final BorderPane gameMainScreen = new BorderPane();
 
 
     //Konstruktor
-    public GameAreaPanel(Game game, ItemPanel itemsPanel, RightPanel rightPanel, ScreenSelectGender selectGender,
+    public GameAreaPanel(Game game, TextArea console, Stage stage, ItemPanel itemsPanel, RightPanel rightPanel, ScreenSelectGender selectGender,
            ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenInteracting interacting,
            ScreenCombat combat) {
         this.game = game;
+        this.console = console;
+        this.stage = stage;
         this.itemsPanel = itemsPanel;
         this.rightPanel = rightPanel;
         this.selectGender = selectGender;
@@ -101,12 +110,53 @@ public class GameAreaPanel implements Observer {
         MenuItem newGame = new MenuItem("Nová hra", icon);
         newGame.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
         MenuItem end = new MenuItem("Konec");
-        MenuItem about = new MenuItem("O aplikace");
+        MenuItem map = new MenuItem("Mapa");
         MenuItem help = new MenuItem("Nápověda");
+
+        newGame.setOnAction(e-> {
+            stage.close();
+            GameBase gameBase = new GameBase();
+            Stage primaryStage = new Stage();
+            gameBase.start(primaryStage);
+        });
+
+        end.setOnAction(e ->{
+            game.setTheEnd(true);
+            console.setEditable(false);
+            console.appendText("konec");
+            String gameAnswer = game.processAction("konec");
+            console.appendText("\n" + gameAnswer + "\n");
+        });
+
+        map.setOnAction(e->{
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Mapa");
+
+            ImageView imageView = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/mapa.jpg"),
+                    1200.0, 600.0, true, false));
+
+            Button close = new Button("Zavřít");
+            close.setStyle("-fx-font-family: Garamond");
+            close.setStyle("-fx-font-size: 25.0");
+            close.setOnAction(event->{
+                stage.close();
+            });
+
+            VBox vBox = new VBox();
+            vBox.setAlignment(Pos.CENTER);
+            vBox.setStyle("-fx-background-color: BLACK");
+            vBox.getChildren().addAll(imageView, close);
+
+            Scene scene = new Scene(vBox);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.showAndWait();
+        });
 
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         fileMenu.getItems().addAll(newGame,separatorMenuItem,end);
-        helpMenu.getItems().addAll(about,help);
+        helpMenu.getItems().addAll(map,help);
 
         menuBar.getMenus().addAll(fileMenu,helpMenu);
 
@@ -118,6 +168,8 @@ public class GameAreaPanel implements Observer {
      */
     private void normalScreen() {
         Location location = game.getGameState().getCurrentLocation();
+        Player player = game.getGameState().getPlayer();
+        Partner partner = game.getGameState().getPartner();
         String locationName = location.getName();
 
         Label locationLabel = new Label("Aktuální lokace: " + location.getDisplayName());
@@ -126,17 +178,107 @@ public class GameAreaPanel implements Observer {
         Tooltip locationTip = new Tooltip(location.getDescription());
         locationLabel.setTooltip(locationTip);
 
-        HBox hBox = new HBox(locationLabel);
-        hBox.setAlignment(Pos.CENTER);
+        Button playerButton = getPlayerButton(player);
+
+        Button partnerButton = getPartnerButton(partner);
+
+        BorderPane topPane = new BorderPane();
+        topPane.setLeft(playerButton);
+        topPane.setCenter(locationLabel);
+        topPane.setRight(partnerButton);
 
         ImageView center = new ImageView(new Image
                 (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
-                        1000.0, 570.0, false, false));
+                        1000.0, 550.0, false, false));
 
-        VBox vBox = new VBox(hBox, center);
+        VBox vBox = new VBox(topPane, center);
         gameMainScreen.setCenter(vBox);
         gameMainScreen.setLeft(itemsPanel.getPanel());
         gameMainScreen.setRight(rightPanel.getPanel());
+    }
+
+    private Button getPartnerButton(Partner partner) {
+        Button partnerButton = new Button(partner.getPartnerName());
+        partnerButton.getStylesheets().add("buttonpls.css");
+        partnerButton.setOnAction(e->{
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Parťák");
+
+            Label label = new Label(partner.getPartner());
+            label.setFont(Font.font("Garamond",30.0));
+            label.setStyle("-fx-text-fill: WHITE");
+            Button close = new Button("Zavřít");
+            close.setFont(Font.font("Garamond",30.0));
+            close.setOnAction(event->{
+                stage.close();
+            });
+
+            BorderPane inPane = new BorderPane();
+            inPane.setStyle(" -fx-background-color: BLACK;");
+            inPane.setTop(label);
+            inPane.setBottom(close);
+
+
+
+            ImageView playerImageView = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream(
+                    "/zdroje/"+ partner.getPartnerName() + ".jpg"),
+                    900.0, 470.0, false, false));
+
+            BorderPane playerPane = new BorderPane();
+            playerPane.setStyle("-fx-background-color: BLACK");
+            playerPane.setLeft(playerImageView);
+            playerPane.setCenter(inPane);
+
+            Scene scene = new Scene(playerPane);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.showAndWait();
+
+        });
+        return partnerButton;
+    }
+
+    private Button getPlayerButton(Player player) {
+        Button playerButton = new Button("Hráč");
+        playerButton.getStylesheets().add("buttonpls.css");
+        playerButton.setOnAction(e->{
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Hráč");
+
+            Label label = new Label(player.getPlayer());
+            label.setFont(Font.font("Garamond",30.0));
+            label.setStyle("-fx-text-fill: WHITE");
+            Button close = new Button("Zavřít");
+            close.setFont(Font.font("Garamond",30.0));
+            close.setOnAction(event->{
+                stage.close();
+            });
+
+            BorderPane inPane = new BorderPane();
+            inPane.setStyle(" -fx-background-color: BLACK;");
+            inPane.setTop(label);
+            inPane.setBottom(close);
+
+
+
+            ImageView playerImageView = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream(
+                    "/zdroje/"+ player.getRace().getName() +"_"+ player.getPlayerGender() + ".jpg"),
+                    900.0, 470.0, false, false));
+
+            BorderPane playerPane = new BorderPane();
+            playerPane.setStyle("-fx-background-color: BLACK");
+            playerPane.setLeft(playerImageView);
+            playerPane.setCenter(inPane);
+
+            Scene scene = new Scene(playerPane);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.showAndWait();
+
+        });
+        return playerButton;
     }
 
     public Node getGameMainScreen() {

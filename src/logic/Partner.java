@@ -35,12 +35,16 @@ public class Partner {
      */
     public String getPartner() {
         if (getPartnerWeapon() == null) {
-            return null;
+        return "\nJméno: " + partnerName + "\n" +
+               "Zbraň: \n" +
+               "Životy: " + hp + "\n" +
+               "Síla: " + str  + "\n" +
+               "Rasa: viking";
         }
         return "\nJméno: " + partnerName + "\n" +
                 "Zbraň: " + getPartnerWeapon().getName() + "\n" +
                 "Životy: " + hp + "\n" +
-                "Síla: " + str * (getPartnerWeapon().getMultiplicator()) +
+                "Síla: " + str * (getPartnerWeapon().getMultiplicator()) + "\n" +
                 "Rasa: viking";
     }
 
