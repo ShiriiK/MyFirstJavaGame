@@ -24,7 +24,7 @@ public class Game {
     private boolean happyEnd;
 
     /**
-     * Vytvoří hru a její lokace (pomocí inicializace GameState) a seznam platných příkazů.
+     * Vytvoří hru.
      */
     public Game() {
         theEnd = false;
@@ -56,25 +56,23 @@ public class Game {
 
     /**
      * Vrátí úvodní zprávu pro hráče.
-     *
      * @return přivítání do hry
      */
     public String theBeginning() {
-        return "\nVítej ve hře Tuova Poprava.\n" +
+        return "\nVítej ve hře Záchrana Tue.\n" +
                 "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat nápověda\n" +
                 "a zobrazí se příkazy, které můžeš použít." + makeItLookGood1() +
-                "Nejprve vyber, zda chceš hrát za muže nebo ženu. Napiš: pohlaví muž/žena." +
+                "Nejprve vyber, zda chceš hrát za muže nebo ženu." +
                 makeItLookGood2();
     }
 
     /**
      * Vrátí závěrečnou zprávu pro hráče.
-     *
      * @return zpráva o ukočení, buďto vítězném nebo o prohře
      */
     public String theEpilog() {
         if (happyEnd) {
-            return "\nTue byl zachráněn. Teď je čas vrátit se do tábora a už nikdy se na toto odporné místo nevrátit. \n" +
+            return "\nTue byla zachráněna!!!!!!! \n" +
                     makeItLookGood1() + "Gratuluji k úspěšnému dokončení hry!" + makeItLookGood2();
         } else {
             return makeItLookGood1() + "Hra skončila. Prohrál/a jsi." + makeItLookGood2();
@@ -82,8 +80,7 @@ public class Game {
     }
 
     /**
-     * Metoda sloužící k nastavení happyEnd na true ve chvíli, kdy hráč zachrání Tua.
-     *
+     * Metoda sloužící k nastavení happyEnd na true ve chvíli, kdy hráč zachrání Tue.
      * @param happyEnd pokud je true, tak hra skončila dobře
      */
     public void setHappyEnd(boolean happyEnd) {
@@ -92,7 +89,6 @@ public class Game {
 
     /**
      * Dokud je theEnd false, tak hra běží.
-     *
      * @return false když hra běží, true, když byla ukončena
      */
     public boolean theEnd() {
@@ -101,7 +97,6 @@ public class Game {
 
     /**
      * Slouží k nastavení theEnd.
-     *
      * @param theEnd nastaví se na true při ukončení hry
      */
     public void setTheEnd(boolean theEnd) {
@@ -110,7 +105,6 @@ public class Game {
 
     /**
      * Slouží k získání odkazu na gameState.
-     *
      * @return odkaz na gameState
      */
     public GameState getGameState() {
@@ -144,7 +138,6 @@ public class Game {
     }
 
     //Metody pro zkrášlení textů vypisovaných do konozole
-
     public static String makeItLookGood1() {
         return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
     }

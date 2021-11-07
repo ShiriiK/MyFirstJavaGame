@@ -15,18 +15,13 @@ public class ActionLook implements IAction {
     private Game game;
     private String[] names = {"rozhlédni_se"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionLook(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionLook implements IAction {
 
     /**
      * Provádí příkaz look - zobrazí, co hráč v okolí zahlédne.
-     *
      * @param parameters žádný
      * @return zpráva, která se vypíše hráči
      */

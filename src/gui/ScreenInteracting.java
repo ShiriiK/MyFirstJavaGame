@@ -10,67 +10,68 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.Game;
-import logic.GameState;
 import logic.Npc;
 import logic.Player;
 import util.Observer;
 import java.util.Set;
 
 /**
- * ScreenInteracting nastavuje ImageView hráče a npc, se kterým komunikuje
+ * ScreenInteracting nastavuje zobrazení interactingScreen v top borderPane při zobrazení interakce s npc.
  * </p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  *  * @author Alena Kalivodová
- *  * @version ZS-2021, 2021-11-05
+ *  * @version ZS-2021, 2021-11-06
  */
 
 public class ScreenInteracting implements Observer {
 
-    private Game game;
-    private TextArea console;
+    private final Game game;
+    private final TextArea console;
     private ImageView playerImageView = new ImageView();
     private ImageView npcImageVIew = new ImageView();
-    Stage stage = new Stage();
-    Button confirmButton = new Button("Potvrď výběr");
-    ChoiceBox<String> choiceBox = new ChoiceBox<>();
-    Label label = new Label();
-    private VBox vBox = new VBox();
+    private final HBox interactingScreen = new HBox();
 
+    //Konstruktor
     public ScreenInteracting(Game game, TextArea console) {
         this.game = game;
         this.console = console;
-        GameState gameState = game.getGameState();
 
-        gameState.registerObserver(this);
-
-        if(gameState.isInteracting()){
+        if(game.getGameState().isInteracting()){
             init();
         }
+
+        game.getGameState().registerObserver(this);
     }
 
+    /**
+     * Metoda pro nastavení interactingScreen.
+     */
     private void init() {
+        interactingScreen.getChildren().clear();
         //Nastavení ImageVIew hráče
-        Player player = game.getGameState().getPlayer();
-        setPlayerImageView(player);
+        setPlayerImageView();
 
         //Nastavení ImageView npc
-        Npc npc = game.getGameState().getInteractingNpc();
-        String npcName = npc.getName();
+        setNpcImageView();
 
-        setNpcImageView(npcName);
-
+        interactingScreen.getChildren().addAll(playerImageView, npcImageVIew);
     }
 
-    private void setPlayerImageView(Player player) {
+    /**
+     * Metoda pro nastavení playerImageView.
+     */
+    private void setPlayerImageView() {
+        Player player = game.getGameState().getPlayer();
         Image playerImage;
-        if (player.getPlayerGender().equals("female")) {
+        if (player.getPlayerGender().equals("žena")) {
             playerImage = new Image("/zdroje/"+ player.getRace().getName() +"_žena.jpg",
                     900.0, 470.0, false, false);
         } else {
@@ -80,7 +81,13 @@ public class ScreenInteracting implements Observer {
         playerImageView.setImage(playerImage);
     }
 
-    private void setNpcImageView(String npcName) {
+    /**
+     * Metoda pro nastavené npcImageView.
+     */
+    private void setNpcImageView() {
+        Npc npc = game.getGameState().getInteractingNpc();
+        String npcName = npc.getName();
+
         Image npcImage = new Image
                 ("/zdroje/" + npcName + ".jpg", 900.0, 470.0, false, false);
 
@@ -96,11 +103,17 @@ public class ScreenInteracting implements Observer {
             //Odchod z obrazovky, kdy hráč komunikuje s npc do normální obrazovky s lokací
             else if (event.getButton() == MouseButton.MIDDLE) {
                 game.getGameState().setInteracting(false);
-
+                game.getGameState().setInteractingNpc(null);
             }
             //Vytvoření nové stage pro zobrazení možnosti výběru itemu, který má být předán
             else {
-                StyleIt();
+                Stage stage = new Stage();
+                Button confirmButton = new Button("Potvrď výběr");
+                ChoiceBox<String> choiceBox = new ChoiceBox<>();
+                VBox vBox = new VBox();
+                Label label = new Label();
+
+                StyleIt(stage, confirmButton, choiceBox, vBox, label);
 
                 Set<String> inventory = game.getGameState().getInventory().itemsInInventory();
                 for (String item : inventory){
@@ -118,7 +131,15 @@ public class ScreenInteracting implements Observer {
         });
     }
 
-    private void StyleIt() {
+    /**
+     * Upraví vzhled následujících:
+     * @param stage stage
+     * @param confirmButton button na potvrzení výberu
+     * @param choiceBox choiceBox s možnostmi výběru itemů
+     * @param vBox ve kterém je zobraten label, choiceBox a confirmationButton
+     * @param label label
+     */
+    private void StyleIt(Stage stage, Button confirmButton, ChoiceBox<String> choiceBox, VBox vBox, Label label) {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Vyber věc");
 
@@ -135,6 +156,12 @@ public class ScreenInteracting implements Observer {
         vBox.setStyle(" -fx-background-color: BLACK;");
     }
 
+    /**
+     * Metoda pro zpracování akce, kdy hráč vybere item, který chce předat npc.
+     * @param stage stage
+     * @param choiceBox choiceBox
+     * @param confirmButton button na potvrzení výběru
+     */
     private void actionGive(String npcName, Stage stage, ChoiceBox<String> choiceBox, Button confirmButton) {
         confirmButton.setOnAction(e -> {
             String selected = choiceBox.getValue();
@@ -147,12 +174,8 @@ public class ScreenInteracting implements Observer {
         });
     }
 
-    public Node getPlayer(){
-        return playerImageView;
-    }
-
-    public Node getNpc(){
-        return npcImageVIew;
+    public Node getInteractingScreen(){
+        return interactingScreen;
     }
 
     @Override

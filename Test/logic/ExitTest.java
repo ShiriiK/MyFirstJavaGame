@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ExitTest {
 
-    Location location1 = new Location("location1", "ll", 2);
+    Location location1 = new Location("location1", "","ll", 2);
 
     Exit location1Exit = new Exit(location1);
 
-    Npc npc1 = new Npc("npc1", true,2.5, 1, false, null, null);
-    Npc npc2 = new Npc("npc2", true,2.5, 2.0, false, null, null);
+    Npc npc1 = new Npc("npc1", "",true,2.5, 1, false, null, null);
+    Npc npc2 = new Npc("npc2", "",true,2.5, 2.0, false, null, null);
 
     /**
      * Test správnosti fungování operací s watchingNpc.

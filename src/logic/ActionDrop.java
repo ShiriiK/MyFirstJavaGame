@@ -15,18 +15,13 @@ public class ActionDrop implements IAction {
     private Game game;
     private String[] names = {"zahoď", "polož"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionDrop(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionDrop implements IAction {
 
     /**
      * Provádí příkaz drop - pokud je to možné, tak zahodí item z inventáře a dá ho do aktuální lokace.
-     *
      * @param parameters jeden parametr - jméno itemu
      * @return zpráva, která se vypíše hráči
      */

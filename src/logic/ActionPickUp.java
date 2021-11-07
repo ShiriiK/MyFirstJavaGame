@@ -15,18 +15,13 @@ public class ActionPickUp implements IAction {
     private Game game;
     private String[] names = {"vezmi", "seber", "zdvihni"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionPickUp(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionPickUp implements IAction {
 
     /**
      * Provádí příkaz pickup - sebere item.
-     *
      * @param parameters jeden parametr - název itemu
      * @return zpráva, která se vypíše hráči
      */

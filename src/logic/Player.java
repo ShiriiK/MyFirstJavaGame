@@ -17,7 +17,15 @@ public class Player {
     private double str;
     private Race race;
 
-    // Konstruktor
+    /**
+     * Konstruktor
+     * @param playerName jméno
+     * @param playerGender pohlaví
+     * @param playerWeapon zbraň
+     * @param hp životy
+     * @param str síla
+     * @param race rasa
+     */
     public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, Race race) {
         this.playerName = playerName;
         this.playerGender = playerGender;
@@ -29,7 +37,6 @@ public class Player {
 
     /**
      * Metoda pro získání statů hráče.
-     *
      * @return informace o hráčovi
      */
     public String getPlayer() {
@@ -38,7 +45,7 @@ public class Player {
         }
         return "\nPohlaví: " + playerGender + "\n" +
                 "Jméno: " + playerName + "\n" +
-                "Rasa: " + race + "\n" +
+                "Rasa: " + race.getName() + "\n" +
                 "Zbraň: " + getPlayerWeapon().getName() + "\n" +
                 "Životy: " + hp + "\n" +
                 "Síla: " + str * (getPlayerWeapon().getMultiplicator());
@@ -46,7 +53,6 @@ public class Player {
 
     /**
      * Metoda pro získání jména hráče.
-     *
      * @return jméno hráče
      */
     public String getPlayerName() {
@@ -55,7 +61,6 @@ public class Player {
 
     /**
      * Metoda pro nastavení jména hráče.
-     *
      * @param playerName jméno hráče
      */
     public void setPlayerName(String playerName) {
@@ -64,7 +69,6 @@ public class Player {
 
     /**
      * Metoda pro získání pohlaví hráče.
-     *
      * @return male/female
      */
     public String getPlayerGender() {
@@ -73,7 +77,6 @@ public class Player {
 
     /**
      * Metoda pro nastavení pohlaví hráče.
-     *
      * @param playerGender male/female
      */
     public void setPlayerGender(String playerGender) {
@@ -82,7 +85,6 @@ public class Player {
 
     /**
      * Metoda pro získání zbraně hráče.
-     *
      * @return zbraň hráče
      */
     public Weapon getPlayerWeapon() {
@@ -91,7 +93,6 @@ public class Player {
 
     /**
      * Metoda pro nastavení zbraně hráče.
-     *
      * @param playerWeapon hráče
      */
     public void setPlayerWeapon(Weapon playerWeapon) {
@@ -100,7 +101,6 @@ public class Player {
 
     /**
      * Metoda pro získání hp hráče.
-     *
      * @return hp hráče
      */
     public double getHp() {
@@ -109,7 +109,6 @@ public class Player {
 
     /**
      * Metoda pro nastavení hp hráče.
-     *
      * @param hp hp hráče
      */
     public void setHp(double hp) {
@@ -118,7 +117,6 @@ public class Player {
 
     /**
      * Metoda pro získání str hráče.
-     *
      * @return str hráče
      */
     public double getStr() {
@@ -127,7 +125,6 @@ public class Player {
 
     /**
      * Metoda pro nastavení str hráče.
-     *
      * @param str hráče
      */
     public void setStr(double str) {
@@ -140,7 +137,6 @@ public class Player {
 
     /**
      * Metoda pro získání profese hráče
-     *
      * @return profese hráče
      */
     public Race getRace() {
@@ -148,8 +144,7 @@ public class Player {
     }
 
     /**
-     * Metoda pro nastavení profese hráče
-     *
+     * Metoda pro nastavení rasy hráče
      * @param race hráče
      */
     public void setRace(Race race) {
@@ -162,7 +157,7 @@ public class Player {
                 setStr(getStrWithoutWeapon()+5);
                 break;
             case("barbar"):
-                setHp(getHp()+10);
+                setHp(getHp()+5);
             case("trpaslík"):
                 setHp(getHp()+10);
             case("člověk"):

@@ -2,82 +2,92 @@ package gui;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import logic.*;
 import util.Observer;
 import java.util.Set;
 
 /**
  * Třída implementující rozhraní Observer.
- * ItemPanel zobrazuje itemy nacházející se v aktuální lokaci.
+ * ItemPanel nastavuje zobrazení itemsPanel v top boarderPane při zobrazení normální obrazovky.
  * <p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-23
+ * @version ZS-2021, 2021-11-06
  */
 
 public class ItemPanel implements Observer {
 
-    private Game game;
-    private HBox hBox = new HBox();
-    private FlowPane itemPanel = new FlowPane();
-    private TextArea console;
+    private final Game game;
+    private final TextArea console;
+    private final HBox itemsPanel = new HBox();
+    private final FlowPane flowPane = new FlowPane();
 
     //Konstruktor
     public ItemPanel(Game game, TextArea console) {
         this.game = game;
         this.console = console;
-        GameState gameState = game.getGameState();
-        Inventory inventory = gameState.getInventory();
-        Location location = gameState.getCurrentLocation();
+
         init();
-        gameState.registerObserver(this);
-        inventory.registerObserver(this);
-        location.registerObserver(this);
+
+        game.getGameState().registerObserver(this);
+        game.getGameState().getInventory().registerObserver(this);
+        game.getGameState().getCurrentLocation().registerObserver(this);
 
     }
 
+    /**
+     * Metoda pro nastavení itemsPanel.
+     */
     private void init() {
-        hBox.setPrefWidth(450.0);
-        hBox.setPrefHeight(570.0);
-        hBox.getChildren().add(itemPanel);
+        itemsPanel.getChildren().clear();
+        itemsPanel.setPrefWidth(450.0);
+        itemsPanel.setPrefHeight(570.0);
+        itemsPanel.getChildren().add(flowPane);
 
         loadItems();
     }
 
     /**
-     * Metoda pro nastavení itemPanel.
+     * Metoda pro nastavení obrázků itemů v lokaci.
      */
     private void loadItems() {
-        itemPanel.getChildren().clear();
+        flowPane.getChildren().clear();
         Set<Item> itemsSet = game.getGameState().getCurrentLocation().getItems();
 
         for (Item item : itemsSet) {
-            String name = item.getName();
-            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+            String itemName = item.getName();
+            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + itemName + ".jpg")),
                     200.0, 100.0, false, false));
 
-            clickOnItem(name, imageView);
+            clickOnItem(itemName, imageView);
 
-            itemPanel.getChildren().add(imageView);
+            setTooltip(item, imageView);
+
+            flowPane.getChildren().add(imageView);
         }
     }
 
+    private void setTooltip(Item item, ImageView imageView) {
+        Tooltip tip = new Tooltip(item.getDisplayName());
+        tip.setFont(Font.font("Garamond", 30));
+        Tooltip.install(imageView, tip);
+    }
+
     /**
-     * Metoda pro zpracovaní akce, kdy hráč klikne na obrázek itemu v lokaci
-     * - kliknutí pravým tlačítkem: prozkoumání předmětu
-     * - kliknutí levým tlačítkem: pokus o sebrání předmětu
-     *
-     * @param name jméno itemu
+     * Metoda pro zpracovaní akce, kdy hráč klikne na obrázek itemu v lokaci.
+     * @param itemName jméno itemu
      * @param imageView obrázek itemu
      */
-    private void clickOnItem(String name, ImageView imageView) {
+    private void clickOnItem(String itemName, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String command = " ";
             if (event.getButton() == MouseButton.SECONDARY) {
@@ -85,18 +95,18 @@ public class ItemPanel implements Observer {
             } else {
                 command = "seber ";
             }
-            console.appendText("\n" + command + name + "\n");
-            String gameAnswer = game.processAction(command + name);
+            console.appendText("\n" + command + itemName + "\n");
+            String gameAnswer = game.processAction(command + itemName);
             console.appendText("\n" + gameAnswer + "\n");
         });
+    }
+
+    public Node getPanel() {
+        return itemsPanel;
     }
 
     @Override
     public void update() {
         loadItems();
-    }
-
-    public Node getPanel() {
-        return hBox;
     }
 }

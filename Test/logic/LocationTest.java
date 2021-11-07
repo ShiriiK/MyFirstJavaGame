@@ -14,24 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LocationTest {
 
-    Location location1 = new Location("location1", "ll",1);
-    Location location2 = new Location("location2", "ll",1);
-    Location location3 = new Location("location3", "ll",1);
-    Location location4 = new Location("location4", "ll",1);
+    Location location1 = new Location("location1", "","ll",1);
+    Location location2 = new Location("location2", "","ll",1);
+    Location location3 = new Location("location3", "","ll",1);
+    Location location4 = new Location("location4", "","ll",1);
 
     Exit location1Exit = new Exit(location1);
     Exit location2Exit = new Exit(location2);
     Exit location3Exit = new Exit(location3);
     Exit location4Exit = new Exit(location4);
 
-    Npc npc1 = new Npc("npc1", true,2.5, 1, false, null, null);
-    Npc npc2 = new Npc("npc2", true,2.5, 2.0, false, null, null);
+    Npc npc1 = new Npc("npc1", "",true,2.5, 1, false, null, null);
+    Npc npc2 = new Npc("npc2", "",true,2.5, 2.0, false, null, null);
 
-    Item item1 = new Item("item1", true, "ii");
-    Item item2 = new Item("item2", false, "ii");
+    Item item1 = new Item("item1", "",true, "ii");
+    Item item2 = new Item("item2", "",false, "ii");
 
-    Weapon weapon1 = new Weapon("weapon1", 2, false);
-    Weapon weapon2 = new Weapon("weapon2", 2, false);
+    Weapon weapon1 = new Weapon("weapon1", "",2, false);
+    Weapon weapon2 = new Weapon("weapon2", "",2, false);
 
     /**
      * Kontroluje jestli vrací infromace o tom, kde se hráč nachází a pokud je tamm poprvé, tak i popis lokace.

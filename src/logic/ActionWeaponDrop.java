@@ -15,18 +15,13 @@ public class ActionWeaponDrop implements IAction {
     private Game game;
     private String[] names = {"odlož_zbraň"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstuktor
     public ActionWeaponDrop(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifokivání platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionWeaponDrop implements IAction {
 
     /**
      * Provádí příkaz weapon_drop - odloží hráčovu zbraň.
-     *
      * @param parameters žádný
      * @return zpráva, která se vypíše hráči
      */

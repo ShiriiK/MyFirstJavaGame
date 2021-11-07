@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NpcTest {
 
-    Npc npc1 = new Npc("npc1", true,2.5, 1, false, null, null);
+    Npc npc1 = new Npc("npc1", "",true,2.5, 1, false, null, null);
     /**Npc npc2 = new Npc("npc2", 2.5, 2, Arrays.asList("gfhf", "fjf", "3","j"));*/
 
-    Item item1 = new Item("item1", true, "");
+    Item item1 = new Item("item1", "",true, "");
 
     /**
      * Test jestli funguje vkládání itemu do npc.

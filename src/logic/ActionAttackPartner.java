@@ -15,18 +15,13 @@ public class ActionAttackPartner implements IAction {
     private Game game;
     private String[] names = {"zaútoč_s_parťákem_na"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionAttackPartner(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionAttackPartner implements IAction {
 
     /**
      * Provádí příkaz attackp - zaútočí na npc pomocí partnera (když je to možné), pokud npc přežije, tak útok oplatí.
-     *
      * @param parameters jeden parametr - jméno npc, na které hráč útočí
      * @return zpráva, která se vypíše hráči
      */

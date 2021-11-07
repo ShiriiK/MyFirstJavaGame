@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -12,59 +13,107 @@ import javafx.scene.text.Font;
 import logic.Game;
 
 /**
- * SelecctRace nastavuje tlačítka na výběr rasy
+ * SelecctRace nastavuje zobrazení selectRaceScreen v top borderPane při výběru jména
  * </p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-05
+ * @version ZS-2021, 2021-11-06
  */
 
 public class ScreenSelectRace {
 
-    private Game game;
-    private TextArea console;
-    private HBox hBox = new HBox();
-    private VBox vBox = new VBox();
+    private final Game game;
+    private final TextArea console;
+    private final HBox buttons = new HBox();
+    private final VBox selectRaceScreen = new VBox();
 
     //Konstruktor
     public ScreenSelectRace(Game game, TextArea console){
         this.game = game;
         this.console = console;
 
-        selectRace();
+        init();
     }
 
-    private void selectRace() {
+    /**
+     * Metoda pro nastavení selectRaceScreen.
+     */
+    private void init() {
         Label label = new Label("Vyber si rasu: ");
         label.setFont(Font.font("Garamond", 70));
         label.setTextFill(Color.WHITE);
 
+        setButtons();
+
+        selectRaceScreen.setPrefWidth(1000.0);
+        selectRaceScreen.setPrefHeight(570.0);
+        selectRaceScreen.setSpacing(15.0);
+        selectRaceScreen.setAlignment(Pos.CENTER);
+        selectRaceScreen.getChildren().addAll(label, buttons);
+    }
+
+    /**
+     * Metoda pro nastavení selectRaceSceen.
+     */
+    private void setButtons() {
+        Tooltip elfTip = new Tooltip("Elf dostane pět bonusových bodů síly a má speciální útoky Volání entů a Elfí běsnění.");
+        Tooltip dakrElfTip = new Tooltip("Temný elf dostane pět bonusových bodů síly a má speciální útoky Pomatení a Volání krve.");
+        Tooltip barbarianTip = new Tooltip("Barbar dostane pět bonusových bodů života a má speciální útoky Zuřivý skok a Bojový tanec.");
+        Tooltip dwarfTip = new Tooltip("Trpaslík dostane pět bonusových bodů života a má speciální útoky Přivolání blesů a Runová bouře.");
+        Tooltip humanTip = new Tooltip("Člověk dostane tři bonusové bodůy síly i života a má speciální útoky Meč spravedlnosti a Modlitba.");
+        Tooltip mageTip = new Tooltip("Mág dostane tři bonusové bodůy síly i života a má speciální útoky Ohnivá koule a Zaklínání.");
+
+
         Button elf = new Button("Elf");
         elf.setFont(Font.font("Garamond", 50));
+        Tooltip.install(elf,elfTip);
 
         Button darkElf = new Button("Temný elf");
         darkElf.setFont(Font.font("Garamond", 50));
+        Tooltip.install(darkElf,dakrElfTip);
 
         Button barbarian = new Button("Barbar");
         barbarian.setFont(Font.font("Garamond", 50));
+        Tooltip.install(barbarian,barbarianTip);
 
         Button dwarf = new Button("Trpaslík");
         dwarf.setFont(Font.font("Garamond", 50));
+        Tooltip.install(dwarf,dwarfTip);
 
         Button human = new Button("Člověk");
         human.setFont(Font.font("Garamond", 50));
+        Tooltip.install(human,humanTip);
 
         Button mage = new Button("Mág");
         mage.setFont(Font.font("Garamond", 50));
+        Tooltip.install(mage,mageTip);
+
+        elfTip.setFont(Font.font("Garamond", 30));
+        dakrElfTip.setFont(Font.font("Garamond", 30));
+        barbarianTip.setFont(Font.font("Garamond", 30));
+        dwarfTip.setFont(Font.font("Garamond", 30));
+        humanTip.setFont(Font.font("Garamond", 30));
+        mageTip.setFont(Font.font("Garamond", 30));
 
         action(elf, darkElf, barbarian, dwarf, human, mage);
 
-        setHBox(elf, darkElf, barbarian, dwarf, human, mage);
-
-        setVBox(label, hBox);
+        buttons.setPrefWidth(1000.0);
+        buttons.setPrefHeight(100.0);
+        buttons.setSpacing(15.0);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(elf, darkElf, barbarian, dwarf, human, mage);
     }
 
+    /**
+     * Metoda pro zpracování akce, kdy si hráč vybírá rasu.
+     * @param elf button
+     * @param darkElf button
+     * @param barbarian button
+     * @param dwarf button
+     * @param human button
+     * @param mage button
+     */
     private void action(Button elf, Button darkElf, Button barbarian, Button dwarf, Button human, Button mage) {
         elf.setOnAction(e ->{
             console.appendText("rasa elf");
@@ -98,24 +147,7 @@ public class ScreenSelectRace {
         });
     }
 
-    private void setHBox(Button elf, Button darkElf, Button barbarian, Button dwarf, Button human, Button mage) {
-        hBox.setPrefWidth(1000.0);
-        hBox.setPrefHeight(100.0);
-        hBox.setSpacing(15.0);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().addAll(elf, darkElf, barbarian, dwarf, human, mage);
-    }
-
-    private void setVBox(Label label, HBox hBox) {
-        vBox.setPrefWidth(1000.0);
-        vBox.setPrefHeight(570.0);
-        vBox.setSpacing(15.0);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(label, hBox);
-
-    }
-
     public Node getSelectRace(){
-        return vBox;
+        return selectRaceScreen;
     }
 }

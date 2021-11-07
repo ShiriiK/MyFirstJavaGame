@@ -16,18 +16,13 @@ public class ActionExplore implements IAction {
     private Game game;
     private String[] names = {"prozkoumej", "prohledej"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionExplore(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -38,7 +33,6 @@ public class ActionExplore implements IAction {
     /**
      * Provádí příkaz explore - prohledá předmět, vypíše jeho popis a pokud se v něm nachází item,
      * tak ho přesune do aktuální lokace.
-     *
      * @param parameters jeden parametr - jméno věci, která má být prozkoumána
      * @return zpráva, která se vypíše hráči
      */

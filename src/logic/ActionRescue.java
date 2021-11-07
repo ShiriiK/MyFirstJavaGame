@@ -15,18 +15,13 @@ public class ActionRescue implements IAction {
     private Game game;
     private String[] names = {"zachraň_tua"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionRescue(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionRescue implements IAction {
 
     /**
      * Provádí příkaz rescue - zachrání Tua a ukončí hru.
-     *
      * @param parameters žádný
      * @return zpráva, která se vypíše hráči
      */

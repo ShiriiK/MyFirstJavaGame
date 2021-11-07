@@ -15,18 +15,13 @@ public class ActionAttack implements IAction {
     private Game game;
     private String[] names = {"zaútoč_na"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionAttack(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionAttack implements IAction {
 
     /**
      * Provádí příkaz attack - zaútočí na npc (když je to možné), pokud to npc přežije, tak útok oplatí.
-     *
      * @param parameters jeden parametr - jméno npc, na které hráč útočí
      * @return zpráva, která se vypíše hráči
      */

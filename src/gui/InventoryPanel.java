@@ -3,6 +3,7 @@ package gui;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -20,64 +21,83 @@ import java.util.Set;
 
 /**
  * Třída implementující rozhraní Observer.
- * InventoryPanel zobrazuje obsah inventáře hráče.
+ * InventoryPanel nastavuje zobrazení inventoryPanel v left borderPane.
  * <p>
  * Tato třída je součástí jednoduché textové adventury  s grafickým rozhraním.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-21
+ * @version ZS-2021, 2021-11-06
  */
 
 public class InventoryPanel implements Observer {
 
-    private final VBox vbox = new VBox();
-    private final FlowPane inventoryPanel = new FlowPane();
-    private Game game;
-    private TextArea console;
+    private final Game game;
+    private final TextArea console;
+    private final VBox inventoryPanel = new VBox();
+    private final FlowPane flowPane = new FlowPane();
 
     //Konstruktor
     public InventoryPanel(Game game, TextArea console) {
         this.game = game;
         this.console = console;
         Inventory inventory = game.getGameState().getInventory();
+
         init();
+
         inventory.registerObserver(this);
-    }
-
-    private void init() {
-        vbox.setPrefWidth(500.0);
-        vbox.setPrefHeight(400.0);
-        Label label = new Label("Batoh:");
-        label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
-        label.setTextFill(Color.WHITE);
-        vbox.getChildren().addAll(label, inventoryPanel);
-
-        loadImages();
     }
 
     /**
      * Metoda pro nastavení inventoryPanel.
      */
+    private void init() {
+        Label label = new Label("Batoh:");
+        label.setFont(Font.font("Garamond", FontWeight.BOLD, 25));
+        label.setTextFill(Color.WHITE);
+
+        inventoryPanel.getChildren().addAll(label, flowPane);
+        inventoryPanel.setPrefWidth(500.0);
+        inventoryPanel.setPrefHeight(400.0);
+
+        loadImages();
+    }
+
+    /**
+     * Metoda pro nastavení obrázků v inventáři.
+     */
     private void loadImages() {
         if (game.getGameState().getPhase() >= 2) {
-            inventoryPanel.getChildren().clear();
+            flowPane.getChildren().clear();
             Set<String> itemsSet = game.getGameState().getInventory().itemsInInventory();
 
-            for (String item : itemsSet) {
-                String pictureName = "/zdroje/" + item + ".jpg";
+            for (String itemName : itemsSet) {
+                String pictureName = "/zdroje/" + itemName + ".jpg";
                 InputStream inputStream = InventoryPanel.class.getResourceAsStream(pictureName);
-                Image image = new Image(inputStream, 250.0, 150.0, false, false);
+                Image image = new Image(inputStream, 250.0, 100.0, false, false);
                 ImageView imageView = new ImageView(image);
 
-                cilickOnItemInInventory(item, imageView);
+                cilickOnItemInInventory(itemName, imageView);
 
-                inventoryPanel.getChildren().add(imageView);
+                setTooltip(itemName, imageView);
+
+                flowPane.getChildren().add(imageView);
             }
         }
     }
 
-    private void cilickOnItemInInventory(String item, ImageView imageView) {
+    private void setTooltip(String itemName, ImageView imageView) {
+        Tooltip tip = new Tooltip(game.getGameState().getInventory().getItem(itemName).getDisplayName());
+        tip.setFont(Font.font("Garamond", 30));
+        Tooltip.install(imageView, tip);
+    }
+
+    /**
+     * Metoda pro zpracování akce, kdy hráč klikne na obrázek itemu v inventáři.
+     * @param itemName název itemu
+     * @param imageView obrázek itemu
+     */
+    private void cilickOnItemInInventory(String itemName, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String command = " ";
             if (event.getButton() == MouseButton.SECONDARY) {
@@ -85,18 +105,18 @@ public class InventoryPanel implements Observer {
             } else {
                 command = "zahoď ";
             }
-            console.appendText("\n" + command + item + "\n");
-            String gameAnswer = game.processAction(command + item);
+            console.appendText("\n" + command + itemName + "\n");
+            String gameAnswer = game.processAction(command + itemName);
             console.appendText("\n" + gameAnswer + "\n");
         });
+    }
+
+    public Node getPanel() {
+        return inventoryPanel;
     }
 
     @Override
     public void update() {
         loadImages();
-    }
-
-    public Node getPanel() {
-        return vbox;
     }
 }

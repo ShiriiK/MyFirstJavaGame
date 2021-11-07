@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class InventoryTest {
 
     Inventory inventory = new Inventory();
-    Item item1 = new Item("item1", true, "");
-    Item item2 = new Item("item2", true, "");
-    Item item3 = new Item("item3", true, "");
-    Item item4 = new Item("item4", true, "");
-    Item item5 = new Item("item5", false, "");
+    Item item1 = new Item("item1", "",true, "");
+    Item item2 = new Item("item2", "",true, "");
+    Item item3 = new Item("item3", "",true, "");
+    Item item4 = new Item("item4", "",true, "");
+    Item item5 = new Item("item5", "",false, "");
 
     /**
      * Test jestli nejde přidat item na kapacitu inventáře.

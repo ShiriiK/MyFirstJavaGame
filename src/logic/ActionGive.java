@@ -15,11 +15,7 @@ public class ActionGive implements IAction {
     private Game game;
     private String[] names = {"dej", "nabídni"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionGive(Game game) {
         this.game = game;
     }
@@ -129,7 +125,7 @@ public class ActionGive implements IAction {
         if (npcName.equals("žebrák") && itemName.equals("peníz")) {
             npc.setTalked(3);
             Location entrance = gameState.getCurrentLocation().getExit("vchod").getTargetLocation();
-            Item beer = new Item("pivo", true, "Prostě obyčejný pivo.");
+            Item beer = new Item("pivo", "Pivo",true, "Prostě obyčejný pivo.");
             entrance.addItem(beer);
             inventory.removeItem(itemName);
             return d1 + "Dal/a jsi žebrákovi peníz." + d2 +

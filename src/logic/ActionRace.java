@@ -14,18 +14,13 @@ public class ActionRace implements IAction {
     private Game game;
     private String[] names = {"rasa"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionRace(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -35,7 +30,6 @@ public class ActionRace implements IAction {
 
     /**
      * Provádí příkaz gender - nastaví pohlaví hráče a společně s tím základní staty a partner.
-     *
      * @param parameters jeden parametr - male nebo female
      * @return zpráva, která se vypíše hráči
      */
@@ -69,13 +63,11 @@ public class ActionRace implements IAction {
 
             gameState.setPhase(1);
             return d1 + "Rasa nastavena na: " + raceName + d2 + "\n" +
-                    "Pomalu otevíráš oči a vidíš před sebou rozmazanou siluetu obrovského muže.\n" +
-                    "Mezitím, co se snažíš opartně posadit, se k tobě muž otočí a přispěchá ti na pomoc.\n\n" +
-                    "???: Dobré ráno. Jak se cítíš? Slyšel jsem, co se stalo. Ti vojáci opravdu nezají hranic...\n " +
-                    "Že se nestydí chtít popravit malou holčičku. Vypadá to, že Tua uvěznili za to, že si jí zastal.\n " +
-                    "Musíte se ho vydat brzy zachránit. Ale v tomhle stavu si nejsem jistný, jestli to zvládnete...\n " +
-                    "Vnímáš mě? Pamatuješ vůbec svoje jméno?\n " + d1 +
-                    "Zkus si vzpomenout, jak se jmenuješ. Napiš: jméno tvé_jméno" + d2;
+                    "Pomalu otevíráš oči a vidíš před sebou rozmazanou siluetu obryně.\n" +
+                    "Mezitím, co se snažíš opartně posadit, se k tobě  otočí a přispěchá ti na pomoc.\n\n" +
+                    "???: Dobré ráno. Jak se cítíš? Vypadá to, že Tue uvěznili. Co se proboha v tom městě stalo?\n " +
+                    "Vnímáš mě? Pamatuješ vůbec svoje jméno?\n "
+                    + d1 + "Vyber si své jméno." + d2;
         }else {
             return d1 + "Je mi líto, že tě zklamu, ale tuhle rasu tu nemáme." + d2;
             }

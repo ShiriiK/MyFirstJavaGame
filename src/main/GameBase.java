@@ -127,8 +127,8 @@ public class GameBase extends Application {
         interacting = new ScreenInteracting(game, console);
 
         //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, selectGender, selectRace, selectName, combat, interacting, console);
-        borderPane.setTop(gameAreaPanel.getBorderPane());
+        gameAreaPanel = new GameAreaPanel(game, itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat);
+        borderPane.setTop(gameAreaPanel.getGameMainScreen());
 
         //nastavení panelu východů
         exitPanel = new ExitPanel(game, console);

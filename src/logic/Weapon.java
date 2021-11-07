@@ -10,20 +10,31 @@ package logic;
  */
 
 public class Weapon {
-    private String name;
-    private double multiplicator;
-    private boolean locked;
+    private final String name;
+    private final String displayName;
+    private final double multiplicator;
+    private final boolean locked;
 
-    // Konstruktor
-    public Weapon(String name, double multiplicator, boolean locked) {
+    /**
+     * Konstruktor
+     * @param name název zbraně
+     * @param displayName zobrazovaný název zbraně
+     * @param multiplicator mlutiplikátor
+     * @param locked dostupnost
+     */
+    public Weapon(String name, String displayName, double multiplicator, boolean locked) {
         this.name = name;
+        this. displayName = displayName;
         this.multiplicator = multiplicator;
         this.locked = locked;
     }
 
+    public String getDisplayName(){
+        return displayName;
+    }
+
     /**
      * Metoda pro získání názvu zbraně.
-     *
      * @return název zbraně
      */
     public String getName() {
@@ -32,7 +43,6 @@ public class Weapon {
 
     /**
      * Metoda pro získání multiplikátoru na zbraně.
-     *
      * @return multiplikátor
      */
     public double getMultiplicator() {
@@ -41,7 +51,6 @@ public class Weapon {
 
     /**
      * Metoda pro získání informace o dostupnosti zbraně.
-     *
      * @return true pokud není dostupná jinak false
      */
     public boolean isLocked() {

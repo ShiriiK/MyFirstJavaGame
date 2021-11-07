@@ -15,18 +15,13 @@ public class ActionPartner implements IAction {
     private Game game;
     private String[] names = {"parťák", "parťačka"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionPartner(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionPartner implements IAction {
 
     /**
      * Provádí příkaz partner - zobrazí staty partnera.
-     *
      * @param parameters žádný
      * @return staty partnera
      */

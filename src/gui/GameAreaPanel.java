@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -16,87 +15,86 @@ import util.Observer;
 
 /**
  * Třída implementující rozhraní Observer.
- * GameAreaPanel zobrazuje top borderPane.
+ * GameAreaPanel nastavuje zobrazení mainGameScreen v top borderPane.
  * <p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
+ * @version ZS-2021, 2021-11-06
  */
 
 public class GameAreaPanel implements Observer {
-    private ItemPanel itemsPanel;
-    private RightPanel rightPanel;
-    private ScreenSelectGender selectGender;
-    private ScreenSelectRace selectRace;
-    private ScreenSelectName selectName;
-    private ScreenCombat combat;
-    private ScreenInteracting interacting;
-    private Game game;
-    private BorderPane borderPane = new BorderPane();
-    private final TextArea console;
+    private final ItemPanel itemsPanel;
+    private final RightPanel rightPanel;
+    private final ScreenSelectGender selectGender;
+    private final ScreenSelectRace selectRace;
+    private final ScreenSelectName selectName;
+    private final ScreenCombat combat;
+    private final ScreenInteracting interacting;
+    private final Game game;
+    private final BorderPane gameMainScreen = new BorderPane();
 
+
+    //Konstruktor
     public GameAreaPanel(Game game, ItemPanel itemsPanel, RightPanel rightPanel, ScreenSelectGender selectGender,
-                         ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenCombat combat,
-                         ScreenInteracting interacting, TextArea console) {
+           ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenInteracting interacting,
+           ScreenCombat combat) {
         this.game = game;
         this.itemsPanel = itemsPanel;
         this.rightPanel = rightPanel;
         this.selectGender = selectGender;
         this.selectRace = selectRace;
         this.selectName = selectName;
-        this.combat = combat;
         this.interacting = interacting;
-        this.console = console;
-        loadArea();
-        GameState gameState = game.getGameState();
-        gameState.registerObserver(this);
+        this.combat = combat;
 
-        borderPane.setStyle(" -fx-background-color: WHITE;");
-        borderPane.setStyle(" -fx-padding: 5;");
+        gameMainScreen.setStyle(" -fx-background-color: WHITE;");
+        gameMainScreen.setStyle(" -fx-padding: 5;");
+
+        loadArea();
+
+        game.getGameState().registerObserver(this);
     }
 
     /**
-     * Metoda pro nastavení top borderPane v GameBase.
-     * Existuje 6 různých obrazovek, které mohou být v top borderPane.
-     *  1) výběr pohlaví - kliknutím na tlačítko muž nebo žena si hráč vybere pohlaví
-     *  2) výběr rasy - kliknutím na tlačítko temný_elf, barbar, elf, člověk, trpaslík, mág
-     *  2) výběr jména - zobrazí se textfield, kam může hráč zadat jméno
-     *  3) zobrazení aktuální lokace společně s itemy a npc/zbraněmi v ní
+     * Metoda pro nastavení gameMainScreen.
+     * Existuje 6 různých verzí gameMainScreen:
+     *  1) výběr pohlaví
+     *  2) výběr rasy
+     *  2) výběr jména
+     *  3) interakce s npc
      *  4) souboj s npc
-     *  5) komunikace s npc
+     *  5) normální - obrázek lokace uprostřed, obrázky npc/zbraní v pravo, obrázky itemů v levo
      */
     private void loadArea() {
-        borderPane.getChildren().clear();
-        borderPane.setMaxHeight(570.0);
+        gameMainScreen.getChildren().clear();
+        gameMainScreen.setMaxHeight(570.0);
         if (game.getGameState().getPhase() == 0) {
-            borderPane.setCenter(selectGender.getSelectGender());
+            gameMainScreen.setCenter(selectGender.getSelectGender());
         } else if (game.getGameState().getPlayer().getRace().getName().equals("nic")) {
-            borderPane.setCenter(selectRace.getSelectRace());
+            gameMainScreen.setCenter(selectRace.getSelectRace());
         } else if (game.getGameState().getPhase() == 1) {
-            borderPane.setCenter(selectName.getSelectName());
+            gameMainScreen.setCenter(selectName.getSelectName());
         } else if (game.getGameState().isInCombat()){
-            borderPane.setLeft(combat.getPlayer());
-            borderPane.setRight(combat.getNpc());
-            borderPane.setBottom(combat.getButtons());
+            gameMainScreen.setLeft(combat.getPlayer());
+            gameMainScreen.setRight(combat.getNpc());
+            gameMainScreen.setBottom(combat.getButtons());
         } else if (game.getGameState().isInteracting()){
-            borderPane.setLeft(interacting.getPlayer());
-            borderPane.setRight(interacting.getNpc());
+            gameMainScreen.setCenter(interacting.getInteractingScreen());
         } else {
             normalScreen();
         }
     }
 
     /**
-     * Metoda pro nastavení běžné obrazovky - zahrnuje obrázek aktuální lokace uprostřed, label s jejm názvem nahoře,
-     * v pravo jsou pak zobrazeny itemy v aktuální lokaci a v levo npc nebo zbraně v aktální lokaci
+     * Metoda pro nastavení běžné obrazovky.
      */
     private void normalScreen() {
         Location location = game.getGameState().getCurrentLocation();
         String locationName = location.getName();
 
-        Label locationLabel = new Label("Aktuální lokace: " + locationName);
+        Label locationLabel = new Label("Aktuální lokace: " + location.getDisplayName());
         locationLabel.setFont(Font.font("Garamond", 30));
         locationLabel.setTextFill(Color.WHITE);
 
@@ -107,23 +105,23 @@ public class GameAreaPanel implements Observer {
         HBox hBox = new HBox(locationLabel);
         hBox.setAlignment(Pos.CENTER);
 
-        borderPane.setTop(hBox);
+        gameMainScreen.setTop(hBox);
 
         ImageView center = new ImageView(new Image
                 (GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg"),
                         1000.0, 570.0, false, false));
 
-        borderPane.setCenter(center);
-        borderPane.setLeft(itemsPanel.getPanel());
-        borderPane.setRight(rightPanel.getPanel());
+        gameMainScreen.setCenter(center);
+        gameMainScreen.setLeft(itemsPanel.getPanel());
+        gameMainScreen.setRight(rightPanel.getPanel());
+    }
+
+    public Node getGameMainScreen() {
+        return gameMainScreen;
     }
 
     @Override
     public void update() {
         loadArea();
-    }
-
-    public Node getBorderPane() {
-        return borderPane;
     }
 }

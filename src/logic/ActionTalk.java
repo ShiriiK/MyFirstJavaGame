@@ -15,18 +15,13 @@ public class ActionTalk implements IAction {
     private Game game;
     private String[] names = {"mluv_s", "promluv_si_s"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionTalk(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionTalk implements IAction {
 
     /**
      * Provádí příkaz talk - promluví si s npc.
-     *
      * @param parameters jeden parametr - jméno npc se kterýmm chce hráč mluvit
      * @return zpráva, která se vypíše hráči
      */
@@ -76,21 +70,14 @@ public class ActionTalk implements IAction {
             return d1 + "Není důvod..." + d2;
         }
 
-        Player player = gameState.getPlayer();
         int talked = npc.getTalked();
 
         if (!npc.getTalks().isEmpty()) {
-            int i = npc.getTalked();
             if (talked == 2 && npcName.equals("generál")) {
                 game.setTheEnd(true);
             }
-            if (talked == 1 && npcName.equals("stráž")) {
-                player.setHp(player.getHp() - npc.getStr());
-                if (player.getHp() <= 0) {
-                    game.setTheEnd(true);
-                }
-                return d1 + npc.getChat(npc) + "\n Dědek na tebe zaútočil a způsobil ti " + npc.getStr() + " poškození. " +
-                        "Zbývá ti " + player.getHp() + " zdraví." + d2;
+            if (talked == 2 && npcName.equals("stráž")) {
+                game.setTheEnd(true);
             }
             if (talked == 2 && npcName.equals("stráž")) {
                 game.setTheEnd(true);

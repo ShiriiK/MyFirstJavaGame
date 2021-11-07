@@ -15,18 +15,14 @@ public class ActionWeapon implements IAction {
     private Game game;
     private String[] names = {"vzemi_si_zbraň", "zbraň"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstuktor
+
     public ActionWeapon(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifokivání platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +32,6 @@ public class ActionWeapon implements IAction {
 
     /**
      * Provádí příkaz weapon - nastaví hráči zbraň.
-     *
      * @param parameters jeden parametr - jméno zbraně, kterou si chce hráč vzít
      * @return zpráva, která se vypíše hráči
      */

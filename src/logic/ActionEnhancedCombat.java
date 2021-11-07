@@ -15,18 +15,13 @@ public class ActionEnhancedCombat implements IAction {
     private Game game;
     private String[] names = {"speciální_útok"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionEnhancedCombat(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionEnhancedCombat implements IAction {
 
     /**
      * Provádí příkaz attack - zaútočí na npc (když je to možné), pokud to npc přežije, tak útok oplatí.
-     *
      * @param parameters jeden parametr - jméno npc, na které hráč útočí
      * @return zpráva, která se vypíše hráči
      */
@@ -95,19 +89,16 @@ public class ActionEnhancedCombat implements IAction {
         //hp npc na začátku souboje
         double npcHp = attackedNpc.getHp();
         //dmg, který hráč dá
-        double dmg = 0;
+        double dmg = bonusDmg;
         //bonus dmg nastavený toto kolo
         double setBonusDmg = 0.0;
         //negeted dmg nastavený toto kolo
         double setNegetedDmg = 0.0;
-        //čílso, o kolik se sníží původní síla npc
-        double loweredStr = 0.0;
-        //nastavení se na true pokud hráč spellem nastaví npc str na 1
-        boolean setNpcDmgToOne = false;
+
 
         if(attackName.equals("útok_z_dálky")){
             dmg = playerStr/2.0 + bonusDmg;
-            gameState.setNegetedDmg(10.0);
+            gameState.setNegetedDmg(20.0);
 
             setNegetedDmg = 10.0;
         }
@@ -121,70 +112,66 @@ public class ActionEnhancedCombat implements IAction {
         switch(race){
             case("elf"):
                 if(attackName.equals("volání_entů") && !usedAttack){
-                    dmg = 15.0 + bonusDmg;
+                    dmg = dmg + 35.0;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("elfí_běsnění") && !usedCharge) {
-                    dmg = 0.0 + bonusDmg;
+                    dmg = bonusDmg;
                     setNegetedDmg = 50.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("temný_elf"):
                 if(attackName.equals("pomatení") && !usedAttack){
-                    attackedNpc.setStr(1.0);
-                    setNpcDmgToOne = true;
+                    setNegetedDmg = 50.0;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("volání_krve") && !usedCharge) {
-                    dmg = 0.0 + bonusDmg;
-                    setBonusDmg = 15.0;
+                    setBonusDmg = 40.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("barbar"):
                 if(attackName.equals("zuřivý_skok") && !usedAttack){
-                    dmg = 20 + bonusDmg;
+                    dmg = dmg + 50.0 ;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("bojový_tanec") && !usedCharge) {
                     setNegetedDmg = -10.0;
-                    setBonusDmg = 20.0;
+                    setBonusDmg = 70.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("trpaslík"):
                 if(attackName.equals("přivolání_blesků") && !usedAttack){
-                    dmg = 20 + bonusDmg;
+                    dmg = dmg + 40.0;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("runová_bouře") && !usedCharge) {
-                    attackedNpc.setStr(attackedNpc.getStr()-20);
-                    setNegetedDmg = -5.0;
-                    loweredStr = -20.0;
+                    dmg = dmg + 80.0;
+                    setNegetedDmg = -10.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("člověk"):
                 if(attackName.equals("meč_spravedlnosti") && !usedAttack){
-                    dmg = 15 + bonusDmg;
+                    dmg = dmg + 40.0;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("modlitba") && !usedCharge) {
-                    setBonusDmg = 15.0;
-                    setNegetedDmg = 15.0;
+                    setBonusDmg = 40.0;
+                    setNegetedDmg = 40.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("mág"):
                 if(attackName.equals("ohnivá_koule") && !usedAttack){
-                   dmg = 25.0 + bonusDmg;
+                   dmg = 60.0 + bonusDmg;
                    gameState.setUsedAttack3(true);
                    break;
                 } else if (attackName.equals("zaklínání") && !usedCharge){
-                    attackedNpc.setStr(1.0);
-                    setBonusDmg = 15.0;
-                    setNpcDmgToOne = true;
+                    setBonusDmg = 30.0;
+                    setNegetedDmg = 30.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
@@ -195,10 +182,11 @@ public class ActionEnhancedCombat implements IAction {
         String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
         if (killed != null) return killed;
 
-        return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg, setBonusDmg,setNegetedDmg, setNpcDmgToOne, loweredStr);
+        return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg, setBonusDmg,setNegetedDmg);
     }
 
-    private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc, Player player, double npcStr, double dmg, double setBonusDmg, double setNegetedDmg, boolean setNpcDmgToOne, double loweredStr) {
+    private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc,
+                           Player player, double npcStr, double dmg, double setBonusDmg, double setNegetedDmg) {
         gameState.setInCombat(true);
 
         //NASTAVOVÁNÍ MESSEGŮ
@@ -210,32 +198,34 @@ public class ActionEnhancedCombat implements IAction {
         String negetedMessege = "";
         //spojení nevyužitých bloků z předchozích kol s právě získaným blokem
         double negetedDmg = gameState.getNegetedDmg() + setNegetedDmg;
-        if(negetedDmg>0){
+        if(setNegetedDmg>0.0){
             negetedMessege = "Blok nastaven na " + negetedDmg + " poškození.\n";
         }
         String bonusMessege = "";
         if(setBonusDmg>0.0){
             bonusMessege = "Příští kolo dáš navíc " + setBonusDmg + " poškození.\n";
         }
-        double newStr = npcStr-loweredStr;
-        String npcStrMessege ="";
-        if(loweredStr>0.0){
-            if (newStr < 0.0) {
-                newStr = 0.0;
-            }
-            npcStrMessege = "Síle tvého nepřítele byla snížena z " + npcStr + " na " + newStr + ".\n";
-            attackedNpc.setStr(newStr);
-        }
-        String oneDmgMessege = "";
-        if(setNpcDmgToOne){
-            oneDmgMessege = "Snížení síly npc na naprosté minimum.\n";
-            gameState.getAttackedNpc().setStr(1.0);
-        }
         String takenDmgMessege = "";
-        double restOfNegeted = negetedDmg - npcStr;
-        double takenDmg = npcStr - negetedDmg;
+        //zbytek bloku po odečtení útoku npc
+        double restOfNegeted;
+        if ((negetedDmg - npcStr) > 0.0) {
+            restOfNegeted = (negetedDmg-npcStr);
+        } else {
+            restOfNegeted = 0.0;
+        }
+
+        //dmg, který dostane hráč, když je od něho odečten blok
+        double takenDmg;
+        if((npcStr-negetedDmg) > 0.0) {
+            takenDmg = (npcStr-negetedDmg);
+        } else if (negetedDmg<0.0){
+            takenDmg = (npcStr - negetedDmg);
+        } else {
+            takenDmg = 0.0;
+        }
+
         if(negetedDmg>0.0) {
-            if (newStr < negetedDmg) {
+            if (npcStr < negetedDmg) {
                 takenDmgMessege = "Vyblokováno " + npcStr + " poškození.\n Další kolo můžeš vyblokovat ještě " + restOfNegeted + "poškození.\n";
             } else {
                 takenDmgMessege = "Vyblokováno " + negetedDmg + " poškození. Do dalšího kola už ti blok nezbyl a " + npcName + " ti dal " + takenDmg + "poškození.\n";
@@ -245,12 +235,7 @@ public class ActionEnhancedCombat implements IAction {
         }
 
         //NASTAVENÍ HODNOT UVNITŘ HRY
-        double restOfHp;
-        if(takenDmg<0.0){
-            restOfHp = player.getHp();
-        } else {
-            restOfHp = player.getHp() - takenDmg;
-        }
+        double restOfHp = player.getHp() - takenDmg;
 
         player.setHp(restOfHp);
         attackedNpc.setHp(newNpcHp);
@@ -262,10 +247,7 @@ public class ActionEnhancedCombat implements IAction {
             return d1 + "Umřel/a jsi." + d2;
         }
 
-        //Znovu vrátí dmg npc na jeho původní hodnotu
-        attackedNpc.setStr(npcStr);
-
-        return  d1 + dmgMessege + negetedMessege + bonusMessege + npcStrMessege + oneDmgMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + d2;
+        return  d1 + dmgMessege + negetedMessege + bonusMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + d2;
     }
 
     private String killedNpc(String d1, String d2, GameState gameState, String npcName, Location currentLocation, double npcHp, double dmg) {

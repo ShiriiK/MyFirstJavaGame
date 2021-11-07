@@ -15,7 +15,6 @@ public class ActionHelp implements IAction {
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -25,7 +24,6 @@ public class ActionHelp implements IAction {
 
     /**
      * Provádí příkaz help - vypíše nápovědu do konzole.
-     *
      * @param parameters žádný
      * @return text s nápovědou
      */

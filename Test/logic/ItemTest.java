@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 
-    Item item1 = new Item("item1", true, "");
-    Item item2 = new Item("item2", true, "");
+    Item item1 = new Item("item1", "",true, "");
+    Item item2 = new Item("item2", "",true, "");
 
     /**
      * Test jestli funguje vkládání itemu do itemu

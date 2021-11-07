@@ -15,7 +15,13 @@ public class Partner {
     private double hp;
     private double str;
 
-    // Konstruktor
+    /**
+     * Konstruktor
+     * @param partnerName jméno
+     * @param partnerWeapon zbraň
+     * @param hp životy
+     * @param str síla
+     */
     public Partner(String partnerName, Weapon partnerWeapon, double hp, double str) {
         this.partnerName = partnerName;
         this.partnerWeapon = partnerWeapon;
@@ -25,7 +31,6 @@ public class Partner {
 
     /**
      * Metoda pro získání statů partnera.
-     *
      * @return informace o partnerovi
      */
     public String getPartner() {
@@ -41,7 +46,6 @@ public class Partner {
 
     /**
      * Metoda pro získání jména partnera.
-     *
      * @return jméno partnera
      */
     public String getPartnerName() {
@@ -50,7 +54,6 @@ public class Partner {
 
     /**
      * Metoda pro nastavení jména partnera.
-     *
      * @param partnerName jméno partnera
      */
     public void setPartnerName(String partnerName) {
@@ -59,7 +62,6 @@ public class Partner {
 
     /**
      * Metoda pro získání hp partnera.
-     *
      * @return hp partnera
      */
     public double getHp() {
@@ -68,7 +70,6 @@ public class Partner {
 
     /**
      * Metoda pro nastavení hp partnera.
-     *
      * @param hp partnera
      */
     public void setHp(double hp) {
@@ -77,7 +78,6 @@ public class Partner {
 
     /**
      * Metoda pro získání str partnera.
-     *
      * @return str partnera
      */
     public double getStr() {
@@ -86,7 +86,6 @@ public class Partner {
 
     /**
      * Metoda pro nastavení str partnera.
-     *
      * @param str pastnera
      */
     public void setStr(double str) {
@@ -96,7 +95,6 @@ public class Partner {
 
     /**
      * Metoda pro získání zbraně partnera.
-     *
      * @return zbraň partnera
      */
     public Weapon getPartnerWeapon() {
@@ -105,7 +103,6 @@ public class Partner {
 
     /**
      * Metoda pro nastavení zbraně partnera.
-     *
      * @param partnerWeapon partnera
      */
     public void setPartnerWeapon(Weapon partnerWeapon) {

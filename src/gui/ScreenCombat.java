@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -17,25 +18,26 @@ import logic.Player;
 import util.Observer;
 
 /**
- * ScreenCombat nastavuje ImageView hráče a npc, se kterým bojuje, a buttny pro souboj
+ * Třída implementující rozhraní Observer.
+ * ScreenCombat nastavuje zobrazení combatScreen v top borderPane při zobrazení souboje s npc.
  * </p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
- *  * @author Alena Kalivodová
- *  * @version ZS-2021, 2021-11-05
+ * @author Alena Kalivodová
+ * @version ZS-2021, 2021-11-06
  */
 
 public class ScreenCombat implements Observer {
 
-    private Game game;
-    private TextArea console;
-    private ImageView playerImageView = new ImageView();
-    private ImageView npcImageVIew = new ImageView();
-    private HBox hBox = new HBox();
-    private Button attack1 = new Button("Normální útok");
-    private Button attack2 = new Button("Útok z dálky");
-    private Button attack3 = new Button();
-    private Button charge = new Button();
+    private final Game game;
+    private final TextArea console;
+    private final ImageView playerImageView = new ImageView();
+    private final ImageView npcImageVIew = new ImageView();
+    private final HBox combatScreen = new HBox();
+    private final Button melee = new Button("Normální útok");
+    private final Button ranged = new Button("Útok z dálky");
+    private final Button specialAttacck = new Button();
+    private final Button charge = new Button();
 
     //Konstruktor
     public ScreenCombat(Game game, TextArea console) {
@@ -50,8 +52,11 @@ public class ScreenCombat implements Observer {
         }
     }
 
-
+    /**
+     * Metoda pro nastavení combatScreen.
+     */
     private void init(){
+        combatScreen.getChildren().clear();
         //Nastavení ImageVIew hráče
         Player player = game.getGameState().getPlayer();
         setPlayerImageView(player);
@@ -64,18 +69,23 @@ public class ScreenCombat implements Observer {
         //Nastavení tlačítek na souboj
         SetButtons(player);
 
-        prepareHBox();
+        combatScreen.getChildren().clear();
+        combatScreen.setPrefWidth(1600.0);
+        combatScreen.setPrefHeight(100.0);
+        combatScreen.setSpacing(15.0);
+        combatScreen.setAlignment(Pos.CENTER);
+        combatScreen.getChildren().addAll(melee, ranged, specialAttacck,charge);
 
-        action(player, npcName, attack1, attack2, attack3, charge);
+        action(player, npcName, melee, ranged, specialAttacck, charge);
     }
 
     /**
-     * Nastavení ImageView hráče
+     * Metoda pro nastavení ImageView hráče.
      * @param player hráč
      */
     private void setPlayerImageView(Player player) {
         Image playerImage;
-        if (player.getPlayerGender().equals("female")) {
+        if (player.getPlayerGender().equals("žena")) {
             playerImage = new Image("/zdroje/"+ player.getRace().getName() +"_žena.jpg",
                     900.0, 470.0, false, false);
         } else {
@@ -86,7 +96,7 @@ public class ScreenCombat implements Observer {
     }
 
     /**
-     * Nastavení ImageView npc
+     * Metoda pro nastavení ImageView npc.
      * @param npcName jméno npc
      */
     private void setNpcImageView(String npcName) {
@@ -111,53 +121,88 @@ public class ScreenCombat implements Observer {
     }
 
     /**
-     * Nastavení buttnů
+     * Metoda pro nastavení buttnů.
      * @param player hráč
      */
     private void SetButtons(Player player) {
-        StyleIt();
+        melee.setFont(Font.font("Garamond", 50));
+        Tooltip meleeTip = new Tooltip("Útok z blízka, který dá " + player.getStr() + " poškození \n" +
+                "plus bonusové poškození, pokud tedy nějaké máš.");
+        meleeTip.setFont(Font.font("Garamond", 30));
+        Tooltip.install(melee, meleeTip);
 
+        ranged.setFont(Font.font("Garamond", 50));
+        Tooltip rangedTip = new Tooltip("Útok z blízka, který dá " + (player.getStr()/2) + " poškození \n" +
+                "plus bonusové poškození, pokud tedy nějaké máš, a nastaví blok na 20 poškození.");
+        rangedTip.setFont(Font.font("Garamond", 30));
+        Tooltip.install(ranged,rangedTip);
+
+        specialAttacck.setFont(Font.font("Garamond", 50));
+        charge.setFont(Font.font("Garamond", 50));
+
+
+        Tooltip specialTip = new Tooltip("");
+        specialTip.setFont(Font.font("Garamond", 30));
+
+        Tooltip chargeTip = new Tooltip("");
+        chargeTip.setFont(Font.font("Garamond", 30));
 
         String race = player.getRace().getName();
         switch (race){
             case "elf":
-                attack3.setText("Volání entů");
+                specialAttacck.setText("Volání entů");
+                specialTip.setText("Dá v základu 35 poškození.");
                 charge.setText("Elfí běsnění");
+                chargeTip.setText("Zvýší blok o 50.");
                 break;
             case "temný_elf":
-                attack3.setText("Pomatení");
+                specialAttacck.setText("Pomatení");
+                specialTip.setText("Zvýší blok o 50.");
                 charge.setText("Volání krve");
+                chargeTip.setText("Nastaví bonusové poškození na 40.");
                 break;
             case "barbar":
-                attack3.setText("Zuřivý skok");
+                specialAttacck.setText("Zuřivý skok");
+                specialTip.setText("Dá v základu 50 poškození.");
                 charge.setText("Bojový tanec");
+                chargeTip.setText("Nastaví bonusové poškození na 70 a zvýší příští poškození, které utrpíš o 10.");
                 break;
             case "trpaslík":
-                attack3.setText("Přivolání blesků");
+                specialAttacck.setText("Přivolání blesků");
+                specialTip.setText("Dá v základu 40 poškození.");
                 charge.setText("Runová bouře");
+                chargeTip.setText("Dá v základu 80 poškození a zvýší příští poškození, které utrpíš o 10.");
                 break;
             case "člověk":
-                attack3.setText("Meč spravedlnosti");
+                specialAttacck.setText("Meč spravedlnosti");
+                specialTip.setText("Dá v základu 40 poškození.");
                 charge.setText("Modlitba");
+                chargeTip.setText("Nastaví bonusové poškození na 40 a zvýší blok o 40.");
                 break;
             case "mág":
-                attack3.setText("Ohnivá koule");
+                specialAttacck.setText("Ohnivá koule");
+                specialTip.setText("Dá v základu 60 poškození.");
                 charge.setText("Zaklínání");
+                chargeTip.setText("Nastaví bonusové poškození na 30 a zvýší blok o 30.");
                 break;
         }
+        Tooltip.install(specialAttacck, specialTip);
+        Tooltip.install(charge, chargeTip);
     }
 
-    private void StyleIt() {
-        attack1.setFont(Font.font("Garamond", 50));
-        attack2.setFont(Font.font("Garamond", 50));
-        attack3.setFont(Font.font("Garamond", 50));
-        charge.setFont(Font.font("Garamond", 50));
-    }
-
+    /**
+     * Metoda pro zpracování akce, kdy hráč klikne na button během souboje.
+     * @param player hráč
+     * @param npcName jméno npc
+     * @param attack1 button na normální útok
+     * @param attack2 button na útok z dálky
+     * @param attack3 button na speciální útok
+     * @param charge button na charged útok
+     */
     private void action(Player player, String npcName, Button attack1, Button attack2, Button attack3, Button charge) {
         attack1.setOnAction(e->{
-            console.appendText("\nspeciální_útok "+ player.getRace().getAttack1() + "\n");
-            String gameAnswer = game.processAction("speciální_útok "+ player.getRace().getAttack1() + " "+ npcName);
+            console.appendText("\nspeciální_útok útok_z_blízka\n");
+            String gameAnswer = game.processAction("speciální_útok útok_z_blízka "+ npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack2.setOnAction(e->{
@@ -166,8 +211,8 @@ public class ScreenCombat implements Observer {
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack3.setOnAction(e->{
-            console.appendText("\nspeciální_útok " + player.getRace().getAttack3() + "\n");
-            String gameAnswer = game.processAction("speciální_útok " + player.getRace().getAttack3() + " " + npcName);
+            console.appendText("\nspeciální_útok " + player.getRace().getSpecialAttack() + "\n");
+            String gameAnswer = game.processAction("speciální_útok " + player.getRace().getSpecialAttack() + " " + npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         charge.setOnAction(e->{
@@ -175,15 +220,6 @@ public class ScreenCombat implements Observer {
             String gameAnswer = game.processAction("speciální_útok " + player.getRace().getCharge() + " " + npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
-    }
-
-    private void prepareHBox() {
-        hBox.getChildren().clear();
-        hBox.setPrefWidth(1600.0);
-        hBox.setPrefHeight(100.0);
-        hBox.getChildren().addAll(attack1,attack2,attack3,charge);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(15.0);
     }
 
     public Node getPlayer(){
@@ -195,7 +231,7 @@ public class ScreenCombat implements Observer {
     }
 
     public Node getButtons(){
-        return hBox;
+        return combatScreen;
     }
 
     @Override

@@ -2,59 +2,64 @@ package gui;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import logic.*;
 import util.Observer;
 import java.util.Set;
 
 /**
  * Třída implementující rozhraní Observer.
- * NpcPanel zobrazuje npc nacházející se v aktuální lokaci.
+ * NpcPanel nastavuje zobrazení rightPanel v top borderPane při zobrazení normální obrazovky.
  * <p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-02
+ * @version ZS-2021, 2021-11-06
  */
 
 public class RightPanel implements Observer {
 
-    private Game game;
-    private HBox hBox = new HBox();
-    private FlowPane rightPanel = new FlowPane();
-    private TextArea console;
-
+    private final Game game;
+    private final TextArea console;
+    private final HBox rightPanel = new HBox();
+    private final FlowPane flowPane = new FlowPane();
 
     //Konstruktor
     public RightPanel(Game game, TextArea console) {
         this.game = game;
         this.console = console;
-        GameState gameState = game.getGameState();
-        Location location = gameState.getCurrentLocation();
+
         init();
-        location.registerObserver(this);
-        gameState.registerObserver(this);
+
+        game.getGameState().registerObserver(this);
+        game.getGameState().getCurrentLocation().registerObserver(this);
 
     }
 
+    /**
+     * Metoda pro nastavení rightPanel.
+     */
     private void init() {
-        hBox.setPrefWidth(450.0);
-        hBox.setPrefHeight(570.0);
-        hBox.getChildren().add(rightPanel);
+        rightPanel.getChildren().clear();
+        rightPanel.setPrefWidth(450.0);
+        rightPanel.setPrefHeight(570.0);
+        rightPanel.getChildren().add(flowPane);
 
         loadNpcs();
     }
 
     /**
-     * Metoda pro nastavení rightPanel.
+     * Metoda pro nastavení buďto obrázků npc v lokaci nebo obrázků zbraní v lokaci.
       */
     private void loadNpcs() {
-        rightPanel.getChildren().clear();
+        flowPane.getChildren().clear();
             //Pokud je hráč ve zbrojírně, tak se nezobrazjí v rightPanel npc, ale braně
             if (game.getGameState().getCurrentLocation().getName().equals("zbrojírna")) {
                 Set<Weapon> weaponSet = game.getGameState().getCurrentLocation().getWeapons();
@@ -66,7 +71,11 @@ public class RightPanel implements Observer {
 
                     clickOnWeapon(name, imageView);
 
-                    rightPanel.getChildren().add(imageView);
+                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplikátor: " + weapon.getMultiplicator());
+                    tip.setFont(Font.font("Garamond", 30));
+                    Tooltip.install(imageView, tip);
+
+                    flowPane.getChildren().add(imageView);
                 }
             //Klasické zobrazení npc
             } else {
@@ -77,21 +86,23 @@ public class RightPanel implements Observer {
                     Boolean friendly = npc.isFriendly();
                     Boolean talk = npc.getTalk();
                     ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
-                            200.0, 100.0, false, false));
+                            450.0, 250.0, false, false));
 
                     clickOnNpc(name, imageView, friendly, talk);
 
-                    rightPanel.getChildren().add(imageView);
+                    Tooltip tip = new Tooltip(npc.getDisplayName());
+                    tip.setFont(Font.font("Garamond", 30));
+                    Tooltip.install(imageView, tip);
+
+                    flowPane.getChildren().add(imageView);
                 }
             }
         }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na obrázek zbraně v lokaci
-     * - kliknutí levý tlačítkem: vybere zbraň a když má už hráč zbraň, tak nejdřív tu svou položí a až pak si ji vezme
-     *
-     * @param name - jméno zbraně
-     * @param imageView - obrázek zbraně
+     * Metoda pro zpracování akce, kdy hráč klikne na obrázek zbraně v lokaci.
+     * @param name jméno zbraně
+     * @param imageView obrázek zbraně
      */
     private void clickOnWeapon(String name, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -114,12 +125,9 @@ public class RightPanel implements Observer {
     }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na obrázek npc v lokaci
-     * - kliknutí pravým tlačítkem: nastaví interacting na true
-     * - kliknutí levý tlačítkem: nastaví combat na true
-     *
-     * @param name - jméno npc
-     * @param imageView - obrázek npc
+     * Metoda pro zpracování akce, kdy hráč klikne na obrázek npc v lokaci.
+     * @param name jméno npc
+     * @param imageView obrázek npc
      */
     private void clickOnNpc(String name, ImageView imageView, Boolean friendly, Boolean talk) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -144,11 +152,12 @@ public class RightPanel implements Observer {
         });
     }
 
+    public Node getPanel() {
+        return rightPanel; }
+
     @Override
     public void update() {
         loadNpcs();
     }
 
-    public Node getPanel() {
-        return hBox; }
 }

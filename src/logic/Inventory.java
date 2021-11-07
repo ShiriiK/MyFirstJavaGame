@@ -10,12 +10,12 @@ import java.util.*;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-11-01
+ * @version LS-2021, 2021-11-06
  */
 
 public class Inventory implements SubjectOfChange{
-    private static final int MAX_ITEMS = 4; // maximální počet věcí v inventáři
-    private Map<String, Item> content; // seznam věcí v inventáři
+    private static final int MAX_ITEMS = 6; // maximální počet věcí v inventáři
+    private final Map<String, Item> content; // seznam věcí v inventáři
 
     private Set<Observer> observers = new HashSet<>();
 
@@ -27,7 +27,6 @@ public class Inventory implements SubjectOfChange{
 
     /**
      * Metoda vrací kolekci všech itemů v inventáři.
-     *
      * @return kolekce itemů v inventáři
      */
     public Map<String, Item> getContent() {
@@ -36,7 +35,6 @@ public class Inventory implements SubjectOfChange{
 
     /**
      * Metoda pro zjištění, zda je v batohu ještě místo.
-     *
      * @return true - pokud je, false - pokud je inventář plný
      */
     public boolean isSpace() {
@@ -45,7 +43,6 @@ public class Inventory implements SubjectOfChange{
 
     /**
      * Metoda pro vložení itemu do inventáře.
-     *
      * @param item který chceme vložit
      * @return null pokud nelze vložit, jinak odkaz na vložený item
      */
@@ -60,7 +57,6 @@ public class Inventory implements SubjectOfChange{
 
     /**
      * Metoda pro vypsání obsahu inventáře.
-     *
      * @return obsah inventáře
      */
     public String getInventory() {
@@ -75,9 +71,8 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Metoda najde věc, kterou chceme.
-     *
-     * @param name název věci, kterou chceme
+     * Metoda na vrácení odkazu na item podle jeho názvu.
+     * @param name název věci
      * @return odkaz na věc, pokud nebyla nalezena, tak se vrátí null
      */
     public Item getItem(String name) {
@@ -89,15 +84,8 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Odstraní item z inventáře, ale nevloží ho aktulní lokace.
-     * Item po odstranění může být předán nějakému npc nebo položen do aktuální lokace - to si určí třída,
-     * která tuto metodu využije.
-     * - ActionDrop item vloží do lokace
-     * - ActionGive item dá npc
-     *
-     * Při odstranění upozorní observery.
-     *
-     * @param name název itemu, který chceme odstranit
+     * Odstraní item z inventáře.
+     * @param name název itemu
      */
     public void removeItem(String name) {
         if (content.containsKey(name)) {
@@ -107,9 +95,8 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Metoda pro vrácení jmen itemů v inventáři.
-     *
-     * @return set jmen itemů v intentáři
+     * Metoda pro vrácení názvů itemů v inventáři.
+     * @return set názvů itemů v intentáři
      */
     public Set<String> itemsInInventory() { return content.keySet(); }
 

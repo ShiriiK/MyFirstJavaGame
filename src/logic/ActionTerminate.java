@@ -15,18 +15,13 @@ public class ActionTerminate implements IAction {
     private Game game;
     private String[] names = {"konec"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionTerminate(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionTerminate implements IAction {
 
     /**
      * Provádí příkaz end - ukončí hru.
-     *
      * @param parameters žádný
      * @return zpráva, která se vypíše hráči
      */

@@ -15,18 +15,13 @@ public class ActionGo implements IAction {
     private Game game;
     private String[] names = {"jdi", "jdi_do", "běž", "běž_do"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionGo(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionGo implements IAction {
 
     /**
      * Provádí příkaz go - přesune hráče z jedné lokace do druhé.
-     *
      * @param parameters jeden parametr - cílová lokace
      * @return zpráva, která se vypíše hráči
      */

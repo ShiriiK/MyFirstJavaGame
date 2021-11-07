@@ -15,18 +15,13 @@ public class ActionInventory implements IAction {
     private Game game;
     private String[] names = {"inventář", "batoh"};
 
-    /**
-     * Konstuktor
-     *
-     * @param game hra ve které bude příkaz vykonán
-     */
+    //Konstruktor
     public ActionInventory(Game game) {
         this.game = game;
     }
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
-     *
      * @return možné názvy příkazů
      */
     @Override
@@ -36,7 +31,6 @@ public class ActionInventory implements IAction {
 
     /**
      * Provádí příkaz inventory - zobrazí obsah inventáře.
-     *
      * @param parameters žádný
      * @return obsah inventáře
      */
