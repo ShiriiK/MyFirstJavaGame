@@ -188,6 +188,7 @@ public class ActionEnhancedCombat implements IAction {
     private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc,
                            Player player, double npcStr, double dmg, double setBonusDmg, double setNegetedDmg) {
         gameState.setInCombat(true);
+        gameState.setRound(gameState.getRound() + 1);
 
         //NASTAVOVÁNÍ MESSEGŮ
         String dmgMessege = "";
@@ -244,7 +245,7 @@ public class ActionEnhancedCombat implements IAction {
 
         if(restOfHp < 0.0){
             game.setTheEnd(true);
-            return d1 + "Umřel/a jsi." + d2;
+            return d1 + "Umřel/a jsi." + game.epilog() + d2;
         }
 
         return  d1 + dmgMessege + negetedMessege + bonusMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + d2;
@@ -260,6 +261,7 @@ public class ActionEnhancedCombat implements IAction {
             gameState.setInCombat(false);
             gameState.setUsedCharge(false);
             gameState.setUsedAttack3(false);
+            gameState.setRound(0);
             return d1 + "Zabil/a jste: " + npcName + "." + d2;
         }
         return null;

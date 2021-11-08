@@ -99,32 +99,42 @@ public class ActionGo implements IAction {
         if (targetLocationName.equals("cela_uprostřed")) {
             if (playerHp < dmg) {
                 game.setTheEnd(true);
-                return d1 + "Někdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě." + d2;
+                return d1 + "Někdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě." + game.epilog() + d2;
             } else {
                 player.setHp(playerHp - dmg);
                 gameState.setCurrentLocation(targetLocation);
                 gameState.setAttackedNpc("brutální_stráž");
                 gameState.setInCombat(true);
+                gameState.setRound(gameState.getRound() + 1);
                 return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
                         targetLocationExit.getDamageMessage();
             }
         }
         if (targetLocationName.equals("hora") && !targetLocation.getNpcs().isEmpty()) {
+            if (playerHp < dmg) {
+                game.setTheEnd(true);
+                return d1 + "Zabila tě divoká zvěř." + game.epilog() + d2;
+            }
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
             gameState.setAttackedNpc("medvěd");
             gameState.setInCombat(true);
+            gameState.setRound(gameState.getRound() + 1);
             return d1 + description + "\nZaútočila na tebe divoká zvířata." + d2 +
                     targetLocationExit.getDamageMessage();
         }
         if (targetLocationName.equals("les")  && !targetLocation.getNpcs().isEmpty()) {
+            if (playerHp < dmg) {
+                game.setTheEnd(true);
+                return d1 + "Zabil tě troll." + game.epilog() + d2;
+            }
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
             gameState.setAttackedNpc("troll");
             gameState.setInCombat(true);
+            gameState.setRound(gameState.getRound() + 1);
             return d1 + description + "\nZaútočil na tebe troll." + d2 +
                     targetLocationExit.getDamageMessage();
-
         }
 
         gameState.setCurrentLocation(targetLocation);

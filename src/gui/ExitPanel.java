@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -8,11 +9,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import logic.Game;
 import logic.GameState;
 import logic.Location;
@@ -36,12 +36,21 @@ public class ExitPanel implements Observer {
     private final TextArea console;
     private final VBox exitsPanel = new VBox();
     private final FlowPane flowPane = new FlowPane();
+    private final BorderPane borderPane;
+    private double opacity = 1;
+    private ImageView loading = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/loading.gif"),
+            1000.0,600.0,false, false));
+    HBox loadingBox = new HBox(loading);
+    private GameAreaPanel gameAreaPanel;
 
     //kostruktor
-    public ExitPanel(Game game, TextArea console) {
+    public ExitPanel(Game game, TextArea console, BorderPane borderPane, GameAreaPanel gameAreaPanel) {
         this.game = game;
         this.console = console;
+        this.borderPane = borderPane;
+        this.gameAreaPanel = gameAreaPanel;
         GameState gameState = game.getGameState();
+        loadingBox.setAlignment(Pos.CENTER);
 
         init();
 
@@ -91,12 +100,37 @@ public class ExitPanel implements Observer {
      * @param imageView obrázek lokace
      */
     private void clickOnExit(String locationName, ImageView imageView) {
+        AnimationTimer animationTimer = getAnimationTimer();
+
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            animationTimer.start();
             String command = "jdi ";
             console.appendText("\n" + command + locationName + "\n");
             String gameAnswer = game.processAction(command + locationName);
             console.appendText("\n" + gameAnswer + "\n");
         });
+    }
+
+    private AnimationTimer getAnimationTimer() {
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                doHandle();
+            }
+
+            private void doHandle() {
+                borderPane.setTop(loadingBox);
+                opacity -= 0.03;
+                loading.opacityProperty().set(opacity);
+
+                if (opacity <= 0){
+                    opacity = 1;
+                    stop();
+                    borderPane.setTop(gameAreaPanel.getGameMainScreen());
+                }
+            }
+        };
+        return animationTimer;
     }
 
     public Node getPanel() {return exitsPanel; }

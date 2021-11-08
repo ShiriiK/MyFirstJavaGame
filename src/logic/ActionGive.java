@@ -85,7 +85,7 @@ public class ActionGive implements IAction {
             currentLocation.getExit("brána").removeWatchingNpc(npc);
             currentLocation.getExit("ghetto").removeWatchingNpc(npc);
             currentLocation.getExit("vchod").removeWatchingNpc(npc);
-            currentLocation.getExit("průchod").removeWatchingNpc(npc);
+            currentLocation.getExit("ulice").removeWatchingNpc(npc);
             return d1 + "Dal/a jsi Generálovi taškau s penězi." + d2 +
                     "Generál: Tomu říkám domluva. A teď vypadněte ať už se na vás nemusím koukat.";
         }
@@ -97,21 +97,21 @@ public class ActionGive implements IAction {
         }
         if (npcName.equals("generál") && itemName.equals("kámen")) {
             game.setTheEnd(true);
-            return d1 + "Dal/a jsi Generálvoi kámen." + d2 + "Generál: ...Zbavte se jich.";
+            return d1 + "Dal/a jsi Generálvoi kámen." + d2 + "Generál: ...Zbavte se jich." + game.epilog();
         }
         if (npcName.equals("stráž") && itemName.equals("taška")) {
             inventory.removeItem(itemName);
             currentLocation.removeNpc("stráž");
             return d1 + "Dal/a jsi strážnému tašku s penězi." + d2 +
-                    "Stráž: Woahhhh. Díky mlaďoši takováhle úcta k starším se cení. Pohlídali byste to tu chvilku místo mě?\n" +
+                    "Stráž: Woahhhh. Díky mlaďoši takováhle úcta k starším se cení. Pohlídali byste to tu chvilku místo mě?" +
                     " Jen si skočim na jedno a hned jsem zpátky";
         }
         if (npcName.equals("stráž") && itemName.equals("pivo")) {
             inventory.removeItem(itemName);
             currentLocation.removeNpc("stráž");
             return d1 + "Dal/a jsi strážnému pivo." + d2 +
-                    "Stráž: Pivčo no jooooo. Pohlídali byste to tu chvilku místo mě?\n" +
-                    " Jen si skočim a hned jsem zpátky.";
+                    "Stráž: Pivčo no jooooo. Pohlídali byste to tu chvilku místo mě?" +
+                    " Jen si odskočim a hned jsem zpátky.";
         }
         if (npcName.equals("malá_holčička") && itemName.equals("polštář")) {
             npc.setTalked(3);
@@ -119,7 +119,7 @@ public class ActionGive implements IAction {
             Item itemK = npc.getItemInNpc("klacek");
             npc.removeItemInNpc("klacek");
             inventory.addItem(itemK);
-            return d1 + "Dal/a jsi malé holčičce polštář." + d2 + "Awwwwwwwwwwwwwwwwww. To je ale úplně úžasně chlupatý polštářek!!! Opravdu mi ho jen tak dáte?\n" +
+            return d1 + "Dal/a jsi malé holčičce polštář." + d2 + "Awwwwwwwwwwwwwwwwww. To je ale úplně úžasně chlupatý polštářek!!! Opravdu mi ho jen tak dáte?" +
                      d1+ "Malá holčička ti dala na oplátku klacek." + d2;
         }
         if (npcName.equals("žebrák") && itemName.equals("peníz")) {
@@ -129,21 +129,29 @@ public class ActionGive implements IAction {
             entrance.addItem(beer);
             inventory.removeItem(itemName);
             return d1 + "Dal/a jsi žebrákovi peníz." + d2 +
-                    "Díky díky. Jinak nejsem hlupák, moc dobře vím, kdo jste a koho tu hledáte. Takže infromace přímo pro vás.\n" +
-                    "Vchod do podzemního vězení hlídá jen starý nevrlý dědek, který miluje chlast nadevšechno na světě.\n" +
-                    "Vždycky si schovává aspoň jeden džbán s pivem poblíž, teď když o něm víte, tak to určitě najdete.";
+                    "Díky díky. Jinak nejsem hlupák, moc dobře vím, kdo jste a koho tu hledáte. " +
+                    "Takže infromace přímo pro vás. Vchod do podzemního vězení hlídá jen starý " +
+                    "nevrlý dědek, který miluje chlast nadevšechno na světě. Vždycky si schovává " +
+                    "aspoň jeden džbán s pivem poblíž, teď když o něm víte, tak to určitě najdete.";
         }
         if (npcName.equals("žebrák") && itemName.equals("chleba")) {
             npc.setTalked(3);
             inventory.removeItem(itemName);
             return d1 + "Dal/a jsi žebrákovi chleba." + d2 +
-                    "No, pořád lepší než nic... Výměnou za něj vám můžu říct, že poblíž hory, které je za městem,\n" +
+                    "No, pořád lepší než nic... Výměnou za něj vám můžu říct, že poblíž hory, které je za městem," +
                     " si prý kdysi někdo schoval poklad.";
         }
         if (npcName.equals("tue") && itemName.equals("klacek")) {
-            return d1 + "Dal/a jsi Tuovi klacek." + d2 + "Tue: Kla--kla-cek opravdu mi prostě dáš klacek??? Jsem vám opravud až tak pro smích???\n" +
-                    "///Tuovi, kterému po několika dnech strávených na tomoto příšerném místě, zbývala už jen trocha síla na to, aby se udržel při smyslech, \n" +
-                    "tvoje nabídka klacku způsobila šok, který ho připravil o zbytek rozumu.  Popadl klacek a vší silou, tě s ním začal bodat a zabil tě.";
+            game.setTheEnd(true);
+            inventory.removeItem(itemName);
+            return d1 + "Dal/a jsi Tue klacek." + d2 +
+                    "Tue: Kla--kla-cek opravdu mi prostě dáš klacek???" +
+                    "///Tue, které po několika dnech strávených na tomoto příšerném místě, " +
+                    "zbývala už jen trocha síla na to, aby se udržela při smyslech, " +
+                    "tvoje nabídka klacku jí způsobila šok, který ji připravil o zbytek rozumu. " +
+                    "\nTue opadla klacek a vší silou, tě s ním ubodala." +
+                    game.epilog();
+
         }
         return d1 + "Tohle téhle postavě dát nemůžeš." + d2;
     }

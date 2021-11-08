@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class ActionRescue implements IAction {
     private Game game;
-    private String[] names = {"zachraň_tua"};
+    private String[] names = {"zachraň_tue"};
 
     //Konstruktor
     public ActionRescue(Game game) {

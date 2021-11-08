@@ -60,7 +60,7 @@ public class Game {
      */
     public String theBeginning() {
         return "\nVítej ve hře Záchrana Tue.\n" +
-                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat nápověda\n" +
+                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat nápověda" +
                 "a zobrazí se příkazy, které můžeš použít." + makeItLookGood1() +
                 "Nejprve vyber, zda chceš hrát za muže nebo ženu." +
                 makeItLookGood2();
@@ -70,7 +70,7 @@ public class Game {
      * Vrátí závěrečnou zprávu pro hráče.
      * @return zpráva o ukočení, buďto vítězném nebo o prohře
      */
-    public String theEpilog() {
+    public String epilog() {
         if (happyEnd) {
             return "\nTue byla zachráněna!!!!!!! \n" +
                     makeItLookGood1() + "Gratuluji k úspěšnému dokončení hry!" + makeItLookGood2();
@@ -139,10 +139,10 @@ public class Game {
 
     //Metody pro zkrášlení textů vypisovaných do konozole
     public static String makeItLookGood1() {
-        return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n";
+        return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n";
     }
 
     public static String makeItLookGood2() {
-        return "\n‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-\n";
+        return "\n‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾\n";
     }
 }

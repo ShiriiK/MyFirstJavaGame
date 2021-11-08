@@ -18,7 +18,7 @@ public class EndChecker implements IChecker {
 
         String end = "Game in progress.";
         if (game.theEnd()) {
-            end = game.theEpilog();
+            end = game.epilog();
         }
         String message = "End: \n" + end + "\n" +
                 "\nResult: ";
@@ -26,7 +26,7 @@ public class EndChecker implements IChecker {
             return new CheckResult(true, message + "Not checked\n__________________________________________");
         }
 
-        if (game.theEpilog().equals(step.getEnding())) {
+        if (game.epilog().equals(step.getEnding())) {
             return new CheckResult(true, message + "OK\n__________________________________________");
         }
 

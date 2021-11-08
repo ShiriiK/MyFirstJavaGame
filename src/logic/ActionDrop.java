@@ -68,7 +68,7 @@ public class ActionDrop implements IAction {
         if (("žalář".equals(locationName) || "cela_na_levo".equals(locationName)
                 || "cela_uprostřed".equals(locationName)
                 || "cela_na_pravo".equals(locationName)) && "pochodeň".equals(itemName)) {
-            return d1 + "Ne, to tě opravdu nenechám udělat." + d2;
+            return d1 + "Ne, to opravdu nedělej." + d2;
         }
 
         Item item = inventory.getItem(itemName);

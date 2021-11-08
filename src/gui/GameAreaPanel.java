@@ -1,6 +1,6 @@
 package gui;
 
-import javafx.geometry.Insets;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -10,9 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.*;
@@ -88,12 +86,23 @@ public class GameAreaPanel implements Observer {
         } else if (game.getGameState().getPhase() == 1) {
             gameMainScreen.setCenter(selectName.getSelectName());
         } else if (game.getGameState().isInCombat()){
-            gameMainScreen.setLeft(combat.getPlayer());
-            gameMainScreen.setRight(combat.getNpc());
-            gameMainScreen.setBottom(combat.getButtons());
+            gameMainScreen.setCenter(combat.getCombatScreen());
         } else if (game.getGameState().isInteracting()){
             gameMainScreen.setCenter(interacting.getInteractingScreen());
-        } else {
+
+        } else if (game.getGameState().getCurrentLocation().getName().equals("celna_na_pravo")){
+            normalScreen();
+            Button save = new Button();
+            save.setOnAction(e-> {
+                console.appendText("zachraň_tue");
+                String gameAnswer = game.processAction("zachraň_tue");
+                console.appendText("\n" + gameAnswer + "\n");
+            });
+            HBox buttonBox = new HBox(save);
+            buttonBox.setAlignment(Pos.CENTER);
+            gameMainScreen.setBottom(buttonBox);
+
+        }  else {
             normalScreen();
         }
     }

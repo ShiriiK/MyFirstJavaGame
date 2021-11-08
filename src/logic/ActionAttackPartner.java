@@ -93,6 +93,7 @@ public class ActionAttackPartner implements IAction {
         }
 
         gameState.setInCombat(true);
+        gameState.setRound(gameState.getRound() + 1);
         return  d1 + partnerName + " dal/a " + partnerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
                 npcName + " útok oplatil a způsobil " + npcStr +
                 " poškození. " + partnerName + " teď má " + partner.getHp() + " životů." + d2;

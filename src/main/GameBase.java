@@ -41,6 +41,7 @@ public class GameBase extends Application {
     private ScreenSelectName selectName;
     private ScreenCombat combat;
     private ScreenInteracting interacting;
+    private final Stage primaryStage = new Stage();
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
@@ -130,7 +131,7 @@ public class GameBase extends Application {
         borderPane.setTop(gameAreaPanel.getGameMainScreen());
 
         //nastavení panelu východů
-        exitPanel = new ExitPanel(game, console);
+        exitPanel = new ExitPanel(game, console, borderPane, gameAreaPanel);
         borderPane.setRight(exitPanel.getPanel());
 
         //nastavení panelu inventáře
@@ -195,6 +196,7 @@ public class GameBase extends Application {
         console.setMaxHeight(400.0);
         console.setText(game.theBeginning());
         console.setEditable(false);
+        console.setWrapText(true);
         return console;
     }
 }

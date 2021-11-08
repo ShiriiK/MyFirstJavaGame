@@ -22,22 +22,22 @@ import java.util.stream.Stream;
 
 public class GameState implements SubjectOfChange {
     private Location currentLocation;
-    private Inventory inventory;
-    private Player player;
-    private Partner partner;
+    private final Inventory inventory;
+    private final Player player;
+    private final Partner partner;
     private int phase;
     private boolean inCombat;
+    private int round;
     private Npc attackedNpc;
     private boolean isInteracting;
     private Npc interactingNpc;
-    private Set<Race> races;
-    private Race playersRace;
+    private final Set<Race> races;
     private double negetedDmg;
     private double bonusDmg;
     private boolean usedAttack3;
     private boolean usedCharge;
 
-    private Set<Observer> observers = new HashSet<>();
+    private final Set<Observer> observers = new HashSet<>();
 
     /**
      * Konstruktor - inicializuje hru, vytvoří nového hráče, partnera, inventář, nastaví fázi hry  a pár dalších věcí.
@@ -45,11 +45,12 @@ public class GameState implements SubjectOfChange {
     public GameState() {
         createGame();
         inventory = new Inventory();
-        playersRace = new Race ("nic",null,null);
+        Race playersRace = new Race("nic", null, null);
         player = new Player(null, null, null, 20.0, 0.0, playersRace);
         partner = new Partner(null, null, 20.0, 0.0);
         phase = 0;
         inCombat = false;
+        round = 0;
         isInteracting = false;
         attackedNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
         interactingNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
@@ -72,39 +73,39 @@ public class GameState implements SubjectOfChange {
     private void createGame() {
         // Vytvoření jednotlivých lokací
         Location hidden_field = new Location("skrytá_louka", "Skytá louka",
-                "Skrytá louka na kterou jste narazili s přáteli během průzkumu lesa před pár měsíci,\n" +
-                        "je chráněna silnoumagickou bariérou, takže se na ní žádná monstra z lesa nedostanou.\n " +
+                "Skrytá louka na kterou jste narazili s přáteli během průzkumu lesa před pár měsíci," +
+                        "je chráněna silnoumagickou bariérou, takže se na ní žádná monstra z lesa nedostanou. " +
                         "Uprostřed této louky stojí velký, dobře vybavený dům s malou kovárnou opodál.", 2);
         Location home = new Location("dům", "Dům", "Hlavní společenská místnost v domě.",2);
         Location dining_room = new Location("jídelna", "Jídelna","Prostorná jídelna.", 2);
         Location room = new Location("pokoj", "Pokoj","Tvůj pokoj.", 2);
         Location forge = new Location("kovárna","Kovárna",
-                "Gormino oblíbené místo. Když ji budeš potřebovat, tak ji najdeš tady.\n",2);
+                "Gormino oblíbené místo. Když ji budeš potřebovat, tak ji najdeš tady.",2);
         Location armory = new Location("zbrojírna", "Zbrojírna","Tady si můžeš vybrat svou zbraň.",2);
         Location forest = new Location("les","Les",
-                "Temný nebezpečný les, někde v něm se ztratil jeden z tvých parťáků, Thorfinn.\n" +
+                "Temný nebezpečný les, někde v něm se ztratil jeden z tvých parťáků, Thorfinn." +
                 "Bohužel jeho záchrana musí počkat, než dostanete Tue z vězení.",3);
         Location mountain = new Location("hora","Hora",
-                "Oblast pod horami, které jste před pár měsíci přesli. Byla to těžká cesta, která měla ještě \n" +
+                "Oblast pod horami, které jste před pár měsíci přesli. Byla to těžká cesta, která měla ještě " +
                 "pokračovat. Bohužel zastávka, kterou mělo blízké město představovat, se prodloužila zatím na neurčito.",3);
         Location lake = new Location("jezero","Jezero",
                 "Jezero na západ od tábora. Ukázalo se být dobrým zdrojem jídla.",3);
-        Location alley = new Location("alej", "Alej","Alej vedoucí k městské bráně. Jediným problémem je, \n" +
-                "že se tu začal potulovat obrovský troll, kterého je třeba se zbavit, než půjdete k bráně.\n",3);
-        Location gate = new Location("brána", "Brána","Přísně střežená brána a jediná cesta, která vede do města.\n" +
+        Location alley = new Location("alej", "Alej","Alej vedoucí k městské bráně. Jediným problémem je, " +
+                "že se tu začal potulovat obrovský troll, kterého je třeba se zbavit, než půjdete k bráně.",3);
+        Location gate = new Location("brána", "Brána","Přísně střežená brána a jediná cesta, která vede do města." +
                 "Stráž: Zastavte prosím a ukažte mi doklady o povolení k vstupu, pokud je nemáte, nemohu vás pustit dovnitř.",3);
         Location city = new Location("město","Město",
-                "Město, které zmítá bída a hlad. Rozdíl v životních úrovní lidí je tady astronomický.\n" +
-                        "A štěstí se zase otočilo proti tobě, což sis uvědomil ve chvíli, kdy na tebe zakřičel vrchní generál.\n" +
-                        "Generál: Vy dva se zastavte. Kdo jste a co tu chcete.\n" +
+                "Město, které zmítá bída a hlad. Rozdíl v životních úrovní lidí je tady astronomický." +
+                        "A štěstí se zase otočilo proti tobě, což sis uvědomil ve chvíli, kdy na tebe zakřičel vrchní generál." +
+                        "Generál: Vy dva se zastavte. Kdo jste a co tu chcete." +
                         "///Nyní máš dvě možnosti. Dát mu něco, co by mohlo utišit jeho zvědavost, nebo bojovat.///",3);
         Location ghetto = new Location("ghetto","Ghetto",
-                "Chudá část města a zároveň ta největší. Není moc důvodů, proč tu zůstávat déle, než je nutné.\n",3);
-        Location street = new Location("ulice", "Ulice","Ulice vedoucí na hlavní nádvoří, kam se někdo jako ty nedostane.\n.",3);
+                "Chudá část města a zároveň ta největší. Není moc důvodů, proč tu zůstávat déle, než je nutné.",3);
+        Location street = new Location("ulice", "Ulice","Ulice vedoucí na hlavní nádvoří, kam se někdo jako ty nedostane..",3);
         Location coutyard = new Location("nádvoří", "Nádvoří","",4);
         Location entrence = new Location("vchod", "Vchod","Vchod do pozdemního vězení, kde je Tue držena.",3);
         Location dungeon = new Location("žalář","Žalář",
-                "Podzemní žalář. Je tu velká tma, ale pochodeň pomáhá vidět alespoň pár kroků dopředu.\n"
+                "Podzemní žalář. Je tu velká tma, ale pochodeň pomáhá vidět alespoň pár kroků dopředu."
                 ,3);
         Location cell1 = new Location("cela_na_levo", "Cela na levo","Malá cela, ve které jsou jen krysy.",3);
         Location cell2 = new Location("cela_uprostřed", "Cela uprostřed","Poměrně velká cela s mnoha tmavými zákoutími",3);
@@ -189,15 +190,15 @@ public class GameState implements SubjectOfChange {
                 null);
         Npc frog = new Npc("žába", "Žába",false,50.0, 1.0, false, null, null);
         Npc gorm = new Npc("gorm", "Gorm",true, 100.0,100.0, true, Arrays.asList(
-                "Gorm: Chudinka Tue, neměli jste se do té popravy plést.\n" +
-                        "Ale chápu, že jste se prostě nemohli dívat, jak veřejně popravují malou holčičku.\n" +
+                "Gorm: Chudinka Tue, neměli jste se do té popravy plést." +
+                        "Ale chápu, že jste se prostě nemohli dívat, jak veřejně popravují malou holčičku." +
                         "Taky bych se nemohla jen dívat.",
-                "Gorm: Bude obtížné dostat se do města, ale zřejmě ji drží v podzemím vězení.\n",
-                "Gorm: Ah, právě jsem si vzpomněla, že někde mezi papíry ve stanu by mělo být povolení \n" +
+                "Gorm: Bude obtížné dostat se do města, ale zřejmě ji drží v podzemím vězení.",
+                "Gorm: Ah, právě jsem si vzpomněla, že někde mezi papíry ve stanu by mělo být povolení " +
                         "ke vstupu do města, pokud ho ještě nemáš u sebe, tak si ho běž vzít.",
-                "Gorm: Víš, že nejsem k ničemu v boji, takže mezitím budu pokračovat ve vylepšování \n" +
+                "Gorm: Víš, že nejsem k ničemu v boji, takže mezitím budu pokračovat ve vylepšování " +
                         "našeho vybavení.",
-                "Gorm: Doufám, že je Tue v pořádku, stejně tak Thorfinn... Už je to dlouho, \n" +
+                "Gorm: Doufám, že je Tue v pořádku, stejně tak Thorfinn... Už je to dlouho, " +
                         "co jsme ho ztratili a teď i Tue...",
                 "Gorm: No jo, tak už běž, naši přátelé tě potřebují, nemáme čas se vykecávat do nekonečna.",
                 "Gorm: Ty máš nějakou povídací, co?",
@@ -208,12 +209,12 @@ public class GameState implements SubjectOfChange {
                 "Stráž: ... Mám zavolat ostatním strážným, aby vás odvedli, nebo co?"),
                 "Strážný vás nepustí dovnitř, pokud mu nepředložíte doklady o povolení ke vstupu do města.");
         Npc passageGuard = new Npc("stráž_průchodu", "Strážný průchodu",true, 100.0, 100.0, true, Arrays.asList(
-                "Stráž: Stát, dál nesmíte! Počkat... vy jste přátelé té dívky, která zachránila mou malou sestru \n" +
+                "Stráž: Stát, dál nesmíte! Počkat... vy jste přátelé té dívky, která zachránila mou malou sestru " +
                         "před popravou. Já jsem Armin a chtěl bych jí přes vás vzkázat mé díky.",
                 "Armin: Nemůžu vám moc pomoct s její záchranou, protože teď mou rodinu bedlivě sledují," +
                         " ale můžu vám dát tohle.",
-                "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík.\n" +
-                        "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě\n" +
+                "Armin: Buďte opatrní, nevím, jestli jste už našli vchod do žaláře, ale hlídá ho nevrlý stařík." +
+                        "Nesnažte se s ním moc mluvit, je velmi agresivní, ale když mu dáte nějaké peníze, okamžitě" +
                         " odejde do hospody."),null);
         Npc wolf = new Npc("vlk", "Vlk",false,80.0, 3.0, false, null, null);
         Npc bear = new Npc("medvěd", "Medvěd",false, 80.0, 3.0, false, null, null);
@@ -458,6 +459,14 @@ public class GameState implements SubjectOfChange {
      */
     public boolean isInCombat() {
         return inCombat;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 
     /**

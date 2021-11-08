@@ -67,9 +67,6 @@ public class ActionAttack implements IAction {
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
         if (attackedNpc.isFriendly()) {
-            if ("gorm".equals(npcName)) {
-                return d1 + "Proč útočit na Gorma????" + d2;
-            }
             return d1 + "Není důvod útočit na toto npc." + d2;
         }
 

@@ -41,7 +41,7 @@ public class TextInterface {
             String line = readString();
             System.out.println(game.processAction(line));
         }
-        System.out.println(game.theEpilog());
+        System.out.println(game.epilog());
     }
 
     /**
