@@ -15,6 +15,10 @@ public class Weapon {
     private final double multiplicator;
     private final boolean locked;
     private final String race;
+    private final double bonusDmg;
+    private final double bonusBlock;
+    private final double bonusSpecialAttack;
+    private final double bonusCharge;
 
     /**
      * Konstruktor
@@ -23,12 +27,17 @@ public class Weapon {
      * @param multiplicator mlutiplikátor
      * @param locked dostupnost
      */
-    public Weapon(String name, String displayName, double multiplicator, boolean locked, String race) {
+    public Weapon(String name, String displayName, double multiplicator, boolean locked, String race,
+                  double bonusDmg, double bonusBlock, double bonusSpecialAttack, double bonusCharge) {
         this.name = name;
         this. displayName = displayName;
         this.multiplicator = multiplicator;
         this.locked = locked;
         this.race = race;
+        this.bonusDmg = bonusDmg;
+        this.bonusBlock = bonusBlock;
+        this.bonusSpecialAttack = bonusSpecialAttack;
+        this.bonusCharge = bonusCharge;
     }
 
     public String getDisplayName(){
@@ -65,5 +74,21 @@ public class Weapon {
      */
     public String getRace() {
         return race;
+    }
+
+    public double getBonusDmg() {
+        return bonusDmg;
+    }
+
+    public double getBonusBlock() {
+        return bonusBlock;
+    }
+
+    public double getBonusSpecialAttack() {
+        return bonusSpecialAttack;
+    }
+
+    public double getBonusCharge() {
+        return bonusCharge;
     }
 }

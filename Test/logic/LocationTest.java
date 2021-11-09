@@ -30,8 +30,8 @@ class LocationTest {
     Item item1 = new Item("item1", "",true, "ii");
     Item item2 = new Item("item2", "",false, "ii");
 
-    Weapon weapon1 = new Weapon("weapon1", "",2, false,"");
-    Weapon weapon2 = new Weapon("weapon2", "",2, false,"");
+    Weapon weapon1 = new Weapon("weapon1", "",2, false,"",0,0,0,0);
+    Weapon weapon2 = new Weapon("weapon2", "",2, false,"",0,0,0,0);
 
     /**
      * Kontroluje jestli vrací infromace o tom, kde se hráč nachází a pokud je tamm poprvé, tak i popis lokace.

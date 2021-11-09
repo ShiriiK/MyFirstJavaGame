@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Weapon weapon = new Weapon("weapon", "",2, false,"");
+    Weapon weapon = new Weapon("weapon", "",2, false,"",0,0,0,0);
     Player player = new Player("Haha", "male", weapon, 20, 20, null);
 
     /**

@@ -76,6 +76,7 @@ public class ActionEnhancedCombat implements IAction {
 
         Player player = gameState.getPlayer();
         String race = gameState.getPlayer().getRace().getName();
+        Weapon weapon = player.getPlayerWeapon();
         //síla hráče = str * multiplikátor zbraně
         double playerStr = player.getStr();
         //hp hráče ve chvíli,kdy zaútočil
@@ -94,16 +95,21 @@ public class ActionEnhancedCombat implements IAction {
         double setBonusDmg = 0.0;
         //negeted dmg nastavený toto kolo
         double setNegetedDmg = 0.0;
+        //bonusové dmg ze zbraně
+        double weaponBonusDmg = weapon.getBonusDmg();
+        double weaponBonusBlock = weapon.getBonusBlock();
+        double weaponBonusSpecialAttack = weapon.getBonusSpecialAttack();
+        double weaponBonusCharge = weapon.getBonusCharge();
 
 
         if(attackName.equals("útok_s_úskokem")){
             dmg = playerStr/2.0 + bonusDmg;
-            gameState.setNegetedDmg(20.0);
+            gameState.setNegetedDmg(20.0 + weaponBonusBlock);
 
             setNegetedDmg = 10.0;
         }
         if(attackName.equals("útok_z_blízka")) {
-            dmg = playerStr + bonusDmg;
+            dmg = playerStr + bonusDmg+ weaponBonusDmg;
         }
 
         boolean usedAttack = gameState.isUsedAttack3();
@@ -112,31 +118,34 @@ public class ActionEnhancedCombat implements IAction {
         switch(race){
             case("elf"):
                 if(attackName.equals("volání_entů") && !usedAttack){
-                    dmg = dmg + 35.0;
+                    dmg = dmg + 35.0 + weaponBonusSpecialAttack;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("elfí_běsnění") && !usedCharge) {
-                    dmg = bonusDmg;
+                    dmg = bonusDmg + weaponBonusCharge;
                     setNegetedDmg = 50.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("temný_elf"):
                 if(attackName.equals("pomatení") && !usedAttack){
+                    dmg = dmg + weaponBonusSpecialAttack;
                     setNegetedDmg = 50.0;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("volání_krve") && !usedCharge) {
+                    dmg = dmg + weaponBonusCharge;
                     setBonusDmg = 40.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("barbar"):
                 if(attackName.equals("zuřivý_skok") && !usedAttack){
-                    dmg = dmg + 50.0 ;
+                    dmg = dmg + 50.0 + weaponBonusSpecialAttack;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("bojový_tanec") && !usedCharge) {
+                    dmg = dmg + weaponBonusCharge;
                     setNegetedDmg = -10.0;
                     setBonusDmg = 70.0;
                     gameState.setUsedCharge(true);
@@ -144,21 +153,22 @@ public class ActionEnhancedCombat implements IAction {
                 }
             case("trpaslík"):
                 if(attackName.equals("přivolání_blesků") && !usedAttack){
-                    dmg = dmg + 40.0;
+                    dmg = dmg + 40.0 + weaponBonusSpecialAttack;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("runová_bouře") && !usedCharge) {
-                    dmg = dmg + 80.0;
+                    dmg = dmg + 80.0 + weaponBonusCharge;
                     setNegetedDmg = -10.0;
                     gameState.setUsedCharge(true);
                     break;
                 }
             case("člověk"):
                 if(attackName.equals("meč_spravedlnosti") && !usedAttack){
-                    dmg = dmg + 40.0;
+                    dmg = dmg + 40.0 + weaponBonusSpecialAttack;
                     gameState.setUsedAttack3(true);
                     break;
                 } else if (attackName.equals("modlitba") && !usedCharge) {
+                    dmg = dmg + weaponBonusCharge;
                     setBonusDmg = 40.0;
                     setNegetedDmg = 40.0;
                     gameState.setUsedCharge(true);
@@ -166,10 +176,11 @@ public class ActionEnhancedCombat implements IAction {
                 }
             case("mág"):
                 if(attackName.equals("ohnivá_koule") && !usedAttack){
-                   dmg = 60.0 + bonusDmg;
+                   dmg = 60.0 + bonusDmg + weaponBonusSpecialAttack;
                    gameState.setUsedAttack3(true);
                    break;
                 } else if (attackName.equals("zaklínání") && !usedCharge){
+                    dmg = dmg + weaponBonusCharge;
                     setBonusDmg = 30.0;
                     setNegetedDmg = 30.0;
                     gameState.setUsedCharge(true);

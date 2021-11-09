@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PartnerTest {
 
-    Weapon weapon = new Weapon("weapon", "",2, false,"");
+    Weapon weapon = new Weapon("weapon", "",2, false,"",0,0,0,0);
     Partner partner = new Partner("Yrsa", weapon, 20, 20);
 
     /**

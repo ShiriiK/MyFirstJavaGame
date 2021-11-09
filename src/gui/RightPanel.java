@@ -71,7 +71,10 @@ public class RightPanel implements Observer {
 
                     clickOnWeapon(name, imageView);
 
-                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplikátor: " + weapon.getMultiplicator());
+                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplikátor: " + weapon.getMultiplicator() +
+                            "\nBonus k útoku: " + weapon.getBonusDmg() + "\nBonus k bloku: " + weapon.getBonusBlock() +
+                            "\nBonus k speciálnímu útoku: " + weapon.getBonusSpecialAttack() +
+                            "\nBonus k charge útoku: " + weapon.getBonusCharge());
                     Tooltip.install(imageView, tip);
 
                     flowPane.getChildren().add(imageView);
