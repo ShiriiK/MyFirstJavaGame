@@ -337,24 +337,56 @@ public class GameState implements SubjectOfChange {
 
 
         //Vytvoření zbraní
-        Weapon axe = new Weapon("sekera", "Sekera",1.5, false);
-        Weapon sword = new Weapon("meč", "Meč",1.5, false);
-        Weapon kyj = new Weapon("kyj", "Kyj",1.3, false);
-        Weapon halberd = new Weapon("halberda", "Halberda",2, true);
-        Weapon greatsword = new Weapon("greatsword", "Greatsword",2.2, true);
-        Weapon dagger = new Weapon("dýka", "Dýka",1.8, true);
-        Weapon spear = new Weapon("kopí", "Kopí",2, true);
+        Weapon axe = new Weapon("sekera", "Sekera",1.2, false, "trpaslík");
+        Weapon executioner_axe = new Weapon("popravčí_sekera", "Popravčí sekera", 1.4,true,"trpaslík");
+        Weapon two_axes = new Weapon("dvě_sekery", "Dvě sekery", 1.4,true, "trpaslík");
+        Weapon rune_axe = new Weapon("runová_sekera", "Runová sekera", 1.4, true, "trpaslík");
+        Weapon sword = new Weapon("meč", "Meč",1.2, false, "člověk");
+        Weapon poisoned_sword = new Weapon("otrávený_meč", "Otrávený meč", 1.4, true, "člověk");
+        Weapon greatsword = new Weapon("greatsword", "Greatsword",1.4, true, "člověk");
+        Weapon holysword = new Weapon("posvátný_meč","Posvátný meč", 1.4, true, "člověk");
+        Weapon dagger = new Weapon("dýka", "Dýka",1.2, true, "temný_elf");
+        Weapon poisoned_dagger = new Weapon ("otrávená_dýka", "Otrávená dýka", 1.4, true,"temný_elf");
+        Weapon fire_dagger = new Weapon ("ohnivá_dýka", "Ohnivá dýka", 1.4,true, "temný_elf");
+        Weapon curved_dagger = new Weapon("zahnutá_dýka", "Zahnutá dýka", 1.4,true, "temný_elf");
+        Weapon bow = new Weapon("luk","Luk", 1.4, true, "elf");
+        Weapon longbow = new Weapon("dlouhý_luk", "Dlouhý_luk", 1.4, true, "elf");
+        Weapon mist_bow = new Weapon("mlhový_lul", "Mlhový luk", 1.4, true, "elf");
+        Weapon elven_sword = new Weapon("elfí_meč","Elfí meč", 1.4, true, "elf");
+        Weapon club = new Weapon("kyj", "Kyj",1.2, false, "barbar");
+        Weapon mace = new Weapon("palcát", "Palcát", 1.4, true, "barbar");
+        Weapon halberd = new Weapon("halberda", "Halberda",1.4, true, "barbar");
+        Weapon spear = new Weapon("kopí", "Kopí",1.4, true, "barbar");
+        Weapon staff = new Weapon ("magická_hůl","Magická hůl", 1.2, false, "mág");
+        Weapon dragon_staff = new Weapon("dračí_hůl","Dračí hůl", 1.4, true, "mág");
+        Weapon crystal_staff = new Weapon("krystalová_hůl", "Krystalová hůl", 1.4, true, "mág");
+        Weapon ancient_staff = new Weapon("starodávná_hůl", "Starodávná hůl", 1.4, true, "mág");
 
         //Umístění zbraní
         armory.addWeapon(axe);
+        armory.addWeapon(executioner_axe);
+        armory.addWeapon(two_axes);
+        armory.addWeapon(rune_axe);
         armory.addWeapon(sword);
-        armory.addWeapon(kyj);
-        armory.addWeapon(halberd);
+        armory.addWeapon(poisoned_sword);
         armory.addWeapon(greatsword);
+        armory.addWeapon(holysword);
         armory.addWeapon(dagger);
+        armory.addWeapon(poisoned_dagger);
+        armory.addWeapon(fire_dagger);
+        armory.addWeapon(curved_dagger);
+        armory.addWeapon(bow);
+        armory.addWeapon(longbow);
+        armory.addWeapon(mist_bow);
+        armory.addWeapon(elven_sword);
+        armory.addWeapon(club);
+        armory.addWeapon(mace);
+        armory.addWeapon(halberd);
         armory.addWeapon(spear);
-
-
+        armory.addWeapon(staff);
+        armory.addWeapon(dragon_staff);
+        armory.addWeapon(crystal_staff);
+        armory.addWeapon(ancient_staff);
     }
 
     /**

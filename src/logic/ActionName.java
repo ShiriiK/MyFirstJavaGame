@@ -61,6 +61,14 @@ public class ActionName implements IAction {
         String partnerName = gameState.getPartner().getPartnerName();
         gameState.setPhase(2);
         gameState.getPlayer().setPlayerName(name);
+
+        Location armory = gameState.getCurrentLocation().getExit("kovárna").getTargetLocation().getExit("zbrojírna").getTargetLocation();
+
+        for (Weapon weapon : armory.getWeapons()) {
+            if (!weapon.getRace().equals(gameState.getPlayer().getRace().getName())){
+                armory.removeWeapon(weapon.getName());
+            }
+        }
         return  d1 + "Jméno nastaveno na: " + name + d2 + "\n"+
                 name + ": Ehhh? Já jsem " + name + ", že jo? Jsi to ty Gorm?\n" +
                 "Gorm: Jo, jsem to já.\n" +

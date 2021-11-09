@@ -232,15 +232,15 @@ public class ScreenCombat implements Observer {
         SequentialTransition sequentialTransition = new SequentialTransition(rotateTransition,playerTransition,npcTransition);
 
         attack1.setOnAction(e->{
-            console.appendText("\nspeciální_útok útok_z_blízka\n");
+            console.appendText("\nÚtok z blízka\n");
             sequentialTransition.play();
             String gameAnswer = game.processAction("speciální_útok útok_z_blízka "+ npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack2.setOnAction(e->{
-            console.appendText("\nspeciální_útok útok_z_dálky\n");
+            console.appendText("\nÚtok s úskokem\n");
             sequentialTransition.play();
-            String gameAnswer = game.processAction("speciální_útok útok_z_dálky "+ npcName);
+            String gameAnswer = game.processAction("speciální_útok útok_s_úskokem "+ npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack3.setOnAction(e->{

@@ -14,6 +14,7 @@ public class Weapon {
     private final String displayName;
     private final double multiplicator;
     private final boolean locked;
+    private final String race;
 
     /**
      * Konstruktor
@@ -22,11 +23,12 @@ public class Weapon {
      * @param multiplicator mlutiplikátor
      * @param locked dostupnost
      */
-    public Weapon(String name, String displayName, double multiplicator, boolean locked) {
+    public Weapon(String name, String displayName, double multiplicator, boolean locked, String race) {
         this.name = name;
         this. displayName = displayName;
         this.multiplicator = multiplicator;
         this.locked = locked;
+        this.race = race;
     }
 
     public String getDisplayName(){
@@ -55,5 +57,13 @@ public class Weapon {
      */
     public boolean isLocked() {
         return locked;
+    }
+
+    /**
+     * Metoda pro získání informace o tom, pro jakou rasu, je zbraň určena
+     * @return
+     */
+    public String getRace() {
+        return race;
     }
 }

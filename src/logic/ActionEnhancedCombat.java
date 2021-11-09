@@ -96,7 +96,7 @@ public class ActionEnhancedCombat implements IAction {
         double setNegetedDmg = 0.0;
 
 
-        if(attackName.equals("útok_z_dálky")){
+        if(attackName.equals("útok_s_úskokem")){
             dmg = playerStr/2.0 + bonusDmg;
             gameState.setNegetedDmg(20.0);
 
