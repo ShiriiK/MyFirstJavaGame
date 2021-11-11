@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionPlayer implements IAction {
-    private Game game;
-    private String[] names = {"hráč"};
+    private final Game game;
+    private final String[] names = {"hráč"};
 
     //Konstruktor
     public ActionPlayer(Game game) {

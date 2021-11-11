@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionTerminate implements IAction {
-    private Game game;
-    private String[] names = {"konec"};
+    private final Game game;
+    private final String[] names = {"konec"};
 
     //Konstruktor
     public ActionTerminate(Game game) {

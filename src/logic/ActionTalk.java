@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionTalk implements IAction {
-    private Game game;
-    private String[] names = {"mluv_s", "promluv_si_s"};
+    private final Game game;
+    private final String[] names = {"mluv_s", "promluv_si_s"};
 
     //Konstruktor
     public ActionTalk(Game game) {

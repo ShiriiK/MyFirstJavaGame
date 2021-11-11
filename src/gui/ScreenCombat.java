@@ -27,15 +27,13 @@ import util.Observer;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class ScreenCombat implements Observer {
 
     private final Game game;
     private final TextArea console;
-    private final ImageView playerImageView = new ImageView();
-    private final ImageView npcImageVIew = new ImageView();
     private final HBox buttons = new HBox();
     private final Button melee = new Button("Normální útok");
     private final Button ranged = new Button("Útok z dálky");
@@ -66,12 +64,12 @@ public class ScreenCombat implements Observer {
         combatScreen.getChildren().clear();
         //Nastavení ImageVIew hráče
         Player player = game.getGameState().getPlayer();
-        setPlayerImageView(player);
+        ImageView playerImageView = setPlayerImageView(player);
 
         //Nastavení ImageView npc
         Npc npc = game.getGameState().getAttackedNpc();
         String npcName = npc.getName();
-        setNpcImageView(npcName);
+        ImageView npcImageView = setNpcImageView(npcName);
 
         //Nastavení tlačítek na souboj
         SetButtons(player);
@@ -88,11 +86,11 @@ public class ScreenCombat implements Observer {
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateZ(0);
 
-        action(player, npcName, melee, ranged, specialAttacck, charge, playerImageView, npcImageVIew);
+        action(player, npcName, melee, ranged, specialAttacck, charge, playerImageView, npcImageView);
 
         combatScreen.setTop(hBox);
         combatScreen.setLeft(playerImageView);
-        combatScreen.setRight(npcImageVIew);
+        combatScreen.setRight(npcImageView);
         combatScreen.setBottom(buttons);
     }
 
@@ -100,29 +98,28 @@ public class ScreenCombat implements Observer {
      * Metoda pro nastavení ImageView hráče.
      * @param player hráč
      */
-    private void setPlayerImageView(Player player) {
-        Image playerImage;
+    private ImageView setPlayerImageView(Player player) {
+        ImageView playerImageView;
         if (player.getPlayerGender().equals("žena")) {
-            playerImage = new Image("/zdroje/"+ player.getRace().getName() +"_žena.jpg",
-                    900.0, 470.0, false, false);
+            playerImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_žena.jpg"),
+                    900.0, 470.0, false, false));
         } else {
-            playerImage = new Image ("/zdroje/"+ player.getRace().getName() +"_muž.jpg",
-                    900.0, 470.0, false, false);
+            playerImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_muž.jpg"),
+                    900.0, 470.0, false, false));
         }
-        playerImageView.setImage(playerImage);
+        return playerImageView;
     }
 
     /**
      * Metoda pro nastavení ImageView npc.
      * @param npcName jméno npc
+     * @return
      */
-    private void setNpcImageView(String npcName) {
-        Image npcImage = new Image
-                ("/zdroje/" + npcName + ".jpg", 900.0, 470.0, false, false);
+    private ImageView setNpcImageView(String npcName) {
+        ImageView npcImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/" + npcName + ".jpg"),
+                900.0, 470.0, false, false));
 
-        npcImageVIew.setImage(npcImage);
-
-        npcImageVIew.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zaútočí na npc s parťákem
             if (event.getButton() == MouseButton.PRIMARY) {
                 console.appendText("\nzaútoč_s_parťákem_na "+ npcName + "\n");
@@ -133,8 +130,9 @@ public class ScreenCombat implements Observer {
             else if (event.getButton() == MouseButton.SECONDARY){
                 console.appendText(game.getGameState().getPartner().getPartnerName()
                         + "vyvolává mocnou bouři\n");
-                game.getGameState().setBonusDmg(20.0);
+                game.getGameState().setBonusDmg(30.0);
             }});
+        return npcImageView;
     }
 
     /**
@@ -257,10 +255,16 @@ public class ScreenCombat implements Observer {
         });
     }
 
+    /**
+     * @return combatScreen
+     */
     public Node getCombatScreen() {
         return  combatScreen;
     }
 
+    /**
+     * Aktualizuje soubojovou obrazovku (jen pokud je hráč v souboji)
+     */
     @Override
     public void update() {
         if(game.getGameState().isInCombat()){

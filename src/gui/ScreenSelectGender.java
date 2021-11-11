@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Game;
 
@@ -17,14 +16,14 @@ import logic.Game;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class ScreenSelectGender {
 
-    private Game game;
-    private TextArea console;
-    private VBox selectGenderScreen = new VBox();
+    private final Game game;
+    private final TextArea console;
+    private final VBox selectGenderScreen = new VBox();
 
     //Konstruktor
     public ScreenSelectGender(Game game, TextArea console){
@@ -63,6 +62,7 @@ public class ScreenSelectGender {
         selectGenderScreen.setPrefHeight(570.0);
         selectGenderScreen.setSpacing(15.0);
         selectGenderScreen.setAlignment(Pos.CENTER);
+        selectGenderScreen.setId("#vBox-custom");
         selectGenderScreen.getChildren().addAll(label, male, female);
     }
 
@@ -84,6 +84,9 @@ public class ScreenSelectGender {
         });
     }
 
+    /**
+     * @return selectGenderScreen
+     */
     public Node getSelectGender(){
         return selectGenderScreen;
     }

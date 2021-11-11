@@ -2,8 +2,6 @@ package logic;
 
 public class Race {
     private final String name;
-    private final String attack1;
-    private final String attack2;
     private final String specialAttack;
     private final String charge;
 
@@ -15,8 +13,6 @@ public class Race {
      */
     public Race(String name, String specialAttack, String charge) {
         this.name = name;
-        this.attack1 = "útok_z_blízka";
-        this.attack2 = "útok_z_dálky";
         this.specialAttack = specialAttack;
         this.charge = charge;
     }

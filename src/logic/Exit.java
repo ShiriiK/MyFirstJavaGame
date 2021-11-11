@@ -12,8 +12,8 @@ import java.util.Map;
  * @version LS-2021, 2021-05-26
  */
 public class Exit {
-    private Location targetLocation;
-    private Map<Npc, String> watchingNpcs;
+    private final Location targetLocation;
+    private final Map<Npc, String> watchingNpcs;
 
     //Konstruktor
     public Exit(Location targetLocation) {

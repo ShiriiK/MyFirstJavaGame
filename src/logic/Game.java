@@ -19,8 +19,8 @@ import java.util.*;
 
 public class Game {
     private boolean theEnd;
-    private GameState gameState;
-    private Set<IAction> validActions;
+    private final GameState gameState;
+    private final Set<IAction> validActions;
     private boolean happyEnd;
 
     /**

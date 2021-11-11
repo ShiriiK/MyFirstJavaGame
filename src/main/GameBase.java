@@ -8,9 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import logic.Game;
@@ -20,40 +18,28 @@ import ui.TextInterface;
 /**
  * Spouštěcí třída aplikace.
  * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
+ * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS2021, 2021-10-23
+ * @version ZS2021, 2021-11-10
  */
 
 public class GameBase extends Application {
 
     private final Game game = new Game();
-    private TextField userInput = new TextField();
-    private ExitPanel exitPanel;
-    private InventoryPanel inventoryPanel;
-    private GameAreaPanel gameAreaPanel;
-    private ItemPanel itemsPanel;
-    private RightPanel npcsPanel;
-    private ScreenSelectGender selectGender;
-    private ScreenSelectRace selectRace;
-    private ScreenSelectName selectName;
-    private ScreenCombat combat;
-    private ScreenInteracting interacting;
-    private final Stage primaryStage = new Stage();
+    private final TextField userInput = new TextField();
 
     /**
      * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
      * spuštěna, a na základě nich rozhodne, jakou operaci provede <i>(hra v textovém nebo grafickém rozhraní, výpis
-     * testovacích scénářů, spuštění testovacích scénářů)</i>.
+     * testovacích scénářů, spuštění testovacích scénářů(scénáře jsou nefuknkční, stejně tak testy))</i>.
      * <p>
      * Pokud byla aplikace spuštěna s nepodporovanými parametry, vypíše nápovědu
      * a skončí.
      *
      * @param args parametry aplikace z příkazové řádky
      */
-
     public static void main(String[] args) {
         if (args.length > 0){
             String parametr = args[0];
@@ -74,8 +60,8 @@ public class GameBase extends Application {
                 System.out.println("\nPro spuštění hry můžeš použít následující parametry:");
                 System.out.println("  <žádné> nebo gui    : Zapne hru v grafickém rozhraní.");
                 System.out.println("  text                : Zapne hru v textovém rozhraní.");
-                System.out.println("  SHOW_SCENARIOS      : Vypíše kroky testovacího scénáře.");
-                System.out.println("  RUN_SCENARIOS       : Otestuje krory testovacího scénáře.");
+                System.out.println("  SHOW_SCENARIOS      : Vypíše kroky testovacího scénáře.(nefunkční)");
+                System.out.println("  RUN_SCENARIOS       : Otestuje krory testovacího scénáře.(nefunkční)");
 
                 throw  new IllegalArgumentException("Zadaný neplatný argument: " + parametr);
             }
@@ -86,8 +72,7 @@ public class GameBase extends Application {
 
     /**
      * Metoda pro vytvoření scény s grafickým rozhraním a její uspořádání.
-     *
-     * @param primaryStage scéna, kde se zobrazuje grafické rozhraní hry
+     * @param primaryStage stage, které je přidělena scéna, kde se zobrazuje grafické rozhraní hry
      */
     @Override
     public void start(Stage primaryStage) {
@@ -104,38 +89,41 @@ public class GameBase extends Application {
         enterCommand.setStyle("-fx-font-weight: BOLD");
 
         prepareTextField(console);
-        prepareLowerBox(borderPane, enterCommand);
+        prepareBottomBox(borderPane, enterCommand);
 
         //nastavení panelu s itemy v lokaci
-        itemsPanel = new ItemPanel(game, console);
+        ItemPanel itemsPanel = new ItemPanel(game, console);
 
         //nastavení panelu s npc v lokaci
-        npcsPanel = new RightPanel(game, console);
+        RightPanel npcsPanel = new RightPanel(game, console);
 
         //nastavení pohlaví
-        selectGender = new ScreenSelectGender(game, console);
+        ScreenSelectGender selectGender = new ScreenSelectGender(game, console);
 
         //nastavení rasy
-        selectRace = new ScreenSelectRace(game,console);
+        ScreenSelectRace selectRace = new ScreenSelectRace(game, console);
 
         //nastavení jména
-        selectName = new ScreenSelectName(game, console);
+        ScreenSelectName selectName = new ScreenSelectName(game, console);
 
         //nastavení zobrazení souboje
-        combat = new ScreenCombat(game, console);
+        ScreenCombat combat = new ScreenCombat(game, console);
 
-        interacting = new ScreenInteracting(game, console);
+        //nastavaení zobrazení interakce s npc
+        ScreenInteracting interacting = new ScreenInteracting(game, console);
 
-        //nastavení panelu lokace (obrázek aktuální lokace)
-        gameAreaPanel = new GameAreaPanel(game, console, primaryStage,itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat);
+        MenuPanel menuBar = new MenuPanel(game, console, primaryStage);
+
+        //nastavení panelu lokace (obrázek aktuální lokace + daší viz parametry)
+        GameAreaPanel gameAreaPanel = new GameAreaPanel(game, console, primaryStage, itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat, menuBar);
         borderPane.setTop(gameAreaPanel.getGameMainScreen());
 
         //nastavení panelu východů
-        exitPanel = new ExitPanel(game, console, borderPane, gameAreaPanel);
+        ExitPanel exitPanel = new ExitPanel(game, console, borderPane, gameAreaPanel);
         borderPane.setRight(exitPanel.getPanel());
 
         //nastavení panelu inventáře
-        inventoryPanel = new InventoryPanel(game, console);
+        InventoryPanel inventoryPanel = new InventoryPanel(game, console);
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
@@ -154,12 +142,11 @@ public class GameBase extends Application {
     }
 
     /**
-     * Metoda pro připravení  spodní části složené z boardPane a labelu na zadání příkazu.
-     *
+     * Metoda pro bottom borderPanu na zadání příkazu.
      * @param borderPane boarderPane na nastavení pozice
      * @param enterCommand label na zadání příkazu
      */
-    private void prepareLowerBox(BorderPane borderPane, Label enterCommand) {
+    private void prepareBottomBox(BorderPane borderPane, Label enterCommand) {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(enterCommand, userInput);
@@ -168,7 +155,6 @@ public class GameBase extends Application {
 
     /**
      * Metoda pro připravení textového pole, do kterého uživatel zadává příkazy a hra je vyhodnocuje.
-     *
      * @param console TextArea ve které se vypisují příkazy zadané hráčem a odpovědi hry na tyto příkazy
      */
     private void prepareTextField(TextArea console) {
@@ -187,7 +173,6 @@ public class GameBase extends Application {
 
     /**
      * Metoda pro vytvoření console.
-     *
      * @return vytvořená concole
      */
     private TextArea createConcole() {

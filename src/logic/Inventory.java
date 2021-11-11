@@ -17,7 +17,7 @@ public class Inventory implements SubjectOfChange{
     private static final int MAX_ITEMS = 6; // maximální počet věcí v inventáři
     private final Map<String, Item> content; // seznam věcí v inventáři
 
-    private Set<Observer> observers = new HashSet<>();
+    private final Set<Observer> observers = new HashSet<>();
 
 
     // Konstruktor

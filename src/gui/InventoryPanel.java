@@ -11,9 +11,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import logic.Game;
 import logic.Inventory;
 import util.Observer;
@@ -28,7 +25,7 @@ import java.util.Set;
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-010
  */
 
 public class InventoryPanel implements Observer {
@@ -106,10 +103,16 @@ public class InventoryPanel implements Observer {
         });
     }
 
+    /**
+     * @return inventoryPanel
+     */
     public Node getPanel() {
         return inventoryPanel;
     }
 
+    /**
+     * Aktualizuje obráky itemů v inventáři
+     */
     @Override
     public void update() {
         loadImages();

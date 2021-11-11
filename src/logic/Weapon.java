@@ -70,24 +70,40 @@ public class Weapon {
 
     /**
      * Metoda pro získání informace o tom, pro jakou rasu, je zbraň určena
-     * @return
+     * @return rasa, která může zbraň používat
      */
     public String getRace() {
         return race;
     }
 
+    /**
+     * Metoda pro získání bonusového poškození k normálnímu útoku
+     * @return výše bonusového poškození
+     */
     public double getBonusDmg() {
         return bonusDmg;
     }
 
+    /**
+     * Metoda pro získání bonusového bloku k útoku s úskokem
+     * @return výše bonusového bloku
+     */
     public double getBonusBlock() {
         return bonusBlock;
     }
 
+    /**
+     * Metoda pro získání bonusového poškození k speciálnímu útoku
+     * @return výše bonusového poškození
+     */
     public double getBonusSpecialAttack() {
         return bonusSpecialAttack;
     }
 
+    /**
+     * Metoda pro získání bonusového poškození k charge útoku
+     * @return výše bonusového poškození
+     */
     public double getBonusCharge() {
         return bonusCharge;
     }

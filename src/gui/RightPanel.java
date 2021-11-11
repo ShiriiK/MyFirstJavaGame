@@ -9,19 +9,18 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import logic.*;
 import util.Observer;
 import java.util.Set;
 
 /**
  * Třída implementující rozhraní Observer.
- * NpcPanel nastavuje zobrazení rightPanel v top borderPane při zobrazení normální obrazovky.
+ * RightPanel nastavuje zobrazení rightPanel v top borderPane při zobrazení normální obrazovky.
  * <p>
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class RightPanel implements Observer {
@@ -52,13 +51,13 @@ public class RightPanel implements Observer {
         rightPanel.setPrefHeight(570.0);
         rightPanel.getChildren().add(flowPane);
 
-        loadNpcs();
+        loadRightPanel();
     }
 
     /**
      * Metoda pro nastavení buďto obrázků npc v lokaci nebo obrázků zbraní v lokaci.
       */
-    private void loadNpcs() {
+    private void loadRightPanel() {
         flowPane.getChildren().clear();
             //Pokud je hráč ve zbrojírně, tak se nezobrazjí v rightPanel npc, ale braně
             if (game.getGameState().getCurrentLocation().getName().equals("zbrojírna")) {
@@ -81,10 +80,27 @@ public class RightPanel implements Observer {
                 }
             //Klasické zobrazení npc
             } else {
+
                 Set<Npc> npcSet = game.getGameState().getCurrentLocation().getNpcs();
 
                 for (Npc npc : npcSet) {
                     String name = npc.getName();
+                    if(name.equals("tue")) {
+                        ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
+                                450.0, 250.0, false, false));
+
+                        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                            console.appendText("zachraň_tue");
+                            String gameAnswer = game.processAction("zachraň_tue");
+                            console.appendText("\n" + gameAnswer + "\n");
+                        });
+
+                        Tooltip tip = new Tooltip(npc.getDisplayName());
+                        Tooltip.install(imageView, tip);
+
+                        flowPane.getChildren().add(imageView);
+                        break;
+                    }
                     Boolean friendly = npc.isFriendly();
                     Boolean talk = npc.getTalk();
                     ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
@@ -154,12 +170,18 @@ public class RightPanel implements Observer {
         });
     }
 
+    /**
+     * @return rightPanel
+     */
     public Node getPanel() {
         return rightPanel; }
 
+    /**
+     * Aktualizuje obrázky noc(resp. zbraní) v lokaci
+     */
     @Override
     public void update() {
-        loadNpcs();
+        loadRightPanel();
     }
 
 }

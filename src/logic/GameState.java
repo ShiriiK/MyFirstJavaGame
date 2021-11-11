@@ -1,6 +1,5 @@
 package logic;
 
-
 import util.Observer;
 import util.SubjectOfChange;
 import java.util.Arrays;
@@ -17,25 +16,26 @@ import java.util.stream.Stream;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class GameState implements SubjectOfChange {
     private Location currentLocation;
     private final Inventory inventory;
+    private final Set<Race> races;
     private final Player player;
     private final Partner partner;
     private int phase;
-    private boolean inCombat;
-    private int round;
-    private Npc attackedNpc;
     private boolean isInteracting;
     private Npc interactingNpc;
-    private final Set<Race> races;
+    private boolean inCombat;
+    private Npc attackedNpc;
+    private int round;
     private double negetedDmg;
     private double bonusDmg;
     private boolean usedAttack3;
     private boolean usedCharge;
+    private Location targetLocation;
 
     private final Set<Observer> observers = new HashSet<>();
 
@@ -49,13 +49,15 @@ public class GameState implements SubjectOfChange {
         player = new Player(null, null, null, 20.0, 0.0, playersRace);
         partner = new Partner(null, null, 20.0, 0.0);
         phase = 0;
-        inCombat = false;
-        round = 0;
         isInteracting = false;
-        attackedNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
         interactingNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
+        inCombat = false;
+        attackedNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
+        round = 0;
         negetedDmg = 0.0;
         bonusDmg = 0.0;
+        usedAttack3 = false;
+        usedCharge = false;
 
         Race elf = new Race("elf","volání_entů", "elfí_běsnění");
         Race dark_elf = new Race("temný_elf","pomatení", "volání_krve");
@@ -174,6 +176,7 @@ public class GameState implements SubjectOfChange {
 
         //Nastavení počáteční lokace
         currentLocation = hidden_field;
+        targetLocation = forge;
 
         //Vytvoření npcček
         Npc general = new Npc("generál", "Vrchní generál",false, 150.0, 20.0, true, Arrays.asList(
@@ -261,7 +264,6 @@ public class GameState implements SubjectOfChange {
         gateExit.insertNpc(general);
         dungeonExit.insertNpc(dungeonGuard);
 
-
         //vytvoření itemů
         Item bigRock = new Item("velký_kámen", "Velký kámen",false, "Jediná věc, která zde vyčnívá.");
         Item shinyRock = new Item("svítící_kámen", "Svítící kámen",true, "Modrý svítící kámen, " +
@@ -334,7 +336,6 @@ public class GameState implements SubjectOfChange {
         girl.insertItem(stick);
         entrence.addItem(torch);
         passageGuard.insertItem(masterKey);
-
 
         //Vytvoření zbraní
         Weapon axe = new Weapon("sekera", "Sekera",1.2, false, "trpaslík",0,0,0,0);
@@ -415,7 +416,6 @@ public class GameState implements SubjectOfChange {
 
     /**
      * Metoda pro nastavení aktuální lokace.
-     * Při změně aktuální lokace upozorní observery.
      * @param currentLocation lokace, která bude nastavena jako nová aktuální lokace
      */
     public void setCurrentLocation(Location currentLocation) {
@@ -474,10 +474,7 @@ public class GameState implements SubjectOfChange {
     }
 
     /**
-     * Metoda, která je zavolána, když hráč začne bojovat a hnedka soubouj nez končí a pomocí níž je nastavena hodnota
-     * parametru inCombat na true.
-     * Nebo je zalována, když hráč zabije npc, se kterým bojoval a hodnota parametru je nastavena na false.
-     *
+     * Metoda, podle jejíž odpovědi se určuje,jestli hráč bojuje.
      * @param inCombat true - hráč bojuje, false - hráč nebojuje
      */
     public void setInCombat(boolean inCombat) {
@@ -493,10 +490,18 @@ public class GameState implements SubjectOfChange {
         return inCombat;
     }
 
+    /**
+     * Metoda pro získání informaace o tok, kolik kol souboje již proběhlo
+     * @return počet kol
+     */
     public int getRound() {
         return round;
     }
 
+    /**
+     * Metoda pro nastavení počtu kol souboje
+     * @param round počet kol
+     */
     public void setRound(int round) {
         this.round = round;
     }
@@ -516,40 +521,6 @@ public class GameState implements SubjectOfChange {
      */
     public Npc getAttackedNpc(){
         return attackedNpc;
-    }
-
-    /**
-     * Metoda pro nastavení, zda hráč komunikuje.
-     * @param isInteracting true - jo, false - ne
-     */
-    public void setInteracting(boolean isInteracting) {
-        this.isInteracting = isInteracting;
-        notifyObservers();
-    }
-
-    /**
-     * Metoda zjištění, zda hráč komunikuje.
-     * @return true - jo, false - ne
-     */
-    public boolean isInteracting() {
-        return isInteracting;
-    }
-
-    /**
-     * Metoda pro nastavení npc, se kterým hráč komunikuje.
-     * @param interactingNpc npc
-     */
-    public void setInteractingNpc(String interactingNpc) {
-        this.interactingNpc = getCurrentLocation().getNpc(interactingNpc);
-        notifyObservers();
-    }
-
-    /**
-     * Metoda pro vrácení odkazu na npc, se kterým má hráč komunikovat.
-     * @return npc
-     */
-    public Npc getInteractingNpc(){
-        return interactingNpc;
     }
 
     /**
@@ -614,6 +585,40 @@ public class GameState implements SubjectOfChange {
      */
     public void setUsedCharge(boolean usedCharge) {
         this.usedCharge = usedCharge;
+    }
+
+    /**
+     * Metoda pro nastavení, zda hráč komunikuje.
+     * @param isInteracting true - jo, false - ne
+     */
+    public void setInteracting(boolean isInteracting) {
+        this.isInteracting = isInteracting;
+        notifyObservers();
+    }
+
+    /**
+     * Metoda zjištění, zda hráč komunikuje.
+     * @return true - jo, false - ne
+     */
+    public boolean isInteracting() {
+        return isInteracting;
+    }
+
+    /**
+     * Metoda pro nastavení npc, se kterým hráč komunikuje.
+     * @param interactingNpc npc
+     */
+    public void setInteractingNpc(String interactingNpc) {
+        this.interactingNpc = getCurrentLocation().getNpc(interactingNpc);
+        notifyObservers();
+    }
+
+    /**
+     * Metoda pro vrácení odkazu na npc, se kterým má hráč komunikovat.
+     * @return npc
+     */
+    public Npc getInteractingNpc(){
+        return interactingNpc;
     }
 
     @Override

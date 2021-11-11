@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionName implements IAction {
-    private Game game;
-    private String[] names = {"jméno"};
+    private final Game game;
+    private final String[] names = {"jméno"};
 
     //Konstruktor
     public ActionName(Game game) {
@@ -36,8 +36,8 @@ public class ActionName implements IAction {
      */
     @Override
     public String execute(String... parameters) {
-        String d1 = game.makeItLookGood1();
-        String d2 = game.makeItLookGood2();
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         GameState gameState = game.getGameState();
         int phase = gameState.getPhase();

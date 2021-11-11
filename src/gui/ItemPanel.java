@@ -9,7 +9,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import logic.*;
 import util.Observer;
 import java.util.Set;
@@ -21,11 +20,10 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class ItemPanel implements Observer {
-
     private final Game game;
     private final TextArea console;
     private final HBox itemsPanel = new HBox();
@@ -96,10 +94,16 @@ public class ItemPanel implements Observer {
         });
     }
 
+    /**
+     * @return itemsPanel
+     */
     public Node getPanel() {
         return itemsPanel;
     }
 
+    /**
+     * Aktualizuje obrázky itemů v lokaci
+     */
     @Override
     public void update() {
         loadItems();

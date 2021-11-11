@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionLook implements IAction {
-    private Game game;
-    private String[] names = {"rozhlédni_se"};
+    private final Game game;
+    private final String[] names = {"rozhlédni_se"};
 
     //Konstruktor
     public ActionLook(Game game) {

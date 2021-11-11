@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionDrop implements IAction {
-    private Game game;
-    private String[] names = {"zahoď", "polož"};
+    private final Game game;
+    private final String[] names = {"zahoď", "polož"};
 
     //Konstruktor
     public ActionDrop(Game game) {

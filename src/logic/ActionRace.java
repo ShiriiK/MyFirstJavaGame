@@ -11,8 +11,8 @@ import java.util.Arrays;
  */
 
 public class ActionRace implements IAction {
-    private Game game;
-    private String[] names = {"rasa"};
+    private final Game game;
+    private final String[] names = {"rasa"};
 
     //Konstruktor
     public ActionRace(Game game) {
@@ -35,8 +35,8 @@ public class ActionRace implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = game.makeItLookGood1();
-        String d2 = game.makeItLookGood2();
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         if (parameters.length == 0) {
             return d1 + "Kterou rasu si chceš vybrat?" + d2;
@@ -55,8 +55,6 @@ public class ActionRace implements IAction {
 
         String raceName = parameters[0];
         Race race = gameState.getRace(raceName);
-
-
 
         if (raceName.matches("elf|temný_elf|barbar|trpaslík|člověk|mág")) {
             player.setRace(race);

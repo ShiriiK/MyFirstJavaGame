@@ -29,7 +29,7 @@ import java.util.Set;
  * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
  *
  *  * @author Alena Kalivodová
- *  * @version ZS-2021, 2021-11-06
+ *  * @version ZS-2021, 2021-11-10
  */
 
 public class ScreenInteracting implements Observer {
@@ -172,10 +172,16 @@ public class ScreenInteracting implements Observer {
         });
     }
 
+    /**
+     * @return interactingScreen
+     */
     public Node getInteractingScreen(){
         return interactingScreen;
     }
 
+    /**
+     * Aktualizuje obrazovku při komunikaci s npc (jen pokud hráč s nějakým npc komunikuje)
+     */
     @Override
     public void update() {
         if (game.getGameState().isInteracting()){

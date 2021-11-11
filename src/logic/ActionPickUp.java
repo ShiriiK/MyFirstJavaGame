@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionPickUp implements IAction {
-    private Game game;
-    private String[] names = {"vezmi", "seber", "zdvihni"};
+    private final Game game;
+    private final String[] names = {"vezmi", "seber", "zdvihni"};
 
     //Konstruktor
     public ActionPickUp(Game game) {

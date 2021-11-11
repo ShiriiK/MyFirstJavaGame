@@ -8,7 +8,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Game;
 
@@ -42,7 +41,6 @@ public class ScreenSelectRace {
     private void init() {
         Label label = new Label("Vyber si rasu: ");
         label.setStyle("-fx-font-size: 70.0");
-
 
         setButtons();
 
@@ -135,6 +133,9 @@ public class ScreenSelectRace {
         });
     }
 
+    /**
+     * @return selectRaceScreen
+     */
     public Node getSelectRace(){
         return selectRaceScreen;
     }

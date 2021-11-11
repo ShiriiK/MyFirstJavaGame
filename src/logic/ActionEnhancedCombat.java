@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionEnhancedCombat implements IAction {
-    private Game game;
-    private String[] names = {"speciální_útok"};
+    private final Game game;
+    private final String[] names = {"speciální_útok"};
 
     //Konstruktor
     public ActionEnhancedCombat(Game game) {

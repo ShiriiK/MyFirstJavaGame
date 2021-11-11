@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionGender implements IAction {
-    private Game game;
-    private String[] names = {"pohlaví"};
+    private final Game game;
+    private final String[] names = {"pohlaví"};
 
     //Konstruktor
     public ActionGender(Game game) {
@@ -36,8 +36,8 @@ public class ActionGender implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = game.makeItLookGood1();
-        String d2 = game.makeItLookGood2();
+        String d1 = Game.makeItLookGood1();
+        String d2 = Game.makeItLookGood2();
 
         if (parameters.length == 0) {
             return d1 + "Které pohlaví si chceš vybrat? Máš na výběr mezi mužem a ženou." + d2;
@@ -74,7 +74,7 @@ public class ActionGender implements IAction {
             partner.setPartnerName("Torsten");
             partner.setStr(30.0);
             partner.setHp(100.0);
-            player.setStr(20.0);
+            player.setStr(30.0);
             player.setHp(80.0);
         }
 

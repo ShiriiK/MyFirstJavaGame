@@ -17,7 +17,7 @@ public class Npc {
     private final String displayName;
     private final boolean friendly;
     private double hp;
-    private double str;
+    private final double str;
     private final Collection<Item> npcItems;
     private final List<String> talks;
     private int talked;
@@ -90,14 +90,6 @@ public class Npc {
      */
     public double getStr() {
         return str;
-    }
-
-    /**
-     * Metoda pro nastavení str npc
-     * @param str
-     */
-    public void setStr(double str) {
-        this.str = str;
     }
 
     /**

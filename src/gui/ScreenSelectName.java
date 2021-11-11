@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import logic.Game;
 
@@ -21,9 +20,9 @@ import logic.Game;
 
 public class ScreenSelectName {
 
-    private Game game;
-    private TextArea console;
-    private VBox selectNameScreen = new VBox();
+    private final Game game;
+    private final TextArea console;
+    private final VBox selectNameScreen = new VBox();
 
     //Konstruktor
     public ScreenSelectName(Game game, TextArea console){
@@ -50,6 +49,7 @@ public class ScreenSelectName {
         selectNameScreen.setPrefHeight(570.0);
         selectNameScreen.setSpacing(15.0);
         selectNameScreen.setAlignment(Pos.CENTER);
+        selectNameScreen.setId("#vBox-custom");
         selectNameScreen.getChildren().addAll(label, userInput);
     }
 
@@ -67,6 +67,9 @@ public class ScreenSelectName {
         });
     }
 
+    /**
+     * @return selectName
+     */
     public Node getSelectName(){
         return selectNameScreen;
     }

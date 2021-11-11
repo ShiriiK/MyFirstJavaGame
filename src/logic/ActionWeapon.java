@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionWeapon implements IAction {
-    private Game game;
-    private String[] names = {"vzemi_si_zbraň", "zbraň"};
+    private final Game game;
+    private final String[] names = {"vzemi_si_zbraň", "zbraň"};
 
     //Konstuktor
 

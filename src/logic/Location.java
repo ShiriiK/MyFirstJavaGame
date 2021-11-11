@@ -18,12 +18,12 @@ public class Location implements SubjectOfChange {
     private final String name;
     private final String displayName;
     private final String description;
-    private boolean known;
     private final Set<Exit> exits;                     //  seznam sousedních lokací
     private final Set<Item> items;                    //  seznam věcí nacházejících se v lokaci
     private final Set<Npc> npcs;                     //  seznam postav nacházejících se v lokaci
     private final Set<Weapon> weapons;
     private final int phase;
+    private boolean known;
 
     private static Set<Observer> observers = new HashSet<>();
 

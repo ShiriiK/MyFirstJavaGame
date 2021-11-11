@@ -17,6 +17,8 @@ import logic.Game;
 import logic.GameState;
 import logic.Location;
 import util.Observer;
+
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ import java.util.Set;
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-06
+ * @version ZS-2021, 2021-11-10
  */
 
 public class ExitPanel implements Observer {
@@ -36,12 +38,9 @@ public class ExitPanel implements Observer {
     private final TextArea console;
     private final VBox exitsPanel = new VBox();
     private final FlowPane flowPane = new FlowPane();
+    private final GameAreaPanel gameAreaPanel;
     private final BorderPane borderPane;
     private double opacity = 1;
-    private ImageView loading = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/loading.gif"),
-            1000.0,600.0,false, false));
-    HBox loadingBox = new HBox(loading);
-    private GameAreaPanel gameAreaPanel;
 
     //kostruktor
     public ExitPanel(Game game, TextArea console, BorderPane borderPane, GameAreaPanel gameAreaPanel) {
@@ -49,12 +48,10 @@ public class ExitPanel implements Observer {
         this.console = console;
         this.borderPane = borderPane;
         this.gameAreaPanel = gameAreaPanel;
-        GameState gameState = game.getGameState();
-        loadingBox.setAlignment(Pos.CENTER);
 
         init();
 
-        gameState.registerObserver(this);
+        game.getGameState().registerObserver(this);
     }
 
     /**
@@ -104,15 +101,26 @@ public class ExitPanel implements Observer {
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             animationTimer.start();
-            String command = "jdi ";
-            console.appendText("\n" + command + locationName + "\n");
-            String gameAnswer = game.processAction(command + locationName);
+            console.appendText("\njdi " + locationName + "\n");
+            String gameAnswer = game.processAction("jdi " + locationName);
             console.appendText("\n" + gameAnswer + "\n");
         });
     }
 
+    /**
+     * Metoda pro nastavení animace loading screen při přechodu mezi lokacemi
+     * @return
+     */
     private AnimationTimer getAnimationTimer() {
-        AnimationTimer animationTimer = new AnimationTimer() {
+        ImageView loading = new ImageView(new Image
+                (Objects.requireNonNull(GameAreaPanel.class.getResourceAsStream("/zdroje/loading.gif")),
+                        1000.0,600.0,false, false));
+
+        HBox loadingBox = new HBox(loading);
+        loadingBox.setAlignment(Pos.CENTER);
+
+        AnimationTimer animationTimer = new AnimationTimer()
+        {
             @Override
             public void handle(long now) {
                 doHandle();
@@ -133,8 +141,14 @@ public class ExitPanel implements Observer {
         return animationTimer;
     }
 
+    /**
+     * @return exitsPanel
+     */
     public Node getPanel() {return exitsPanel; }
 
+    /**
+     * Metoda pro aktualizaci východů z lokace
+     */
     @Override
     public void update() {
         loadCurrentExits();

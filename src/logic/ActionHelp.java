@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @version ZS-2021, 2021-10-16
  */
 public class ActionHelp implements IAction {
-    private String[] names = {"nápověda"};
+    private final String[] names = {"nápověda"};
 
     /**
      * Metoda použitá pro identifikování platnosti příkazů.
@@ -40,6 +40,7 @@ public class ActionHelp implements IAction {
         return  d1 + "Můžeš použít následující příkazy:\n\n" +
                 "pohlaví + muž/žena\n" +
                 "jméno + jméno\n" +
+                "rasa + rasa\n" +
                 "vzemi_si_zbraň/zbraň + zbraň\n" +
                 "odlož_zbraň\n" +
                 "hráč => zobrazí staty hráče.\n" +
@@ -50,11 +51,11 @@ public class ActionHelp implements IAction {
                 "prozkoumej/prohledej + předmět\n" +
                 "vezmi/seber + předmět\n" +
                 "zahoď/polož + předmět\n" +
-                "dej/nabídn + postava + předmět\n" +
+                "dej/nabídni + postava + předmět\n" +
                 "jdi/jdi_do/běž/běž_do + lokace\n" +
                 "zaútoč_na + postava\n" +
                 "zaútoč_s_parťákem_na + postava\n" +
-                "zachraň_tua\n" +
+                "zachraň_tue\n" +
                 "konec" + d2;
     }
 }

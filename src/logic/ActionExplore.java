@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 
 public class ActionExplore implements IAction {
-    private Game game;
-    private String[] names = {"prozkoumej", "prohledej"};
+    private final Game game;
+    private final String[] names = {"prozkoumej", "prohledej"};
 
     //Konstruktor
     public ActionExplore(Game game) {

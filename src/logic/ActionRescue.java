@@ -12,8 +12,8 @@ import java.util.Arrays;
  */
 
 public class ActionRescue implements IAction {
-    private Game game;
-    private String[] names = {"zachraň_tue"};
+    private final Game game;
+    private final String[] names = {"zachraň_tue"};
 
     //Konstruktor
     public ActionRescue(Game game) {
@@ -51,6 +51,6 @@ public class ActionRescue implements IAction {
 
         game.setHappyEnd(true);
         game.setTheEnd(true);
-        return "Hra skončila.";
+        return game.epilog() + "Hra skončila.";
     }
 }
