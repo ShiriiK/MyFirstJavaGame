@@ -128,9 +128,8 @@ public class GameAreaPanel implements Observer {
         topPane.setRight(partnerButton);
 
         //Nastavení obrázku aktuální lokace
-        ImageView center = new ImageView(new Image
-                (Objects.requireNonNull(GameState.class.getResourceAsStream("/zdroje/" + location.getName() + ".jpg")),
-                        1000.0, 550.0, false, false));
+        ImageView center = new ImageView(new Image("/zdroje/" + location.getName() + ".jpg",
+                        1000.0, 550.0, false, false, true));
 
         VBox vBox = new VBox(topPane, center);
         gameMainScreen.setCenter(vBox);
@@ -168,9 +167,8 @@ public class GameAreaPanel implements Observer {
             inPane.setTop(label);
             inPane.setBottom(close);
 
-            ImageView playerImageView = new ImageView(new Image(Objects.requireNonNull(GameAreaPanel.class.getResourceAsStream(
-                    "/zdroje/" + partner.getPartnerName() + ".jpg")),
-                    900.0, 470.0, false, false));
+            ImageView playerImageView = new ImageView(new Image("/zdroje/" + partner.getPartnerName() + ".jpg",
+                    900.0, 470.0, false, false, true));
 
             BorderPane playerPane = new BorderPane();
             playerPane.setStyle("-fx-background-color: BLACK");
@@ -212,9 +210,8 @@ public class GameAreaPanel implements Observer {
             inPane.setTop(label);
             inPane.setBottom(close);
 
-            ImageView playerImageView = new ImageView(new Image(Objects.requireNonNull(GameAreaPanel.class.getResourceAsStream(
-                    "/zdroje/" + player.getRace().getName() + "_" + player.getPlayerGender() + ".jpg")),
-                    900.0, 470.0, false, false));
+            ImageView playerImageView = new ImageView(new Image("/zdroje/" + player.getRace().getName() + "_" + player.getPlayerGender() + ".jpg",
+                    900.0, 470.0, false, false, true));
 
             BorderPane playerPane = new BorderPane();
             playerPane.setStyle("-fx-background-color: BLACK");

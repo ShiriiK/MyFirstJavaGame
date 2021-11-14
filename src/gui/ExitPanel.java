@@ -18,6 +18,7 @@ import logic.GameState;
 import logic.Location;
 import util.Observer;
 
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.Set;
 
@@ -78,8 +79,8 @@ public class ExitPanel implements Observer {
 
             for (Location location : locationsSet) {
                 String locationName = location.getName();
-                ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + locationName + ".jpg")),
-                        250, 100, false, false));
+                ImageView imageView = new ImageView(new Image("/zdroje/" + locationName + ".jpg",
+                        250, 100, false, false,true));
 
                 clickOnExit(locationName, imageView);
 
@@ -113,8 +114,8 @@ public class ExitPanel implements Observer {
      */
     private AnimationTimer getAnimationTimer() {
         ImageView loading = new ImageView(new Image
-                (Objects.requireNonNull(GameAreaPanel.class.getResourceAsStream("/zdroje/loading.gif")),
-                        1000.0,600.0,false, false));
+                ("/zdroje/loading.gif", 1000.0,600.0,
+                        false, false,true));
 
         HBox loadingBox = new HBox(loading);
         loadingBox.setAlignment(Pos.CENTER);

@@ -63,8 +63,8 @@ public class ItemPanel implements Observer {
 
         for (Item item : itemsSet) {
             String itemName = item.getName();
-            ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + itemName + ".jpg")),
-                    200.0, 100.0, false, false));
+            ImageView imageView = new ImageView(new Image("/zdroje/" + itemName + ".jpg",
+                    200.0, 100.0, false, false, true));
 
             clickOnItem(itemName, imageView);
 

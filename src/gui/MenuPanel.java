@@ -46,8 +46,8 @@ public class MenuPanel {
         Menu fileMenu = new Menu("Soubor");
         Menu helpMenu = new Menu("Nápověda");
 
-        ImageView icon = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/icon.jpg"),
-                40.0,25.0,false, true));
+        ImageView icon = new ImageView(new Image("/zdroje/icon.jpg",
+                40.0,25.0,false, true, true));
 
         MenuItem newGame = new MenuItem("Nová hra", icon);
         newGame.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
@@ -92,8 +92,8 @@ public class MenuPanel {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Mapa");
 
-            ImageView imageView = new ImageView(new Image(GameAreaPanel.class.getResourceAsStream("/zdroje/mapa.jpg"),
-                    1200.0, 600.0, true, false));
+            ImageView imageView = new ImageView(new Image("/zdroje/mapa.jpg", 1200.0, 600.0,
+                    true, false, true));
 
             Button close = new Button("Zavřít");
             close.setStyle("-fx-font-family: Garamond");

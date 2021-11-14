@@ -65,8 +65,8 @@ public class RightPanel implements Observer {
 
                 for (Weapon weapon : weaponSet) {
                     String name = weapon.getName();
-                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
-                        200.0, 125.0, false, false));
+                    ImageView imageView = new ImageView(new Image("/zdroje/" + name + ".jpg",
+                        200.0, 125.0, false, false, true));
 
                     clickOnWeapon(name, imageView);
 
@@ -86,8 +86,8 @@ public class RightPanel implements Observer {
                 for (Npc npc : npcSet) {
                     String name = npc.getName();
                     if(name.equals("tue")) {
-                        ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
-                                450.0, 250.0, false, false));
+                        ImageView imageView = new ImageView(new Image("/zdroje/" + name + ".jpg",
+                                450.0, 250.0, false, false, true));
 
                         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                             console.appendText("zachraň_tue");
@@ -103,8 +103,8 @@ public class RightPanel implements Observer {
                     }
                     Boolean friendly = npc.isFriendly();
                     Boolean talk = npc.getTalk();
-                    ImageView imageView = new ImageView(new Image((GameState.class.getResourceAsStream("/zdroje/" + name + ".jpg")),
-                            450.0, 250.0, false, false));
+                    ImageView imageView = new ImageView(new Image("/zdroje/" + name + ".jpg",
+                            450.0, 250.0, false, false, true));
 
                     clickOnNpc(name, imageView, friendly, talk);
 

@@ -69,12 +69,13 @@ public class ScreenInteracting implements Observer {
     private void setPlayerImageView() {
         Player player = game.getGameState().getPlayer();
         ImageView playerImageView;
+        String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
-            playerImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_žena.jpg"),
-                    900.0, 470.0, false, false));
+            playerImageView = new ImageView(new Image("/zdroje/"+ race +"_žena.jpg",
+                    900.0, 470.0, false, false, true));
         } else {
-            playerImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_muž.jpg"),
-                    900.0, 470.0, false, false));
+            playerImageView = new ImageView(new Image("/zdroje/"+ race +"_muž.jpg",
+                    900.0, 470.0, false, false, true));
         }
         interactingScreen.getChildren().addAll(playerImageView);
     }
@@ -86,8 +87,8 @@ public class ScreenInteracting implements Observer {
         Npc npc = game.getGameState().getInteractingNpc();
         String npcName = npc.getName();
 
-        ImageView npcImageView = new ImageView(new Image(GameState.class.getResourceAsStream("/zdroje/"+ npcName +".jpg"),
-                    900.0, 470.0, false, false));
+        ImageView npcImageView = new ImageView(new Image("/zdroje/"+ npcName +".jpg",
+                    900.0, 470.0, false, false, true));
 
         interactingScreen.getChildren().addAll(npcImageView);
 

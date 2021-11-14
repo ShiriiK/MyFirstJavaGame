@@ -69,10 +69,9 @@ public class InventoryPanel implements Observer {
             Set<String> itemsSet = game.getGameState().getInventory().itemsInInventory();
 
             for (String itemName : itemsSet) {
-                String pictureName = "/zdroje/" + itemName + ".jpg";
-                InputStream inputStream = InventoryPanel.class.getResourceAsStream(pictureName);
-                Image image = new Image(inputStream, 250.0, 100.0, false, false);
-                ImageView imageView = new ImageView(image);
+
+                ImageView imageView = new ImageView(new Image("/zdroje/" + itemName + ".jpg", 250.0,
+                        100.0, false, false, true));
 
                 cilickOnItemInInventory(itemName, imageView);
 

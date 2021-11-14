@@ -100,11 +100,12 @@ public class ScreenCombat implements Observer {
      */
     private ImageView setPlayerImageView(Player player) {
         ImageView playerImageView;
+        String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
-            playerImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_žena.jpg"),
-                    900.0, 470.0, false, false));
+            playerImageView = new ImageView(new Image("/zdroje/"+ race +"_žena.jpg",
+                    900.0, 470.0, false, false, true));
         } else {
-            playerImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/"+ player.getRace().getName() +"_muž.jpg"),
+            playerImageView = new ImageView(new Image("/zdroje/"+ race +"_muž.jpg",
                     900.0, 470.0, false, false));
         }
         return playerImageView;
@@ -116,8 +117,8 @@ public class ScreenCombat implements Observer {
      * @return
      */
     private ImageView setNpcImageView(String npcName) {
-        ImageView npcImageView = new ImageView(new Image(ScreenCombat.class.getResourceAsStream("/zdroje/" + npcName + ".jpg"),
-                900.0, 470.0, false, false));
+        ImageView npcImageView = new ImageView(new Image("/zdroje/" + npcName + ".jpg",
+                900.0, 470.0, false, false, true));
 
         npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zaútočí na npc s parťákem
