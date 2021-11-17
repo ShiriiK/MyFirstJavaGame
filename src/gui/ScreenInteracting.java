@@ -72,10 +72,10 @@ public class ScreenInteracting implements Observer {
         String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
             playerImageView = new ImageView(new Image("/zdroje/"+ race +"_žena.jpg",
-                    900.0, 470.0, false, false, true));
+                    900.0, 470.0, false, false));
         } else {
             playerImageView = new ImageView(new Image("/zdroje/"+ race +"_muž.jpg",
-                    900.0, 470.0, false, false, true));
+                    900.0, 470.0, false, false));
         }
         interactingScreen.getChildren().addAll(playerImageView);
     }

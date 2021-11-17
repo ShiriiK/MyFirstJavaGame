@@ -13,7 +13,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.*;
 import util.Observer;
-import java.util.Objects;
 
 /**
  * Třída implementující rozhraní Observer.
@@ -168,7 +167,7 @@ public class GameAreaPanel implements Observer {
             inPane.setBottom(close);
 
             ImageView playerImageView = new ImageView(new Image("/zdroje/" + partner.getPartnerName() + ".jpg",
-                    900.0, 470.0, false, false, true));
+                    900.0, 470.0, false, false));
 
             BorderPane playerPane = new BorderPane();
             playerPane.setStyle("-fx-background-color: BLACK");
@@ -211,7 +210,7 @@ public class GameAreaPanel implements Observer {
             inPane.setBottom(close);
 
             ImageView playerImageView = new ImageView(new Image("/zdroje/" + player.getRace().getName() + "_" + player.getPlayerGender() + ".jpg",
-                    900.0, 470.0, false, false, true));
+                    900.0, 470.0, false, false));
 
             BorderPane playerPane = new BorderPane();
             playerPane.setStyle("-fx-background-color: BLACK");

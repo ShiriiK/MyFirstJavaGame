@@ -16,6 +16,11 @@ public class Player {
     private double hp;
     private double str;
     private Race race;
+    private int round;
+    private double negetedDmg;
+    private double bonusDmg;
+    private boolean usedAttack3;
+    private boolean usedCharge;
 
     /**
      * Konstruktor
@@ -33,6 +38,12 @@ public class Player {
         this.hp = hp;
         this.str = str;
         this.race = race;
+
+        round = 0;
+        negetedDmg = 0.0;
+        bonusDmg = 0.0;
+        usedAttack3 = false;
+        usedCharge = false;
     }
 
     /**
@@ -171,6 +182,87 @@ public class Player {
             case("mág"):
                 setStr(getStrWithoutWeapon()+12);
         }
+
+
     }
 
+    /**
+     * Metoda pro získání informaace o tok, kolik kol souboje již proběhlo
+     * @return počet kol
+     */
+    public int getRound() {
+        return round;
+    }
+
+    /**
+     * Metoda pro nastavení počtu kol souboje
+     * @param round počet kol
+     */
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    /**
+     * Metoda pro vrácení negetedDmg.
+     * @return negetedDmg
+     */
+    public double getNegetedDmg() {
+        return negetedDmg;
+    }
+
+    /**
+     * Metoda pro nastavení negetedDmg
+     * @param negetedDmg dmg, který hráč vyblokuje
+     */
+    public void setNegetedDmg(double negetedDmg) {
+        this.negetedDmg = negetedDmg;
+    }
+
+    /**
+     * Metoda pro vrácení bonusDmg
+     * @return bonusDmg
+     */
+    public double getBonusDmg() {
+        return bonusDmg;
+    }
+
+    /**
+     * Metoda pro nastavení bonusDmg
+     * @param bonusDmg dmg, který dá vrác navíc
+     */
+    public void setBonusDmg(double bonusDmg) {
+        this.bonusDmg = bonusDmg;
+    }
+
+    /**
+     * Metoda pro získání informace, zda již hráč použil speciální útok
+     * @return true - použil, false - nepoužil
+     */
+    public boolean isUsedAttack3() {
+        return usedAttack3;
+    }
+
+    /**
+     * Metoda pro nastavení stavu použití speciálního útoku
+     * @param usedAttack3 stav použití speciálního útoku
+     */
+    public void setUsedAttack3(boolean usedAttack3) {
+        this.usedAttack3 = usedAttack3;
+    }
+
+    /**
+     * Metoda pro získání informace, zda již hráč použit charge
+     * @return true - použil, false - nepoužil
+     */
+    public boolean isUsedCharge() {
+        return usedCharge;
+    }
+
+    /**
+     * Metoda pro nastavení stavu použití charge
+     * @param usedCharge stav použití charg
+     */
+    public void setUsedCharge(boolean usedCharge) {
+        this.usedCharge = usedCharge;
+    }
 }

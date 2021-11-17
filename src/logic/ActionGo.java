@@ -105,7 +105,7 @@ public class ActionGo implements IAction {
                 gameState.setCurrentLocation(targetLocation);
                 gameState.setAttackedNpc("brutální_stráž");
                 gameState.setInCombat(true);
-                gameState.setRound(gameState.getRound() + 1);
+                gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
                 return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
                         targetLocationExit.getDamageMessage();
             }
@@ -119,7 +119,7 @@ public class ActionGo implements IAction {
             gameState.setCurrentLocation(targetLocation);
             gameState.setAttackedNpc("medvěd");
             gameState.setInCombat(true);
-            gameState.setRound(gameState.getRound() + 1);
+            gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
             return d1 + description + "\nZaútočila na tebe divoká zvířata." + d2 +
                     targetLocationExit.getDamageMessage();
         }
@@ -132,7 +132,7 @@ public class ActionGo implements IAction {
             gameState.setCurrentLocation(targetLocation);
             gameState.setAttackedNpc("troll");
             gameState.setInCombat(true);
-            gameState.setRound(gameState.getRound() + 1);
+            gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
             return d1 + description + "\nZaútočil na tebe troll." + d2 +
                     targetLocationExit.getDamageMessage();
         }

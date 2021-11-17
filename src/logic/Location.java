@@ -49,10 +49,6 @@ public class Location implements SubjectOfChange {
         return displayName;
     }
 
-    public boolean isKnown() {
-        return known;
-    }
-
     public int getPhase() {
         return phase;
     }
@@ -220,7 +216,6 @@ public class Location implements SubjectOfChange {
         for (Item current : items) {
             if (current.getName().equals(name)) {
                 item = current;
-                notifyObservers();
                 break;
             }
         }

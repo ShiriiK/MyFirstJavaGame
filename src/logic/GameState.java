@@ -30,11 +30,6 @@ public class GameState implements SubjectOfChange {
     private Npc interactingNpc;
     private boolean inCombat;
     private Npc attackedNpc;
-    private int round;
-    private double negetedDmg;
-    private double bonusDmg;
-    private boolean usedAttack3;
-    private boolean usedCharge;
     private Location targetLocation;
 
     private final Set<Observer> observers = new HashSet<>();
@@ -53,11 +48,7 @@ public class GameState implements SubjectOfChange {
         interactingNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
         inCombat = false;
         attackedNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
-        round = 0;
-        negetedDmg = 0.0;
-        bonusDmg = 0.0;
-        usedAttack3 = false;
-        usedCharge = false;
+
 
         Race elf = new Race("elf","volání_entů", "elfí_běsnění");
         Race dark_elf = new Race("temný_elf","pomatení", "volání_krve");
@@ -424,7 +415,7 @@ public class GameState implements SubjectOfChange {
     }
 
     /**
-     * Metoda, podle jejíž odpovědi se určuje,jestli hráč bojuje.
+     * Metoda pro nastavení, zda hráč bojuje.
      * @param inCombat true - hráč bojuje, false - hráč nebojuje
      */
     public void setInCombat(boolean inCombat) {
@@ -433,27 +424,11 @@ public class GameState implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro nastavení, zda je hráč v souboji.
+     * Metoda pro určení, zda je hráč v souboji.
      * @return true - je, false - není
      */
     public boolean isInCombat() {
         return inCombat;
-    }
-
-    /**
-     * Metoda pro získání informaace o tok, kolik kol souboje již proběhlo
-     * @return počet kol
-     */
-    public int getRound() {
-        return round;
-    }
-
-    /**
-     * Metoda pro nastavení počtu kol souboje
-     * @param round počet kol
-     */
-    public void setRound(int round) {
-        this.round = round;
     }
 
     /**
@@ -462,7 +437,6 @@ public class GameState implements SubjectOfChange {
      */
     public void setAttackedNpc(String attackedNpcName) {
         this.attackedNpc = getCurrentLocation().getNpc(attackedNpcName);
-        notifyObservers();
     }
 
     /**
@@ -471,70 +445,6 @@ public class GameState implements SubjectOfChange {
      */
     public Npc getAttackedNpc(){
         return attackedNpc;
-    }
-
-    /**
-     * Metoda pro vrácení negetedDmg.
-     * @return negetedDmg
-     */
-    public double getNegetedDmg() {
-        return negetedDmg;
-    }
-
-    /**
-     * Metoda pro nastavení negetedDmg
-     * @param negetedDmg dmg, který hráč vyblokuje
-     */
-    public void setNegetedDmg(double negetedDmg) {
-        this.negetedDmg = negetedDmg;
-    }
-
-    /**
-     * Metoda pro vrácení bonusDmg
-     * @return bonusDmg
-     */
-    public double getBonusDmg() {
-        return bonusDmg;
-    }
-
-    /**
-     * Metoda pro nastavení bonusDmg
-     * @param bonusDmg dmg, který dá vrác navíc
-     */
-    public void setBonusDmg(double bonusDmg) {
-        this.bonusDmg = bonusDmg;
-    }
-
-    /**
-     * Metoda pro získání informace, zda již hráč použil speciální útok
-     * @return true - použil, false - nepoužil
-     */
-    public boolean isUsedAttack3() {
-        return usedAttack3;
-    }
-
-    /**
-     * Metoda pro nastavení stavu použití speciálního útoku
-     * @param usedAttack3 stav použití speciálního útoku
-     */
-    public void setUsedAttack3(boolean usedAttack3) {
-        this.usedAttack3 = usedAttack3;
-    }
-
-    /**
-     * Metoda pro získání informace, zda již hráč použit charge
-     * @return true - použil, false - nepoužil
-     */
-    public boolean isUsedCharge() {
-        return usedCharge;
-    }
-
-    /**
-     * Metoda pro nastavení stavu použití charge
-     * @param usedCharge stav použití charg
-     */
-    public void setUsedCharge(boolean usedCharge) {
-        this.usedCharge = usedCharge;
     }
 
     /**
@@ -560,7 +470,6 @@ public class GameState implements SubjectOfChange {
      */
     public void setInteractingNpc(String interactingNpc) {
         this.interactingNpc = getCurrentLocation().getNpc(interactingNpc);
-        notifyObservers();
     }
 
     /**

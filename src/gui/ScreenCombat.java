@@ -36,7 +36,7 @@ public class ScreenCombat implements Observer {
     private final TextArea console;
     private final HBox buttons = new HBox();
     private final Button melee = new Button("Normální útok");
-    private final Button ranged = new Button("Útok z dálky");
+    private final Button ranged = new Button("Útok s úskokem");
     private final Button specialAttacck = new Button();
     private final Button charge = new Button();
     private final HBox hBox = new HBox();
@@ -81,7 +81,7 @@ public class ScreenCombat implements Observer {
         buttons.setAlignment(Pos.CENTER);
         buttons.getChildren().addAll(melee, ranged, specialAttacck,charge);
 
-        Label roundLabel = new Label("Kolo číslo: " + game.getGameState().getRound());
+        Label roundLabel = new Label("Kolo číslo: " + game.getGameState().getPlayer().getRound());
         hBox.getChildren().add(roundLabel);
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateZ(0);
@@ -103,7 +103,7 @@ public class ScreenCombat implements Observer {
         String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
             playerImageView = new ImageView(new Image("/zdroje/"+ race +"_žena.jpg",
-                    900.0, 470.0, false, false, true));
+                    900.0, 470.0, false, false));
         } else {
             playerImageView = new ImageView(new Image("/zdroje/"+ race +"_muž.jpg",
                     900.0, 470.0, false, false));
@@ -118,7 +118,7 @@ public class ScreenCombat implements Observer {
      */
     private ImageView setNpcImageView(String npcName) {
         ImageView npcImageView = new ImageView(new Image("/zdroje/" + npcName + ".jpg",
-                900.0, 470.0, false, false, true));
+                900.0, 470.0, false, false));
 
         npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zaútočí na npc s parťákem
@@ -131,7 +131,7 @@ public class ScreenCombat implements Observer {
             else if (event.getButton() == MouseButton.SECONDARY){
                 console.appendText(game.getGameState().getPartner().getPartnerName()
                         + "vyvolává mocnou bouři\n");
-                game.getGameState().setBonusDmg(30.0);
+                game.getGameState().getPlayer().setBonusDmg(30.0);
             }});
         return npcImageView;
     }
@@ -231,26 +231,26 @@ public class ScreenCombat implements Observer {
         SequentialTransition sequentialTransition = new SequentialTransition(rotateTransition,playerTransition,npcTransition);
 
         attack1.setOnAction(e->{
-            console.appendText("\nÚtok z blízka\n");
             sequentialTransition.play();
+            console.appendText("\nÚtok z blízka\n");
             String gameAnswer = game.processAction("speciální_útok útok_z_blízka "+ npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack2.setOnAction(e->{
-            console.appendText("\nÚtok s úskokem\n");
             sequentialTransition.play();
+            console.appendText("\nÚtok s úskokem\n");
             String gameAnswer = game.processAction("speciální_útok útok_s_úskokem "+ npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         attack3.setOnAction(e->{
-            console.appendText("\nspeciální_útok " + player.getRace().getSpecialAttack() + "\n");
             sequentialTransition.play();
+            console.appendText("\nspeciální_útok " + player.getRace().getSpecialAttack() + "\n");
             String gameAnswer = game.processAction("speciální_útok " + player.getRace().getSpecialAttack() + " " + npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });
         charge.setOnAction(e->{
-            console.appendText("\nspeciální_útok " + player.getRace().getCharge() + "\n");
             sequentialTransition.play();
+            console.appendText("\nspeciální_útok " + player.getRace().getCharge() + "\n");
             String gameAnswer = game.processAction("speciální_útok " + player.getRace().getCharge() + " " + npcName);
             console.appendText("\n" + gameAnswer + "\n");
         });

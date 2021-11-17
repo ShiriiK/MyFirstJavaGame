@@ -162,7 +162,7 @@ public class RightPanel implements Observer {
                     console.appendText("\nNemá smysl začínat s tímto npc souboj");
                 } else {
                     game.getGameState().setAttackedNpc(name);
-                    game.getGameState().setRound(1);
+                    game.getGameState().getPlayer().setRound(1);
                     game.getGameState().setInCombat(true);
                     console.appendText("\nZačal si souboj s " + name + "\n");
                 }
