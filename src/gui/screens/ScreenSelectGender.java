@@ -1,5 +1,6 @@
 package gui.screens;
 
+import gui.util.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -46,23 +47,23 @@ public class ScreenSelectGender {
         Button female = new Button("Žena");
         Tooltip femaleTip = new Tooltip("Když si vybereš, že chceš být žena tak:\n" +
                 "Budeš mít 80 životů a 30 síly.");
-        femaleTip.setFont(Font.font("Garamond", 30));
+       // femaleTip.setFont(Font.font("Garamond", 30));
         Tooltip.install(female, femaleTip);
 
         Button male = new Button("Muž");;
 
         Tooltip maleTip = new Tooltip("Když si vybereš, že chceš být muž tak:\n" +
                 "Budeš mít 100 životů a 20 síly.");
-        maleTip.setFont(Font.font("Garamond", 30));
+        //maleTip.setFont(Font.font("Garamond", 30));
         Tooltip.install(male, maleTip);
 
         action(female, male);
 
-        selectGenderScreen.setPrefWidth(1000.0);
-        selectGenderScreen.setPrefHeight(570.0);
+        selectGenderScreen.setPrefWidth(Constants.SELECTION_WIDTH);
+        selectGenderScreen.setPrefHeight(Constants.SELECTION_HEIGHT);
         selectGenderScreen.setSpacing(15.0);
         selectGenderScreen.setAlignment(Pos.CENTER);
-        selectGenderScreen.setId("#vBox-custom");
+
         selectGenderScreen.getChildren().addAll(label, male, female);
     }
 

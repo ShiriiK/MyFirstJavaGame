@@ -1,5 +1,6 @@
 package gui.screens;
 
+import gui.util.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -45,11 +46,11 @@ public class ScreenSelectName {
 
         action(userInput);
 
-        selectNameScreen.setPrefWidth(1000.0);
-        selectNameScreen.setPrefHeight(570.0);
+        selectNameScreen.setPrefWidth(Constants.SELECTION_WIDTH);
+        selectNameScreen.setPrefHeight(Constants.SELECTION_HEIGHT);
         selectNameScreen.setSpacing(15.0);
         selectNameScreen.setAlignment(Pos.CENTER);
-        selectNameScreen.setId("#vBox-custom");
+
         selectNameScreen.getChildren().addAll(label, userInput);
     }
 

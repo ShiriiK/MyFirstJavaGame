@@ -1,5 +1,6 @@
 package gui.screens;
 
+import gui.util.Constants;
 import javafx.animation.*;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -59,9 +60,10 @@ public class ScreenCombat implements Observer {
      * Metoda pro nastavení combatScreen.
      */
     private void init(){
-        //buttons.getChildren().clear();
+        buttons.getChildren().clear();
         hBox.getChildren().clear();
         combatScreen.getChildren().clear();
+
         //Nastavení ImageVIew hráče
         Player player = game.getGameState().getPlayer();
         ImageView playerImageView = setPlayerImageView(player);
@@ -72,13 +74,11 @@ public class ScreenCombat implements Observer {
         ImageView npcImageView = setNpcImageView(npcName);
 
         //Nastavení tlačítek na souboj
-        SetButtons(player);
+        setButtons(player);
 
         buttons.getChildren().clear();
-        buttons.setPrefWidth(1600.0);
-        buttons.setPrefHeight(100.0);
-        buttons.setSpacing(15.0);
-        buttons.setAlignment(Pos.CENTER);
+        buttons.getStyleClass().add("combat_buttons");
+
         buttons.getChildren().addAll(melee, ranged, specialAttacck,charge);
 
         Label roundLabel = new Label("Kolo číslo: " + game.getGameState().getPlayer().getRound());
@@ -103,10 +103,10 @@ public class ScreenCombat implements Observer {
         String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
             playerImageView = new ImageView(new Image("/pics/" + race +"_žena.jpg",
-                    900.0, 470.0, false, false));
+                    Constants.COMBAT_PICS_WIDTH, Constants.COMBAT_PICS_HEIGHT, false, false));
         } else {
             playerImageView = new ImageView(new Image("/pics/" + race +"_muž.jpg",
-                    900.0, 470.0, false, false));
+                    Constants.COMBAT_PICS_WIDTH, Constants.COMBAT_PICS_HEIGHT, false, false));
         }
         return playerImageView;
     }
@@ -118,7 +118,7 @@ public class ScreenCombat implements Observer {
      */
     private ImageView setNpcImageView(String npcName) {
         ImageView npcImageView = new ImageView(new Image("/pics/" + npcName + ".jpg",
-                900.0, 470.0, false, false));
+                Constants.COMBAT_PICS_WIDTH, Constants.COMBAT_PICS_HEIGHT, false, false));
 
         npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zaútočí na npc s parťákem
@@ -140,7 +140,7 @@ public class ScreenCombat implements Observer {
      * Metoda pro nastavení buttnů.
      * @param player hráč
      */
-    private void SetButtons(Player player) {
+    private void setButtons(Player player) {
         Tooltip meleeTip = new Tooltip("Útok z blízka, který dá " + player.getStr() + " poškození \n" +
                 "plus bonusové poškození, pokud tedy nějaké máš.");
         Tooltip.install(melee, meleeTip);

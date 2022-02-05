@@ -2,9 +2,12 @@ package saving_tue;
 
 import gui.panels.*;
 import gui.screens.*;
+import gui.util.Constants;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -81,21 +84,16 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
 
         //nastavení konzole
-        borderPane.setCenter(console);
-
-        //nastavení prostoru pro zadávání příkazů
-        Label enterCommand = new Label("Zadej příkaz: ");
-        enterCommand.setStyle("-fx-font-size: 25.0");
-        enterCommand.setStyle("-fx-font-weight: BOLD");
-
-        prepareTextField(console);
-        prepareBottomBox(borderPane, enterCommand);
+        Node node = setUpConsoleArea();
+        borderPane.setCenter(node);
+        BorderPane.setMargin(node, new Insets(10));
 
         //nastavení panelu s itemy v lokaci
         ItemPanel itemsPanel = new ItemPanel(game, console);
 
+
         //nastavení panelu s npc v lokaci
-        RightPanel npcsPanel = new RightPanel(game, console);
+        NpcAndWeaponPanel npcsPanel = new NpcAndWeaponPanel(game, console);
 
         //nastavení pohlaví
         ScreenSelectGender selectGender = new ScreenSelectGender(game, console);
@@ -127,10 +125,10 @@ public class Main extends Application {
         borderPane.setLeft(inventoryPanel.getPanel());
 
         //nastavení scény
-        Scene scene = new Scene(borderPane, 1900.0, 1000.0);
+        Scene scene = new Scene(borderPane, Constants.SCEEN_WIDTH, Constants.SCEEN_HEIGHT);
         scene.getStylesheets().add("adventura.css");
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Adventura");
+        primaryStage.setTitle(Constants.GAME_TITLE);
         primaryStage.setResizable(false);
         userInput.requestFocus();
         primaryStage.show();
@@ -142,22 +140,32 @@ public class Main extends Application {
     }
 
     /**
-     * Metoda pro bottom borderPanu na zadání příkazu.
-     * @param borderPane boarderPane na nastavení pozice
-     * @param enterCommand label na zadání příkazu
+     * Metoda pro nastaven9 console
      */
-    private void prepareBottomBox(BorderPane borderPane, Label enterCommand) {
+    private VBox setUpConsoleArea() {
+
+        Label enterCommand = new Label("Zadej příkaz: ");
+        enterCommand.setStyle("-fx-font-size: 25.0");
+        enterCommand.setStyle("-fx-font-weight: BOLD");
+
+        setUpTextField(console);
+
         HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.TOP_CENTER);
         hBox.getChildren().addAll(enterCommand, userInput);
-        borderPane.setBottom(hBox);
+
+        VBox consoleArea = new VBox(console, hBox);
+        consoleArea.setAlignment(Pos.TOP_CENTER);
+        consoleArea.setSpacing(10);
+
+        return consoleArea;
     }
 
     /**
      * Metoda pro připravení textového pole, do kterého uživatel zadává příkazy a hra je vyhodnocuje.
      * @param console TextArea ve které se vypisují příkazy zadané hráčem a odpovědi hry na tyto příkazy
      */
-    private void prepareTextField(TextArea console) {
+    private void setUpTextField(TextArea console) {
         userInput.setOnAction(event ->  {
             String command = userInput.getText();
             console.appendText(command);
@@ -177,12 +185,13 @@ public class Main extends Application {
      */
     private static TextArea createConcole() {
         TextArea console = new TextArea();
-        console.setMaxWidth(800.0);
-        console.setMaxHeight(400.0);
+
+        console.getStyleClass().add("console");
         console.setText(game.theBeginning());
         console.setEditable(false);
         console.setWrapText(true);
         console.setFont(Font.font("Garamond", 20.0));
+
         return console;
     }
 }

@@ -13,22 +13,25 @@
 .button{
     -fx-padding: 25.0;
 }
+
+.button .text {
+    -fx-font-family: Garamond;
+    -fx-font-size: 50.0;
+    -fx-fill: BLACK;
+}
+
 .root .tooltip{
     -fx-text-fill: WHITE;
     -fx-font-family: Garamond;
     -fx-font-size: 30.0;
 }
-.button .text{
-    -fx-font-family: Garamond;
-    -fx-font-size: 50.0;
-    -fx-fill: BLACK;
-}
-bbutton .text{
+
+.bbutton .text{
     -fx-font-family: Garamond;
     -fx-font-size: 20.0;
     -fx-fill: WHITE;
 }
-bbutton {
+.bbutton {
     -fx-background-color: BLACK;
 }
 /* Nastavení menu */
@@ -54,10 +57,50 @@ bbutton {
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* Nastavení exit panelu */
-exitpanel {
+/* Nastavení spodních panelu */
+.bottom_panels {
+    -fx-pref-width: 500;
+    -fx-max-width: 500;
+    -fx-min-width: 500;
+    -fx-pref-height: 450;
+    -fx-max-height: 450;
+    -fx-min-height: 450;
+    -fx-alignment: top-center;
+}
+
+/* Nastavení horních panelů */
+.top_panels {
+    -fx-pref-width: 400;
+    -fx-max-width: 400;
+    -fx-min-width: 400;
+    -fx-pref-height: 450;
+    -fx-max-height: 450;
+    -fx-min-height: 450;
+    -fx-alignment: top-center;
+}
+
+.console {
     -fx-pref-width: 600;
-    -fx-pref-height: 400;
+    -fx-max-width: 600;
+    -fx-min-width: 600;
+    -fx-pref-height: 350;
+    -fx-max-height: 350;
+    -fx-min-height: 350;
+    -fx-alignment: top-center;
+}
+.combat_buttons {
+    -fx-pref-width: 1600;
+    -fx-pref-height: 100;
+    -fx-spacing: 15;
     -fx-alignment: center;
 }
+
+.combat_buttons .button{
+    -fx-padding: 15.0;
+}
+.combat_buttons .button .text {
+    -fx-font-size: 30.0;
+    -fx-fill: BLACK;
+}
+
 

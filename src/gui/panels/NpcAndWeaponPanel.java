@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.util.Constants;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -26,7 +27,7 @@ import java.util.Set;
  * @version ZS-2021, 2021-11-10
  */
 
-public class RightPanel implements Observer {
+public class NpcAndWeaponPanel implements Observer {
 
     private final Game game;
     private final TextArea console;
@@ -34,7 +35,7 @@ public class RightPanel implements Observer {
     private final FlowPane flowPane = new FlowPane();
 
     //Konstruktor
-    public RightPanel(Game game, TextArea console) {
+    public NpcAndWeaponPanel(Game game, TextArea console) {
         this.game = game;
         this.console = console;
 
@@ -50,8 +51,7 @@ public class RightPanel implements Observer {
      */
     private void init() {
         rightPanel.getChildren().clear();
-        rightPanel.setPrefWidth(450.0);
-        rightPanel.setPrefHeight(570.0);
+        rightPanel.getStyleClass().add("top_panels");
         rightPanel.getChildren().add(flowPane);
 
         loadRightPanel();
@@ -69,7 +69,7 @@ public class RightPanel implements Observer {
                 for (Weapon weapon : weaponSet) {
                     String name = weapon.getName();
                     ImageView imageView = new ImageView(new Image("/pics/" + name + ".jpg",
-                        200.0, 125.0, false, false, true));
+                            Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
                     clickOnWeapon(name, imageView);
 
@@ -90,7 +90,7 @@ public class RightPanel implements Observer {
                     String name = npc.getName();
                     if(name.equals("tue")) {
                         ImageView imageView = new ImageView(new Image("/pics/" + name + ".jpg",
-                                450.0, 250.0, false, false, true));
+                                Constants.NPCS_WIDTH, Constants.NPCS_HEIGHT, false, false, true));
 
                         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                             console.appendText("zachraň_tue");

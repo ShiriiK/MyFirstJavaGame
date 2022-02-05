@@ -1,5 +1,6 @@
 package gui.screens;
 
+import gui.util.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -44,8 +45,8 @@ public class ScreenSelectRace {
 
         setButtons();
 
-        selectRaceScreen.setPrefWidth(1000.0);
-        selectRaceScreen.setPrefHeight(570.0);
+        selectRaceScreen.setPrefWidth(Constants.SELECTION_WIDTH);
+        selectRaceScreen.setPrefHeight(Constants.SELECTION_HEIGHT);
         selectRaceScreen.setSpacing(15.0);
         selectRaceScreen.setAlignment(Pos.CENTER);
         selectRaceScreen.getChildren().addAll(label, buttons);

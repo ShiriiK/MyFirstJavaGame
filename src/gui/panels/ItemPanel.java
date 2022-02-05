@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.util.Constants;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -49,8 +50,7 @@ public class ItemPanel implements Observer {
      */
     private void init() {
         itemsPanel.getChildren().clear();
-        itemsPanel.setPrefWidth(450.0);
-        itemsPanel.setPrefHeight(570.0);
+        itemsPanel.getStyleClass().add("top_panels");
         itemsPanel.getChildren().add(flowPane);
 
         loadItems();
@@ -66,7 +66,7 @@ public class ItemPanel implements Observer {
         for (Item item : itemsSet) {
             String itemName = item.getName();
             ImageView imageView = new ImageView(new Image("/pics/" + itemName + ".jpg",
-                    200.0, 100.0, false, false, true));
+                    Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
             clickOnItem(itemName, imageView);
 

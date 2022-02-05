@@ -1,5 +1,6 @@
 package gui.panels;
 
+import gui.util.Constants;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -53,9 +54,7 @@ public class InventoryPanel implements Observer {
         Label label = new Label("Batoh:");
 
         inventoryPanel.getChildren().addAll(label, flowPane);
-        inventoryPanel.setPrefWidth(500.0);
-        inventoryPanel.setPrefHeight(400.0);
-        inventoryPanel.setAlignment(Pos.TOP_CENTER);
+        inventoryPanel.getStyleClass().add("bottom_panels");
 
         loadImages();
     }
@@ -70,8 +69,8 @@ public class InventoryPanel implements Observer {
 
             for (String itemName : itemsSet) {
 
-                ImageView imageView = new ImageView(new Image("/pics/" + itemName + ".jpg", 250.0,
-                        100.0, false, false, true));
+                ImageView imageView = new ImageView(new Image("/pics/" + itemName + ".jpg", Constants.BOTTOM_PICS_WIDTH,
+                        Constants.BOTTOM_PICS_HEIGHT, false, false, true));
 
                 cilickOnItemInInventory(itemName, imageView);
 

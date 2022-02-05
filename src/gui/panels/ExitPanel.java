@@ -1,6 +1,7 @@
 package gui.panels;
 
 import gui.screens.BaseScreen;
+import gui.util.Constants;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -58,10 +59,11 @@ public class ExitPanel implements Observer {
     private void init() {
         Label label = new Label("Sousední lokace: ");
 
+        flowPane.setVgap(5);
+        flowPane.setHgap(5);
+
         exitsPanel.getChildren().addAll(label, flowPane);
-        exitsPanel.setPrefWidth(500.0);
-        exitsPanel.setPrefHeight(400.0);
-        exitsPanel.setAlignment(Pos.TOP_CENTER);
+        exitsPanel.getStyleClass().add("bottom_panels");
 
         loadCurrentExits();
     }
@@ -77,7 +79,7 @@ public class ExitPanel implements Observer {
             for (Location location : locationsSet) {
                 String locationName = location.getName();
                 ImageView imageView = new ImageView(new Image("/pics/" + locationName + ".jpg",
-                        250, 100, false, false,true));
+                        Constants.BOTTOM_PICS_WIDTH , Constants.BOTTOM_PICS_HEIGHT, false, false,true));
 
                 clickOnExit(locationName, imageView);
 
@@ -111,7 +113,7 @@ public class ExitPanel implements Observer {
      */
     private AnimationTimer getAnimationTimer() {
         ImageView loading = new ImageView(new Image
-                ("/pics/loading.gif", 1000.0,600.0,
+                ("/pics/loading.gif", Constants.GIF_WIDTH,Constants.GIF_HEIGHT,
                         false, false,true));
 
         HBox loadingBox = new HBox(loading);

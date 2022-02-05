@@ -1,5 +1,6 @@
 package gui.screens;
 
+import gui.util.Constants;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -71,10 +72,10 @@ public class ScreenInteracting implements Observer {
         String race = player.getRace().getName();
         if (player.getPlayerGender().equals("žena")) {
             playerImageView = new ImageView(new Image("/pics/" + race +"_žena.jpg",
-                    900.0, 470.0, false, false));
+                    Constants.INT_PICS_WIDTH, Constants.INT_PICS_HEIGHT, false, false));
         } else {
             playerImageView = new ImageView(new Image("/pics/" + race +"_muž.jpg",
-                    900.0, 470.0, false, false));
+                    Constants.INT_PICS_WIDTH, Constants.INT_PICS_HEIGHT, false, false));
         }
         interactingScreen.getChildren().addAll(playerImageView);
     }
@@ -87,7 +88,7 @@ public class ScreenInteracting implements Observer {
         String npcName = npc.getName();
 
         ImageView npcImageView = new ImageView(new Image("/pics/" + npcName +".jpg",
-                    900.0, 470.0, false, false, true));
+                Constants.INT_PICS_WIDTH, Constants.INT_PICS_HEIGHT, false, false, true));
 
         interactingScreen.getChildren().addAll(npcImageView);
 

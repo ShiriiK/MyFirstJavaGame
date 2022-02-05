@@ -2,7 +2,8 @@ package gui.screens;
 
 import gui.panels.ItemPanel;
 import gui.panels.MenuPanel;
-import gui.panels.RightPanel;
+import gui.panels.NpcAndWeaponPanel;
+import gui.util.Constants;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +33,7 @@ import logic.blueprints.Player;
 public class BaseScreen implements Observer {
 
     private final ItemPanel itemsPanel;
-    private final RightPanel rightPanel;
+    private final NpcAndWeaponPanel npcAndWeaponPanel;
     private final ScreenSelectGender selectGender;
     private final ScreenSelectRace selectRace;
     private final ScreenSelectName selectName;
@@ -44,22 +45,19 @@ public class BaseScreen implements Observer {
     private final BorderPane gameMainScreen = new BorderPane();
 
     //Konstruktor
-    public BaseScreen(Game game, TextArea console, Stage stage, ItemPanel itemsPanel, RightPanel rightPanel, ScreenSelectGender selectGender,
+    public BaseScreen(Game game, TextArea console, Stage stage, ItemPanel itemsPanel, NpcAndWeaponPanel npcAndWeaponPanel, ScreenSelectGender selectGender,
                       ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenInteracting interacting,
                       ScreenCombat combat, MenuPanel menuBar) {
         this.game = game;
         this.console = console;
         this.itemsPanel = itemsPanel;
-        this.rightPanel = rightPanel;
+        this.npcAndWeaponPanel = npcAndWeaponPanel;
         this.selectGender = selectGender;
         this.selectRace = selectRace;
         this.selectName = selectName;
         this.interacting = interacting;
         this.combat = combat;
         this.menuBar = menuBar;
-
-        gameMainScreen.setStyle(" -fx-background-color: WHITE;");
-        gameMainScreen.setStyle(" -fx-padding: 5;");
 
         loadArea();
 
@@ -133,12 +131,12 @@ public class BaseScreen implements Observer {
 
         //Nastavení obrázku aktuální lokace
         ImageView center = new ImageView(new Image("/pics/" + location.getName() + ".jpg",
-                        1000.0, 550.0, false, false, true));
+                Constants.CURRENT_LOCATION_WIDTH, Constants.CURRENT_LOCATION_HEIGHT, false, false, true));
 
         VBox vBox = new VBox(topPane, center);
         gameMainScreen.setCenter(vBox);
         gameMainScreen.setLeft(itemsPanel.getPanel());
-        gameMainScreen.setRight(rightPanel.getPanel());
+        gameMainScreen.setRight(npcAndWeaponPanel.getPanel());
     }
 
     /**
