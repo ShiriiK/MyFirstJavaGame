@@ -1,0 +1,114 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+<title>Nápověda ke hře</title>
+
+</head>
+  
+<body lang="cs" style="padding: 10px">
+<h1>Nápověda ke hře</h1>
+<p>
+  Jedná se o jednoduchou textovou adventuru s grafickým rozhraním. Tvým úkolem je zahránit Tue, která je uvězněná
+    a čeká ji poprava. První překážkou je troll, kterého je potřeba zabít, aby bylo možné se dostat k bráně do města.
+    Další problém nastává při pokusu dostat se do města, kam je možné vstoupit jen s propustkou. Poté, co se dostaneš
+    do města, je potřeba vypořádat se s generálem, který tě zastaví. Existují dvě možnosti, jak to udělat, buďto
+    prolitím krve nebo úplatkem.  Jako další je potřeba najít žalář a postarat se o strážného.
+    Dál už stačí jen zachránit Tue. Tedy získat klíč od cely a onu celu najít.
+</p>
+
+<h2>Zadávání příkazů</h2>
+
+<p>
+  Příkazy se zadávají do textového pole ve formátu <b>příkaz</b><i>(mezera)</i><b>parametr</b>
+  <i>(mezera)</i><b>parametr</b>.
+</p>
+
+<pre>
+
+</pre>
+
+<p>
+  Pokud mnich skutečně vyžaduje lahev, pak proběhne výměna a z vašeho batohu zmizí lahev a 
+  nahradí se věcí, kterou mnich sliboval. V opačném případě mnich pronese zápornou řeč.
+</p>
+
+<h2>Seznam příkazů s paremetry a popisem</h2>
+<ul>
+
+<li><b>pohlaví</b> (muž/žena) – vybereš si pohlaví.</li>
+<li><b>jméno</b> (jméno) – vybereš si jméno.</li>
+<li><b>rasa</b> (rasa) – vybereš si rasu(možnosti - elf|temný_elf|barbar|trpaslík|člověk|mág).</li>
+<li><b>vzemi_si_zbraň/zbraň</b> (zbraň) – vybereš si jednu ze zbraní, které jsou v zbrojírně.</li>
+<li><b>odlož_zbraň </b> – odložíš zbraň, tento příkaz je možné použít jen v zbrojírně.</li>
+<li><b>hráč</b> – zobrazí staty hráče.</li>
+<li><b>parťák/parťačka</b> – zobrazí staty parťáka.</li>
+<li><b>inventář/batoh</b> – vypíše seznam věcí, které se nachází v batohu</li>
+<li><b>mluv_s/promluv_si_s </b> (npc) – promluvíš si s npc.</li>
+<li><b>rozhlédni_se</b> – vypíše seznam věcí, npc, zbraní a východů v aktuální lokaci.</li>
+<li><b>prozkoumej/prohledej</b> (předmět) – vypíše popis předmětu případně zobrazí předměty v něm ukryté.</li>
+<li><b>vezmi/seber</b> (předmět) – pokusíš se sebrat předmět.</li>
+<li><b>zahoď/polož</b> (předmět) – zahodíš předmět z inventáře.</li>
+<li><b>dej/nabídni </b> (npc)(předmět) – nabídneš npc předmět.</li>
+<li><b>jdi/jdi_do/běž/běž_do</b> (lokace) – pokusíš se přesunout do jiné lokace.</li>
+<li><b>zaútoč_na</b> (npc) – pokusíš se zaútočit na npc.</li>
+<li><b>zaútoč_s_parťákem_na</b> (npc) – pokusíš se zaútočit na npc s parťákem</li>
+<li><b>zachraň_tue </b> – použitím zachráníš Tue, je možné použít jen v cele, ve které se nachází.</li>
+<li><b>konec </b> – ukončí hru.</li>
+
+</ul>
+
+<h2>Používání příkazů pomocí tlačítek myši bez zadávání příkazů konzole</h2>
+<ul>
+
+    <li><b>pohlaví</b> (muž/žena) – vybereš si pohlaví kliknutím na tlačítko.</li>
+    <li><b>jméno</b> (jméno) – vybereš si jméno kliknutím na tlačítko.</li>
+    <li><b>rasa</b> (rasa) – vybereš si rasu(možnosti - elf|temný_elf|barbar|trpaslík|člověk|mág) kliknutím na tlačítko.</li>
+    <li><b>vzemi_si_zbraň/zbraň</b> (zbraň) – vybereš si jednu ze zbraní, které jsou v zbrojírně, kliknutím na obrázek.</li>
+    <li><b>odlož_zbraň </b> – odložíš zbraň, kliknutím na obrázek jiné zbraně, kterou si vezmeš místo současné.</li>
+    <li><b>hráč</b> – zobrazí staty hráče, kliknutím na text "hráč", který je na levo od názvu aktuální lokace.</li>
+    <li><b>parťák/parťačka</b> – zobrazí staty parťáka, kliknutím na text "jméno parťáka", který je na pravo od názvu aktuální lokace.</li>
+    <li><b>inventář/batoh</b> – vidíš v levo dole</li>
+    <li><b>mluv_s/promluv_si_s </b> (npc) – po té, co klikneš na npc pravým tlačítkem a předješ do obrazovky, kde je jeho obrázek na jež klikneš levý tlačítkem.</li>
+    <li><b>dej/nabídni </b> (npc)(předmět) – nabídneš npc předmět, kliknutím na obrázek npc pravým tlačítek, opět až poté co předeš na obrazovku, kde je v pravo vidět obrázek npc a v levo hráče.</li>
+    <li><b>rozhlédni_se</b> – předměty vidíš v levo nahoře, exity v pravo dole a itemy a zbraně v pravo nahoře.</li>
+    <li><b>prozkoumej/prohledej</b> (předmět) – vypíše popis předmětu případně zobrazí předměty v něm , kliknutím na obrázek pravým tlačítkem.</li>
+    <li><b>vezmi/seber</b> (předmět) – pokusíš se sebrat předmět, kliknutím na obrázek levým tlačítekm.</li>
+    <li><b>zahoď/polož</b> (předmět) – zahodíš předmět z inventáře, kliknutím levým tlačítkem na obrázek.</li>
+    <li><b>jdi/jdi_do/běž/běž_do</b> (lokace) – pokusíš se přesunout do jiné lokace, kliknutím levým tlačítkem na obrázek.</li>
+    <li><b>zaútoč_na</b> (npc) – pokusíš se zaútočit na npc, kliknutím levým tlačítkem na obrázek - zobrazí obrazovku souboje.</li>
+    <li><b>zaútoč_s_parťákem_na</b> (npc) – během obrazovky souboje - levé tlačítko - útok, pravé tlačítko boost</li>
+    <li><b>speciální_útok</b> (název speciálního útoku) – během obrazovky souboje - používání jednotlivých útoků přes tlačítka</li>
+    <li><b>zachraň_tue </b> – zachráníš Tue, kliknutím na obrázek Tue.</li>
+
+</ul>
+
+<h2>Postup pro dokončení hry</h2>
+
+<p>
+  Postup:
+
+    pohlaví muž, rasa člověk, jméno bob, jdi kovárna, jdi zbrojírna, vzemi_si_zbraň meč, jdi zbrojírna, jdi kovárna,
+    jdi skrytá_louka, jdi jezero, prozkoumej velký_kámen, seber svítící_kámen, jdi skrytá_louka, jdi kovárna,
+    (začni komunikovat s Gorm - kliknutím pravým klačítkem na obrázek s ní), nabídni gorm svítící_kámen, jdi zbrojírna,
+    odlož_zbraň, vzemi_si_zbraň greatsword, jdi kovárna, jdi skrytá_louka, jdi dům, jdi pokoj, prozkoumej kniha, seber propustka,
+    jdi dům, jdi skrytá_louka, jdi hora, speciální_útok modlitba, speciální_útok meč_spravedlnosti,
+    prozkoumej velký_strom, prozkoumej velký_strom, seber taška, jdi skrytá_louka, jdi alej, (začni souboj s přerostlým trollem
+    kliknuím levým tlačítkem na jeho obrázek), speciální_útok modlitba, speciální_útok meč_spravedlnosti, speciální_útok útok_z_blízka,
+    (kliknutí pravým tlačítek na použití parťáka), útok z blízka, jdi brána, (komunikace se strážným),
+    nabídni stráž_brány propustka, jdi městto, (komunikace s generálem), nabídni generál taška, jdi ghetto,
+    prozkoumej mrtvola, prozkoumej odpadky, seber klíč, seber peníz, jdi město, (komunikace s žebrákem), nabídni žebrák peníz,
+    jít vchod, seber pivo, (komunikace se strážným), nabídni stráž pivo, (ukončit komunikaci kliknutím prostředním tlačítkem na strážce),
+    seber pochodeň, jdi žalář, jdi cela_na_pravo, zachraň_tue
+
+</p>
+
+<h2>Spuštění hry</h2>
+
+<p>
+  Pokud máme k dispozici zdrojové kódy, spouští se hra třídou START. Jinak stačí 
+  spustit v příkazovém řádku soubor s koncovkou <b>jar</b>
+</p>
+
+  </body>
+</html>
