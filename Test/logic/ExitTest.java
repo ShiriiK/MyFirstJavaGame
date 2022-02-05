@@ -1,5 +1,8 @@
 package logic;
 
+import logic.blueprints.Exit;
+import logic.blueprints.Location;
+import logic.blueprints.Npc;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

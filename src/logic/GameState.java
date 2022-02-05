@@ -1,7 +1,9 @@
 package logic;
 
-import util.Observer;
-import util.SubjectOfChange;
+import gui.util.Observer;
+import gui.util.SubjectOfChange;
+import logic.blueprints.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

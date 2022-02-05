@@ -23,10 +23,16 @@
     -fx-font-size: 50.0;
     -fx-fill: BLACK;
 }
+bbutton .text{
+    -fx-font-family: Garamond;
+    -fx-font-size: 20.0;
+    -fx-fill: WHITE;
+}
+bbutton {
+    -fx-background-color: BLACK;
+}
+/* Nastavení menu */
 
-/**
-Nastavení menu
- */
 .menu-bar {
     -fx-background-color: transparent;
     -fx-font-size: 20.0;
@@ -48,4 +54,10 @@ Nastavení menu
     -fx-background-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Nastavení exit panelu */
+exitpanel {
+    -fx-pref-width: 600;
+    -fx-pref-height: 400;
+    -fx-alignment: center;
+}
 

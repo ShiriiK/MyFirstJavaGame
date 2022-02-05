@@ -1,7 +1,6 @@
 package test;
 
 import logic.Game;
-import logic.Item;
 
 import java.util.Arrays;
 import java.util.Set;

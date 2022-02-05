@@ -1,7 +1,7 @@
 package test;
 
 import logic.Game;
-import logic.Weapon;
+import logic.blueprints.Weapon;
 
 import java.util.Arrays;
 import java.util.Set;

@@ -1,5 +1,7 @@
 package logic;
 
+import logic.blueprints.Partner;
+import logic.blueprints.Weapon;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

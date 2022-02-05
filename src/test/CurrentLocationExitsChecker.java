@@ -1,6 +1,6 @@
 package test;
 
-import logic.Exit;
+import logic.blueprints.Exit;
 import logic.Game;
 
 import java.util.Arrays;
