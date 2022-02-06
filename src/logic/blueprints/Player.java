@@ -1,12 +1,9 @@
 package logic.blueprints;
 
 /**
- * Třída představující hráče.
- * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
+ * A class representing a player.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
  */
 
 public class Player {
@@ -23,13 +20,13 @@ public class Player {
     private boolean usedCharge;
 
     /**
-     * Konstruktor
-     * @param playerName jméno
-     * @param playerGender pohlaví
-     * @param playerWeapon zbraň
-     * @param hp životy
-     * @param str síla
-     * @param race rasa
+     * Constructor
+     * @param playerName name
+     * @param playerGender gender
+     * @param playerWeapon weapon
+     * @param hp lives
+     * @param str strength
+     * @param race race
      */
     public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, Race race) {
         this.playerName = playerName;
@@ -47,44 +44,44 @@ public class Player {
     }
 
     /**
-     * Metoda pro získání statů hráče.
-     * @return informace o hráčovi
+     * Method to get player's stats.
+     * @return player information
      */
-    public String getPlayer() {
+    public String getPlayersStats() {
         if (getPlayerWeapon() == null) {
-            return "\nPohlaví: " + playerGender + "\n" +
-                    "Jméno: " + playerName + "\n" +
-                    "Rasa: " + race.getName() + "\n" +
-                    "Zbraň: \n" +
-                    "Životy: " + hp + "\n" +
-                    "Síla: " + str ;
+            return "\nGender: " + playerGender + "\n" +
+                    "Name: " + playerName + "\n" +
+                    "Race: " + race.getName() + "\n" +
+                    "Weapon: \n" +
+                    "Hp: " + hp + "\n" +
+                    "Str: " + str ;
         }
-        return "\nPohlaví: " + playerGender + "\n" +
-                "Jméno: " + playerName + "\n" +
-                "Rasa: " + race.getName() + "\n" +
-                "Zbraň: " + getPlayerWeapon().getName() + "\n" +
-                "Životy: " + hp + "\n" +
-                "Síla: " + str * (getPlayerWeapon().getMultiplicator());
+        return "\nGender: " + playerGender + "\n" +
+                "Name: " + playerName + "\n" +
+                "Race: " + race.getName() + "\n" +
+                "Weapon: " + getPlayerWeapon().getDisplayName() + "\n" +
+                "Hp: " + hp + "\n" +
+                "Str: " + str * (getPlayerWeapon().getMultiplicator());
     }
 
     /**
-     * Metoda pro získání jména hráče.
-     * @return jméno hráče
+     * Method to get player's name.
+     * @return player name
      */
     public String getPlayerName() {
         return playerName;
     }
 
     /**
-     * Metoda pro nastavení jména hráče.
-     * @param playerName jméno hráče
+     * Method for setting player name.
+     * @param playerName player name
      */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
     /**
-     * Metoda pro získání pohlaví hráče.
+     * Method to get the gender of the player.
      * @return male/female
      */
     public String getPlayerGender() {
@@ -92,7 +89,7 @@ public class Player {
     }
 
     /**
-     * Metoda pro nastavení pohlaví hráče.
+     * Method for setting the player's gender.
      * @param playerGender male/female
      */
     public void setPlayerGender(String playerGender) {
@@ -100,48 +97,48 @@ public class Player {
     }
 
     /**
-     * Metoda pro získání zbraně hráče.
-     * @return zbraň hráče
+     * Method for obtaining a player's weapon.
+     * @return player's weapon
      */
     public Weapon getPlayerWeapon() {
         return playerWeapon;
     }
 
     /**
-     * Metoda pro nastavení zbraně hráče.
-     * @param playerWeapon hráče
+     * Method for setting the player's weapon.
+     * @param playerWeapon
      */
     public void setPlayerWeapon(Weapon playerWeapon) {
         this.playerWeapon = playerWeapon;
     }
 
     /**
-     * Metoda pro získání hp hráče.
-     * @return hp hráče
+     * Method for getting player hp.
+     * @return player hp
      */
     public double getHp() {
         return hp;
     }
 
     /**
-     * Metoda pro nastavení hp hráče.
-     * @param hp hp hráče
+     * Method for setting player's hp.
+     * @param hp player hp
      */
     public void setHp(double hp) {
         this.hp = hp;
     }
 
     /**
-     * Metoda pro získání str hráče.
-     * @return str hráče
+     * Method for getting player str.
+     * @return player str
      */
     public double getStr() {
         return str * (getPlayerWeapon().getMultiplicator());
     }
 
     /**
-     * Metoda pro nastavení str hráče.
-     * @param str hráče
+     * Method for setting player str.
+     * @param str player
      */
     public void setStr(double str) {
         this.str = str;
@@ -152,16 +149,16 @@ public class Player {
     }
 
     /**
-     * Metoda pro získání profese hráče
-     * @return profese hráče
+     * Method for obtaining the player profession
+     * @return player profession
      */
     public Race getRace() {
         return race;
     }
 
     /**
-     * Metoda pro nastavení rasy hráče
-     * @param race hráče
+     * Method for setting the player's race
+     * @param race player race
      */
     public void setRace(Race race) {
         this.race = race;
@@ -169,41 +166,39 @@ public class Player {
             case("elf"):
                 setStr(getStrWithoutWeapon()+5);
                 break;
-            case("temný_elf"):
+            case("drow"):
                 setStr(getStrWithoutWeapon()+5);
                 break;
-            case("barbar"):
+            case("barbarian"):
                 setHp(getHp()+5);
-            case("trpaslík"):
+            case("dwarf"):
                 setHp(getHp()+10);
-            case("člověk"):
+            case("human"):
                 setHp(getHp()+3);
                 setStr(getStrWithoutWeapon()+3);
-            case("mág"):
+            case("mage"):
                 setStr(getStrWithoutWeapon()+12);
         }
-
-
     }
 
     /**
-     * Metoda pro získání informaace o tok, kolik kol souboje již proběhlo
-     * @return počet kol
+     * Method to get information about the number of rounds of a duel
+     * @return number of rounds
      */
     public int getRound() {
         return round;
     }
 
     /**
-     * Metoda pro nastavení počtu kol souboje
-     * @param round počet kol
+     * Method for setting the number of rounds of combat
+     * @param round number of rounds
      */
     public void setRound(int round) {
         this.round = round;
     }
 
     /**
-     * Metoda pro vrácení negetedDmg.
+     * Method to return negetedDmg.
      * @return negetedDmg
      */
     public double getNegetedDmg() {
@@ -211,15 +206,15 @@ public class Player {
     }
 
     /**
-     * Metoda pro nastavení negetedDmg
-     * @param negetedDmg dmg, který hráč vyblokuje
+     * Method for setting negetedDmg
+     * @param negetedDmg dmg that the player blocks
      */
     public void setNegetedDmg(double negetedDmg) {
         this.negetedDmg = negetedDmg;
     }
 
     /**
-     * Metoda pro vrácení bonusDmg
+     * Method to return bonusDmg
      * @return bonusDmg
      */
     public double getBonusDmg() {
@@ -227,40 +222,40 @@ public class Player {
     }
 
     /**
-     * Metoda pro nastavení bonusDmg
-     * @param bonusDmg dmg, který dá vrác navíc
+     * Method for setting bonusDmg
+     * @param bonusDmg dmg which will give back extra dmg
      */
     public void setBonusDmg(double bonusDmg) {
         this.bonusDmg = bonusDmg;
     }
 
     /**
-     * Metoda pro získání informace, zda již hráč použil speciální útok
-     * @return true - použil, false - nepoužil
+     * Method to get information if a player has already used a special attack
+     * @return true - has used, false - has not used
      */
     public boolean isUsedAttack3() {
         return usedAttack3;
     }
 
     /**
-     * Metoda pro nastavení stavu použití speciálního útoku
-     * @param usedAttack3 stav použití speciálního útoku
+     * Method for setting the status of using a special attack
+     * @param usedAttack3 special attack usage state
      */
     public void setUsedAttack3(boolean usedAttack3) {
         this.usedAttack3 = usedAttack3;
     }
 
     /**
-     * Metoda pro získání informace, zda již hráč použit charge
-     * @return true - použil, false - nepoužil
+     * Method to get information if the player has already used charge
+     * @return true - used, false - did not use
      */
     public boolean isUsedCharge() {
         return usedCharge;
     }
 
     /**
-     * Metoda pro nastavení stavu použití charge
-     * @param usedCharge stav použití charg
+     * Method for setting the charge usage status
+     * @param usedCharge usage state charg
      */
     public void setUsedCharge(boolean usedCharge) {
         this.usedCharge = usedCharge;

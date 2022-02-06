@@ -1,12 +1,9 @@
 package logic.blueprints;
 
 /**
- * Třída představující partnera hráče.
- * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
+ * A class representing a player's partner.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
  */
 
 public class Partner {
@@ -16,11 +13,11 @@ public class Partner {
     private double str;
 
     /**
-     * Konstruktor
-     * @param partnerName jméno
-     * @param partnerWeapon zbraň
-     * @param hp životy
-     * @param str síla
+     * Constructor
+     * @param partnerName name
+     * @param partnerWeapon weapon
+     * @param hp lives
+     * @param str strength
      */
     public Partner(String partnerName, Weapon partnerWeapon, double hp, double str) {
         this.partnerName = partnerName;
@@ -30,67 +27,60 @@ public class Partner {
     }
 
     /**
-     * Metoda pro získání statů partnera.
-     * @return informace o partnerovi
+     * Method for obtaining partner's stats.
+     * @return partner information
      */
     public String getPartner() {
-        if (getPartnerWeapon() == null) {
-        return "\nJméno: " + partnerName + "\n" +
-               "Zbraň: \n" +
-               "Životy: " + hp + "\n" +
-               "Síla: " + str  + "\n" +
-               "Rasa: viking";
+        return "\nName: " + partnerName + "\n" +
+               "Weapon: " + getPartnerWeapon().getDisplayName() + "\n" +
+               "Hp: " + hp + "\n" +
+               "Str: " + str  + "\n" +
+               "Race: viking";
         }
-        return "\nJméno: " + partnerName + "\n" +
-                "Zbraň: " + getPartnerWeapon().getName() + "\n" +
-                "Životy: " + hp + "\n" +
-                "Síla: " + str * (getPartnerWeapon().getMultiplicator()) + "\n" +
-                "Rasa: viking";
-    }
 
     /**
-     * Metoda pro získání jména partnera.
-     * @return jméno partnera
+     * Method to get the name of the partner.
+     * @return partner name
      */
     public String getPartnerName() {
         return partnerName;
     }
 
     /**
-     * Metoda pro nastavení jména partnera.
-     * @param partnerName jméno partnera
+     * Method for setting the partner name.
+     * @param partnerName partner name
      */
     public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
     }
 
     /**
-     * Metoda pro získání hp partnera.
-     * @return hp partnera
+     * Method for getting a hp partner.
+     * @return hp partner
      */
     public double getHp() {
         return hp;
     }
 
     /**
-     * Metoda pro nastavení hp partnera.
-     * @param hp partnera
+     * Method for setting up hp partner.
+     * @param hp partner
      */
     public void setHp(double hp) {
         this.hp = hp;
     }
 
     /**
-     * Metoda pro získání str partnera.
-     * @return str partnera
+     * Method for obtaining a str partner.
+     * @return str partner
      */
     public double getStr() {
         return str * getPartnerWeapon().getMultiplicator();
     }
 
     /**
-     * Metoda pro nastavení str partnera.
-     * @param str pastnera
+     * Method for setting the partner page.
+     * @param str pastner
      */
     public void setStr(double str) {
         this.str = str;
@@ -98,16 +88,16 @@ public class Partner {
 
 
     /**
-     * Metoda pro získání zbraně partnera.
-     * @return zbraň partnera
+     * A method for obtaining a partner's weapon.
+     * @return partner's weapon
      */
     public Weapon getPartnerWeapon() {
         return partnerWeapon;
     }
 
     /**
-     * Metoda pro nastavení zbraně partnera.
-     * @param partnerWeapon partnera
+     * Method for setting the partner's weapon.
+     * @param partnerWeapon partner
      */
     public void setPartnerWeapon(Weapon partnerWeapon) {
         this.partnerWeapon = partnerWeapon;

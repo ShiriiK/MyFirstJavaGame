@@ -20,21 +20,16 @@ import logic.GameState;
 import logic.blueprints.Npc;
 import logic.blueprints.Player;
 import gui.util.Observer;
+import saving_tue.Main;
 
 /**
  * Třída implementující rozhraní Observer.
  * ScreenCombat nastavuje zobrazení combatScreen v top borderPane při zobrazení souboje s npc.
- * </p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-10
  */
 
 public class ScreenCombat implements Observer {
 
-    private final Game game;
-    private final TextArea console;
     private final HBox buttons = new HBox();
     private final Button melee = new Button("Normální útok");
     private final Button ranged = new Button("Útok s úskokem");
@@ -44,11 +39,9 @@ public class ScreenCombat implements Observer {
     private final BorderPane combatScreen = new BorderPane();
 
     //Konstruktor
-    public ScreenCombat(Game game, TextArea console) {
-        this.game = game;
-        this.console = console;
+    public ScreenCombat() {
 
-        GameState gameState = game.getGameState();
+        GameState gameState = Main.game.getGameState();
         gameState.registerObserver(this);
 
         if (gameState.isInCombat()){
@@ -65,11 +58,11 @@ public class ScreenCombat implements Observer {
         combatScreen.getChildren().clear();
 
         //Nastavení ImageVIew hráče
-        Player player = game.getGameState().getPlayer();
+        Player player = Main.game.getGameState().getPlayer();
         ImageView playerImageView = setPlayerImageView(player);
 
         //Nastavení ImageView npc
-        Npc npc = game.getGameState().getAttackedNpc();
+        Npc npc = Main.game.getGameState().getAttackedNpc();
         String npcName = npc.getName();
         ImageView npcImageView = setNpcImageView(npcName);
 
@@ -81,7 +74,7 @@ public class ScreenCombat implements Observer {
 
         buttons.getChildren().addAll(melee, ranged, specialAttacck,charge);
 
-        Label roundLabel = new Label("Kolo číslo: " + game.getGameState().getPlayer().getRound());
+        Label roundLabel = new Label("Kolo číslo: " + Main.game.getGameState().getPlayer().getRound());
         hBox.getChildren().add(roundLabel);
         hBox.setAlignment(Pos.CENTER);
         hBox.setTranslateZ(0);
@@ -123,15 +116,15 @@ public class ScreenCombat implements Observer {
         npcImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             //Zaútočí na npc s parťákem
             if (event.getButton() == MouseButton.PRIMARY) {
-                console.appendText("\nzaútoč_s_parťákem_na "+ npcName + "\n");
-                String gameAnswer = game.processAction("zaútoč_s_parťákem_na "+ npcName);
-                console.appendText("\n" + gameAnswer + "\n");
+                Main.console.appendText("\nzaútoč_s_parťákem_na "+ npcName + "\n");
+                String gameAnswer = Main.game.processAction("zaútoč_s_parťákem_na "+ npcName);
+                Main.console.appendText("\n" + gameAnswer + "\n");
             }
             //Parťák použije speciální sílu
             else if (event.getButton() == MouseButton.SECONDARY){
-                console.appendText(game.getGameState().getPartner().getPartnerName()
+                Main.console.appendText(Main.game.getGameState().getPartner().getPartnerName()
                         + "vyvolává mocnou bouři\n");
-                game.getGameState().getPlayer().setBonusDmg(30.0);
+                Main.game.getGameState().getPlayer().setBonusDmg(30.0);
             }});
         return npcImageView;
     }
@@ -232,27 +225,27 @@ public class ScreenCombat implements Observer {
 
         attack1.setOnAction(e->{
             sequentialTransition.play();
-            console.appendText("\nÚtok z blízka\n");
-            String gameAnswer = game.processAction("speciální_útok útok_z_blízka "+ npcName);
-            console.appendText("\n" + gameAnswer + "\n");
+            Main.console.appendText("\nÚtok z blízka\n");
+            String gameAnswer = Main.game.processAction("speciální_útok útok_z_blízka "+ npcName);
+            Main.console.appendText("\n" + gameAnswer + "\n");
         });
         attack2.setOnAction(e->{
             sequentialTransition.play();
-            console.appendText("\nÚtok s úskokem\n");
-            String gameAnswer = game.processAction("speciální_útok útok_s_úskokem "+ npcName);
-            console.appendText("\n" + gameAnswer + "\n");
+            Main.console.appendText("\nÚtok s úskokem\n");
+            String gameAnswer = Main.game.processAction("speciální_útok útok_s_úskokem "+ npcName);
+            Main.console.appendText("\n" + gameAnswer + "\n");
         });
         attack3.setOnAction(e->{
             sequentialTransition.play();
-            console.appendText("\nspeciální_útok " + player.getRace().getSpecialAttack() + "\n");
-            String gameAnswer = game.processAction("speciální_útok " + player.getRace().getSpecialAttack() + " " + npcName);
-            console.appendText("\n" + gameAnswer + "\n");
+            Main.console.appendText("\nspeciální_útok " + player.getRace().getSpecialAttack() + "\n");
+            String gameAnswer = Main.game.processAction("speciální_útok " + player.getRace().getSpecialAttack() + " " + npcName);
+            Main.console.appendText("\n" + gameAnswer + "\n");
         });
         charge.setOnAction(e->{
             sequentialTransition.play();
-            console.appendText("\nspeciální_útok " + player.getRace().getCharge() + "\n");
-            String gameAnswer = game.processAction("speciální_útok " + player.getRace().getCharge() + " " + npcName);
-            console.appendText("\n" + gameAnswer + "\n");
+            Main.console.appendText("\nspeciální_útok " + player.getRace().getCharge() + "\n");
+            String gameAnswer = Main.game.processAction("speciální_útok " + player.getRace().getCharge() + " " + npcName);
+            Main.console.appendText("\n" + gameAnswer + "\n");
         });
     }
 
@@ -268,7 +261,7 @@ public class ScreenCombat implements Observer {
      */
     @Override
     public void update() {
-        if(game.getGameState().isInCombat()){
+        if(Main.game.getGameState().isInCombat()){
             init();
         }
     }

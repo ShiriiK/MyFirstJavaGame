@@ -1,34 +1,26 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Location;
 import logic.blueprints.Npc;
 import logic.blueprints.Player;
 import logic.blueprints.Weapon;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
  * Třída implementující příkaz pro zaútočení na nepřítele.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
  */
 
 public class ActionEnhancedCombat implements IAction {
-    private final Game game;
-    private final String[] names = {"speciální_útok"};
-
-    //Konstruktor
-    public ActionEnhancedCombat(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"special_attack"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -36,31 +28,21 @@ public class ActionEnhancedCombat implements IAction {
     }
 
     /**
-     * Provádí příkaz attack - zaútočí na npc (když je to možné), pokud to npc přežije, tak útok oplatí.
-     * @param parameters jeden parametr - jméno npc, na které hráč útočí
-     * @return zpráva, která se vypíše hráči
+     * Executes the attack command - attacks the npc (if possible), if the npc survives, it attacks back.
+     * @param parameters one parameter - the name of the npc the player is attacking
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Před útočením si vyber pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Před útočením si vyber jméno." + d2;
-        }
-        if (phase == 2) {
-            return d1 + "Je těžké útočit, když nemáš zbraň." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+        PhaseChecker.advancedChecker();
+
         if (parameters.length < 2) {
-            return d1 + "Na koho chceš použít který útok?" + d2;
+            return Constants.d1 + "Who do you want attack?" + Constants.d2;
         }
         if (parameters.length > 2) {
-            return d1 + "Nemůžeš útočit na víc nepřátel najednou nebo používat víc různých útoků." + d2;
+            return Constants.d1 + "You cannot attack multiple enemies at once or use multiple attacks." + Constants.d2;
         }
 
         String attackName = parameters[0];
@@ -68,16 +50,16 @@ public class ActionEnhancedCombat implements IAction {
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getNpc(npcName) == null) {
-            return d1 + "Nemůžeš útočit na někoho, kdo tu není." + d2;
+            return Constants.d1 + "You can't attack someone who's not here." + Constants.d2;
         }
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
         if (attackedNpc.isFriendly()) {
             if ("gorm".equals(npcName)) {
-                return d1 + "Proč útočit na Gorma????" + d2;
+                return Constants.d1 + "Why attack Gorm????" + Constants.d2;
             }
-            return d1 + "Není důvod útočit na toto npc." + d2;
+            return Constants.d1 + "There's no reason to attack this npc." + Constants.d2;
         }
 
         Player player = gameState.getPlayer();
@@ -193,16 +175,16 @@ public class ActionEnhancedCombat implements IAction {
                     break;
                 }
                 if(!attackName.equals("útok_z_blízka") && !attackName.equals("útok_s_úskokem")){
-                    return  d1 + "Tvoje postava nemá takový útok nebo byl již vyčerpán maximální počet použití." + d2;
+                    return  Constants.d1 + "Tvoje postava nemá takový útok nebo byl již vyčerpán maximální počet použití." + Constants.d2;
                 }
         }
-        String killed = killedNpc(d1, d2, gameState, npcName, currentLocation, npcHp, dmg);
+        String killed = killedNpc(gameState, npcName, currentLocation, npcHp, dmg);
         if (killed != null) return killed;
 
-        return message(d1, d2, gameState, npcName, attackedNpc, player, npcStr, dmg, setBonusDmg,setNegetedDmg);
+        return message(gameState, npcName, attackedNpc, player, npcStr, dmg, setBonusDmg,setNegetedDmg);
     }
 
-    private String message(String d1, String d2, GameState gameState, String npcName, Npc attackedNpc,
+    private String message(GameState gameState, String npcName, Npc attackedNpc,
                            Player player, double npcStr, double dmg, double setBonusDmg, double setNegetedDmg) {
         if (!gameState.isInCombat()){
             gameState.setInCombat(true);
@@ -263,14 +245,14 @@ public class ActionEnhancedCombat implements IAction {
         gameState.getPlayer().setBonusDmg(setBonusDmg);
 
         if(restOfHp < 0.0){
-            game.setTheEnd(true);
-            return d1 + "Umřel/a jsi." + game.epilog() + d2;
+            Main.game.setTheEnd(true);
+            return Constants.d1 + "Umřel/a jsi." + Main.game.epilog() + Constants.d2;
         }
 
-        return  d1 + dmgMessege + negetedMessege + bonusMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + d2;
+        return  Constants.d1 + dmgMessege + negetedMessege + bonusMessege + takenDmgMessege + "Teď máš " + restOfHp + " životů." + Constants.d2;
     }
 
-    private String killedNpc(String d1, String d2, GameState gameState, String npcName, Location currentLocation, double npcHp, double dmg) {
+    private String killedNpc(GameState gameState, String npcName, Location currentLocation, double npcHp, double dmg) {
         if (npcHp <= dmg) {
             currentLocation.removeNpc(npcName);
             gameState.getPlayer().setUsedCharge(false);
@@ -281,7 +263,7 @@ public class ActionEnhancedCombat implements IAction {
             gameState.getPlayer().setUsedCharge(false);
             gameState.getPlayer().setUsedAttack3(false);
             gameState.getPlayer().setRound(0);
-            return d1 + "Zabil/a jste: " + npcName + "." + d2;
+            return Constants.d1 + "Zabil/a jste: " + npcName + "." + Constants.d2;
         }
         return null;
     }

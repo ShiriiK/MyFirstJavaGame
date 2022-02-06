@@ -6,9 +6,9 @@ public class Race {
     private final String charge;
 
     /**
-     * Konstruktor
-     * @param name jméno
-     * @param specialAttack speciální útok
+     * Constructor
+     * @param name name
+     * @param specialAttack special attack
      * @param charge charge
      */
     public Race(String name, String specialAttack, String charge) {
@@ -18,24 +18,24 @@ public class Race {
     }
 
     /**
-     * Metoda pro získání jména rasy
-     * @return jméno rasy
+     * Method for obtaining a race name
+     * @return race name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Metoda pro získání názvu speciálního útoku
-     * @return název speciálního útoku
+     * Method to get the name of the special attack
+     * @return special attack name
      */
     public String getSpecialAttack() {
         return specialAttack;
     }
 
     /**
-     * Metoda pro získání názvu charge útoku
-     * @return název charge útoku
+     * Method to get the name of the charge attack
+     * @return charge attack name
      */
     public String getCharge(){
         return charge;

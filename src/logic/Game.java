@@ -1,22 +1,17 @@
 package logic;
 
+import gui.util.Constants;
 import logic.actions.*;
 
 import java.util.*;
 
 /**
- * Třída představující logiku adventury.
- * <p>
- * Hlavní třída logiky aplikace. Vytváři instanci GameState, která inicializuje
- * lokace a itemy, zbraně a npc v nich.
- * Vypisuje úvodní a závěrečný text hry.
- * Vyhodnocuje jednotlivé příkazy.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Main class of application logic. Creates a GameState instance that initializes the
+ * locations and items, weapons and npcs in them.
+ * Prints the opening and closing text of the game.
+ * Evaluates individual commands.
  * @author Jan Říha
  * @author Alena Kalivodová
- * @version LS-2021, 2021-10-23
  */
 
 public class Game {
@@ -25,101 +20,98 @@ public class Game {
     private final Set<IAction> validActions;
     private boolean happyEnd;
 
-    /**
-     * Vytvoří hru.
-     */
     public Game() {
         theEnd = false;
         happyEnd = false;
         gameState = new GameState();
         validActions = new HashSet<>();
-        validActions.add(new ActionGender(this));
-        validActions.add(new ActionName(this));
-        validActions.add(new ActionWeapon(this));
+        validActions.add(new ActionGender());
+        validActions.add(new ActionName());
+        validActions.add(new ActionWeapon());
         validActions.add(new ActionHelp());
-        validActions.add(new ActionTerminate(this));
-        validActions.add(new ActionGo(this));
-        validActions.add(new ActionLook(this));
-        validActions.add(new ActionExplore(this));
-        validActions.add(new ActionAttack(this));
-        validActions.add(new ActionAttackPartner(this));
-        validActions.add(new ActionPickUp(this));
-        validActions.add(new ActionPlayer(this));
-        validActions.add(new ActionPartner(this));
-        validActions.add(new ActionDrop(this));
-        validActions.add(new ActionInventory(this));
-        validActions.add(new ActionWeaponDrop(this));
-        validActions.add(new ActionGive(this));
-        validActions.add(new ActionRescue(this));
-        validActions.add(new ActionTalk(this));
-        validActions.add(new ActionRace(this));
-        validActions.add(new ActionEnhancedCombat(this));
+        validActions.add(new ActionTerminate());
+        validActions.add(new ActionGo());
+        validActions.add(new ActionLook());
+        validActions.add(new ActionExplore());
+        validActions.add(new ActionAttack());
+        validActions.add(new ActionAttackPartner());
+        validActions.add(new ActionPickUp());
+        validActions.add(new ActionPlayer());
+        validActions.add(new ActionPartner());
+        validActions.add(new ActionDrop());
+        validActions.add(new ActionInventory());
+        validActions.add(new ActionWeaponDrop());
+        validActions.add(new ActionGive());
+        validActions.add(new ActionRescue());
+        validActions.add(new ActionTalk());
+        validActions.add(new ActionRace());
+        validActions.add(new ActionEnhancedCombat());
     }
 
     /**
-     * Vrátí úvodní zprávu pro hráče.
-     * @return přivítání do hry
+     * Returns an introductory message to the player.
+     * @return welcome to the game
      */
     public String theBeginning() {
-        return "\nVítej ve hře Záchrana Tue.\n" +
-                "Brzy začneš hrát a zjistíš, co je tvým cílem, pokud si nejsi jistý/á, co máš dělat, stačí napsat nápověda" +
-                "a zobrazí se příkazy, které můžeš použít." + makeItLookGood1() +
-                "Nejprve vyber, zda chceš hrát za muže nebo ženu." +
-                makeItLookGood2();
+        return "\nWelcome to the game Saving Tue.\n" +
+                "You will soon start playing and find out what your goal is, if you are not sure what to do, just type a hint " +
+                "and you'll see the commands you can use. " + Constants.d1 +
+                "First, choose whether you want to play as a man or a woman." +
+                Constants.d2;
     }
 
     /**
-     * Vrátí závěrečnou zprávu pro hráče.
-     * @return zpráva o ukočení, buďto vítězném nebo o prohře
+     * Returns a final message to the player.
+     * @return message on completion, either winning or losing
      */
     public String epilog() {
         if (happyEnd) {
-            return "\nTue byla zachráněna!!!!!!! \n" +
-                    makeItLookGood1() + "Gratuluji k úspěšnému dokončení hry!" + makeItLookGood2();
+            return "\nTue was rescued!!!!!!! \n" +
+                    Constants.d1 + "Congratulations on the successful completion of the game!" + Constants.d2;
         } else {
-            return makeItLookGood1() + "Hra skončila. Prohrál/a jsi." + makeItLookGood2();
+            return Constants.d1 + "The game is over. You lost.." + Constants.d2;
         }
     }
 
     /**
-     * Metoda sloužící k nastavení happyEnd na true ve chvíli, kdy hráč zachrání Tue.
-     * @param happyEnd pokud je true, tak hra skončila dobře
+     * Method used to set happyEnd to true when the player saves Tue.
+     * @param happyEnd if true, the game ended well
      */
     public void setHappyEnd(boolean happyEnd) {
         this.happyEnd = happyEnd;
     }
 
     /**
-     * Dokud je theEnd false, tak hra běží.
-     * @return false když hra běží, true, když byla ukončena
+     * As long as theEnd is false, the game runs.
+     * @return false when the game is running, true when the game has been terminated
      */
     public boolean theEnd() {
         return theEnd;
     }
 
     /**
-     * Slouží k nastavení theEnd.
-     * @param theEnd nastaví se na true při ukončení hry
+     * Used to set theEnd.
+     * @param theEnd is set to true when the game ends
      */
     public void setTheEnd(boolean theEnd) {
         this.theEnd = theEnd;
     }
 
     /**
-     * Slouží k získání odkazu na gameState.
-     * @return odkaz na gameState
+     * Used to get a link to gameState.
+     * @return link to gameState
      */
     public GameState getGameState() {
         return gameState;
     }
 
     /**
-     * Metoda zpracuje textový řetězec jako parametr a rozdělí ho na příkaz a další parametry.
-     * Otestuje zda je příkaz ve validAction.
-     * Pokud ano, tak spustí provedení příkazu.
+     * The method processes a text string as a parameter and splits it into a command and other parameters.
+     * Tests if the command is in validAction.
+     * If yes, it starts the execution of the command.
      *
-     * @param line text zadaný uživatelem
-     * @return řetězec, který se vypíše do konzole
+     * @param line text specified by the user
+     * @return the string to be printed to the console
      */
     public String processAction(String line) {
         String[] text = line.split("[ \t]+");
@@ -136,15 +128,8 @@ public class Game {
                 }
             }
         }
-        return makeItLookGood1() + "Nesprávný příkaz." + makeItLookGood2();
+        return Constants.d1 + "Invalid command." + Constants.d2;
     }
 
-    //Metody pro zkrášlení textů vypisovaných do konozole
-    public static String makeItLookGood1() {
-        return "\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_\n";
-    }
 
-    public static String makeItLookGood2() {
-        return "\n‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾-‾\n";
-    }
 }

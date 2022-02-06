@@ -1,31 +1,19 @@
 package gui.util;
 
 /**
- *  Třídy implementující toho rozhraní odesílají informace o změně stavu jiných objektů, které se u nich zaregistrovali.
- *  <p>
- *  Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Classes implementing this interface send state change information to other objects that have registered with them.
  *  @author Marcel Valový
- *  * @version ZS -2021, 2021-10-15
  */
 public interface SubjectOfChange {
 
     /**
-     * Metoda sloužící k zaregistrování observra.
-     *
-     * @param observer registrovaný observer
+     * Method used to register the observatory.
+     * @param observer registered observer
      */
     void registerObserver(Observer observer);
 
     /**
-     * Metoda sloužící k odregistrování observra.
-     *
-     * @param observer
-     */
-    void unregisterObserver(Observer observer);
-
-    /**
-     * Metoda sloužící k upozornění observra v případě, kdy nastane nějaká změna a je jej potřeba o ní informovat.
+     * A method used to alert the observer when a change occurs and it needs to be informed.
      */
     void notifyObservers();
 

@@ -11,22 +11,19 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import logic.Game;
-import test.Runner;
 import gui.ui.TextInterface;
 
 /**
- * Spouštěcí třída aplikace.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
+ * Application trigger class.
  *
  * @author Marcel Valový
  * @author Alena Kalivodová
- * @version ZS2021, 2021-11-10
  */
 
 public class Main extends Application {
@@ -36,14 +33,12 @@ public class Main extends Application {
     private static final TextField userInput = new TextField();
 
     /**
-     * Spouštěcí metoda aplikace. Vyhodnotí parametry, se kterými byla aplikace
-     * spuštěna, a na základě nich rozhodne, jakou operaci provede <i>(hra v textovém nebo grafickém rozhraní, výpis
-     * testovacích scénářů, spuštění testovacích scénářů(scénáře jsou nefuknkční, stejně tak testy))</i>.
-     * <p>
-     * Pokud byla aplikace spuštěna s nepodporovanými parametry, vypíše nápovědu
-     * a skončí.
+     * Spouštěcí metoda aplikace. Evaluates the parameters with which the application was
+     * the application was started with and decides what operation to perform based on them.
+     * If the application was started with unsupported parameters, it prints a hint
+     * and exits.
      *
-     * @param args parametry aplikace z příkazové řádky
+     * @param args application parameters from the command line
      */
     public static void main(String[] args) {
         if (args.length > 0){
@@ -55,20 +50,12 @@ public class Main extends Application {
                 TextInterface ui = new TextInterface(game);
                 ui.play();
                 System.exit(0);
-            } else if (args.length == 1 && args[0].equalsIgnoreCase("SHOW_SCENARIOS")) {
-                Runner runner = new Runner();
-                System.out.println(runner.showAllScenarios());
-            } else if (args.length == 1 && args[0].equalsIgnoreCase("RUN_SCENARIOS")) {
-                Runner runner = new Runner();
-                System.out.println(runner.runAllScenarios());
-            }  else {
-                System.out.println("\nPro spuštění hry můžeš použít následující parametry:");
-                System.out.println("  <žádné> nebo gui    : Zapne hru v grafickém rozhraní.");
-                System.out.println("  text                : Zapne hru v textovém rozhraní.");
-                System.out.println("  SHOW_SCENARIOS      : Vypíše kroky testovacího scénáře.(nefunkční)");
-                System.out.println("  RUN_SCENARIOS       : Otestuje krory testovacího scénáře.(nefunkční)");
+            } else {
+                System.out.println("\nYou can use the following parameters to start the game:");
+                System.out.println("<none> or gui : Turns the game on in the GUI.");
+                System.out.println("text : Turns on the game in the text interface.");
 
-                throw  new IllegalArgumentException("Zadaný neplatný argument: " + parametr);
+                throw  new IllegalArgumentException("Invalid argument entered: " + parametr);
             }
         } else {
             launch(args);
@@ -76,59 +63,41 @@ public class Main extends Application {
     }
 
     /**
-     * Metoda pro vytvoření scény s grafickým rozhraním a její uspořádání.
-     * @param primaryStage stage, které je přidělena scéna, kde se zobrazuje grafické rozhraní hry
+     * A method for creating a GUI scene and arranging it.
+     * @param primaryStage stage, which is assigned to the scene where the GUI of the game is displayed
      */
     @Override
     public void start(Stage primaryStage) {
         BorderPane borderPane = new BorderPane();
 
-        //nastavení konzole
+        // Console settings
         Node node = setUpConsoleArea();
         borderPane.setCenter(node);
         BorderPane.setMargin(node, new Insets(10));
 
-        //nastavení panelu s itemy v lokaci
-        ItemPanel itemsPanel = new ItemPanel(game, console);
+        ItemPanel itemsPanel = new ItemPanel();
+        NpcAndWeaponPanel npcsPanel = new NpcAndWeaponPanel();
+        ScreenSelectGender selectGender = new ScreenSelectGender();
+        ScreenSelectRace selectRace = new ScreenSelectRace();
+        ScreenSelectName selectName = new ScreenSelectName();
+        ScreenCombat combat = new ScreenCombat();
+        ScreenInteracting interacting = new ScreenInteracting();
+        MenuPanel menuBar = new MenuPanel(primaryStage);
 
-
-        //nastavení panelu s npc v lokaci
-        NpcAndWeaponPanel npcsPanel = new NpcAndWeaponPanel(game, console);
-
-        //nastavení pohlaví
-        ScreenSelectGender selectGender = new ScreenSelectGender(game, console);
-
-        //nastavení rasy
-        ScreenSelectRace selectRace = new ScreenSelectRace(game, console);
-
-        //nastavení jména
-        ScreenSelectName selectName = new ScreenSelectName(game, console);
-
-        //nastavení zobrazení souboje
-        ScreenCombat combat = new ScreenCombat(game, console);
-
-        //nastavaení zobrazení interakce s npc
-        ScreenInteracting interacting = new ScreenInteracting(game, console);
-
-        MenuPanel menuBar = new MenuPanel(game, console, primaryStage);
-
-        //nastavení panelu lokace (obrázek aktuální lokace + daší viz parametry)
-        BaseScreen baseScreen = new BaseScreen(game, console, primaryStage, itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat, menuBar);
+        BaseScreen baseScreen = new BaseScreen(itemsPanel, npcsPanel, selectGender, selectRace, selectName, interacting, combat, menuBar);
         borderPane.setTop(baseScreen.getGameMainScreen());
 
-        //nastavení panelu východů
         ExitPanel exitPanel = new ExitPanel(borderPane, baseScreen);
         borderPane.setRight(exitPanel.getPanel());
 
-        //nastavení panelu inventáře
-        InventoryPanel inventoryPanel = new InventoryPanel(game, console);
+        InventoryPanel inventoryPanel = new InventoryPanel();
         borderPane.setLeft(inventoryPanel.getPanel());
 
-        //nastavení scény
         Scene scene = new Scene(borderPane, Constants.SCEEN_WIDTH, Constants.SCEEN_HEIGHT);
-        scene.getStylesheets().add("adventura.css");
+        scene.getStylesheets().add("style.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle(Constants.GAME_TITLE);
+        primaryStage.getIcons().add(new Image("/other/icon.jpg"));
         primaryStage.setResizable(false);
         userInput.requestFocus();
         primaryStage.show();
@@ -140,11 +109,11 @@ public class Main extends Application {
     }
 
     /**
-     * Metoda pro nastaven9 console
+     * Method for console setup
      */
     private VBox setUpConsoleArea() {
 
-        Label enterCommand = new Label("Zadej příkaz: ");
+        Label enterCommand = new Label("Enter command: ");
         enterCommand.setStyle("-fx-font-size: 25.0");
         enterCommand.setStyle("-fx-font-weight: BOLD");
 
@@ -162,8 +131,8 @@ public class Main extends Application {
     }
 
     /**
-     * Metoda pro připravení textového pole, do kterého uživatel zadává příkazy a hra je vyhodnocuje.
-     * @param console TextArea ve které se vypisují příkazy zadané hráčem a odpovědi hry na tyto příkazy
+     * A method for preparing a text box where the user enters commands and the game evaluates them.
+     * @param console TextArea in which the commands entered by the player and the game's responses to those commands are printed
      */
     private void setUpTextField(TextArea console) {
         userInput.setOnAction(event ->  {
@@ -180,8 +149,8 @@ public class Main extends Application {
     }
 
     /**
-     * Metoda pro vytvoření console.
-     * @return vytvořená concole
+     * Method for creating a console.
+     * @return created concole
      */
     private static TextArea createConcole() {
         TextArea console = new TextArea();

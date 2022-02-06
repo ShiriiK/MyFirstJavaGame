@@ -1,33 +1,25 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Location;
 import logic.blueprints.Player;
 import logic.blueprints.Weapon;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zahození zbraně.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * A class implementing the weapon discard command.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionWeaponDrop implements IAction {
-    private final Game game;
-    private final String[] names = {"odlož_zbraň"};
-
-    //Konstuktor
-    public ActionWeaponDrop(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"drop_weapon"};
 
     /**
-     * Metoda použitá pro identifokivání platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -35,42 +27,32 @@ public class ActionWeaponDrop implements IAction {
     }
 
     /**
-     * Provádí příkaz weapon_drop - odloží hráčovu zbraň.
-     * @param parameters žádný
-     * @return zpráva, která se vypíše hráči
+     * Executes the weapon_drop command - drops the player's weapon.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nejdřív si vyber pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nejdřív si vyber jméno." + d2;
-        }
-        if (phase == 2) {
-            return d1 + "Nejdřív si zbraň aspoň vezmi, než ji budeš odkládat." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+        PhaseChecker.advancedChecker();
+
         if (parameters.length >= 1) {
-            return d1 + "Stačí napsat odložitz." + d2;
+            return Constants.d1 + "Just type drop_weapon." + Constants.d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
         String locationName = currentLocation.getName();
 
-        if (!(locationName.equals("zbrojírna"))) {
-            return d1 + "Zbraň musíš odložit v místnosti za kovárnou." + d2;
+        if (!(locationName.equals("armory"))) {
+            return Constants.d1 + "You have to put your weapon down in the room behind the forge." + Constants.d2;
         }
 
         Player player = gameState.getPlayer();
         Weapon playerWeapon = player.getPlayerWeapon();
         player.setPlayerWeapon(null);
         currentLocation.addWeapon(playerWeapon);
-        gameState.setPhase(2);
-        return d1 + "Odložil/a si svou zbraň." + d2;
+        gameState.setPhase(3);
+        return Constants.d1 + "You' ve put your weapon down." + Constants.d2;
     }
 }

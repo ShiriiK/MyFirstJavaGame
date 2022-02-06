@@ -1,34 +1,26 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Inventory;
 import logic.blueprints.Item;
 import logic.blueprints.Location;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro prozkoumání předmětu.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * A class that implements a command to explore an object.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 
 public class ActionExplore implements IAction {
-    private final Game game;
-    private final String[] names = {"prozkoumej", "prohledej"};
-
-    //Konstruktor
-    public ActionExplore(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"explore", "search"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -36,29 +28,21 @@ public class ActionExplore implements IAction {
     }
 
     /**
-     * Provádí příkaz explore - prohledá předmět, vypíše jeho popis a pokud se v něm nachází item,
-     * tak ho přesune do aktuální lokace.
-     * @param parameters jeden parametr - jméno věci, která má být prozkoumána
-     * @return zpráva, která se vypíše hráči
+     * Executes the explore command - searches the item, lists its description and if there is an item in it,
+     * it moves it to the current location.
+     * @param parameters one parameter - the name of the item to be explored
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nemůžeš prozkoumávat věci, dokud si nenastavíš pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nemůžeš prozkoumávat věci, dokud si nenastavíš jméno." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length < 1) {
-            return d1 + "Musíš mi říct, co by si chtěl/a prozkoumat." + d2;
+            return Constants.d1 + "You have to tell me what you'd like to explore." + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Nemůžeš prozkoumávat víc věcí najednou." + d2;
+            return Constants.d1 + "You can't explore more than one thing at a time." + Constants.d2;
         }
 
         String itemName = parameters[0];
@@ -67,36 +51,36 @@ public class ActionExplore implements IAction {
 
 
         if (inventory.getItem(itemName) != null) {
-            return d1 + itemInv.getDescription() + d2;
+            return Constants.d1 + itemInv.getDescription() + Constants.d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
         Item item = currentLocation.getItem(itemName);
 
         if (currentLocation.getItem(itemName) == null) {
-            return d1 + "Nic takového tu není a ani nemáš nic takového u sebe." + d2;
+            return Constants.d1 + "There's no such thing here." + Constants.d2;
         }
 
 
         String foundName = currentLocation.getItem(itemName).containedItem();
         Item found = currentLocation.getItem(itemName).getItemInItem(foundName);
 
-        if ("velký_strom".equals(itemName) && "taška".equals(item.containedItem())) {
+        if ("huge_tree".equals(itemName) && "bag".equals(item.containedItem())) {
             item.removeItemInItem(foundName);
             currentLocation.addItem(found);
-            return d1 + "Našel/a jsi: " + foundName + d2;
+            return Constants.d1 + "You've found: " + foundName + Constants.d2;
         }
 
         if (item.containedItem() != null) {
-            if ("truhla".equals(itemName) && !inventory.getContent().containsKey("univerzální_klíč")) {
-                return d1 + "Truhla je zamčená, ani brutální síla nepomáhá v jejím otevření." + d2;
+            if ("chest".equals(itemName) && !inventory.getContent().containsKey("master_key")) {
+                return Constants.d1 + "The chest is locked, even brute force doesn't help in opening it." + Constants.d2;
             }
             item.removeItemInItem(foundName);
             currentLocation.addItem(found);
-            return d1 + "Našel/a jsi: " + foundName + "\n" +
-                    item.getDescription() + d2;
+            return Constants.d1 + "You've found: " + foundName + "\n" +
+                    item.getDescription() + Constants.d2;
         }
 
-        return d1 + item.getDescription() + d2;
+        return Constants.d1 + item.getDescription() + Constants.d2;
     }
 }

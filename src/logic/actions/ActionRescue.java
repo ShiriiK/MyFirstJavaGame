@@ -1,31 +1,23 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.Game;
 import logic.blueprints.Location;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro záchranu Tua a vyhraní hry.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the command to save Tu and win the game.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionRescue implements IAction {
-    private final Game game;
-    private final String[] names = {"zachraň_tue"};
-
-    //Konstruktor
-    public ActionRescue(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"rescue_tue"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -33,27 +25,24 @@ public class ActionRescue implements IAction {
     }
 
     /**
-     * Provádí příkaz rescue - zachrání Tua a ukončí hru.
-     * @param parameters žádný
-     * @return zpráva, která se vypíše hráči
+     * Executes the rescue command - rescues Tu and ends the game.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
         if (parameters.length >= 1) {
-            return d1 + "Stačí napsat jen zachránit_tua, nic víc" + d2;
+            return Constants.d1 + "Just type rescue_tue, that's all" + Constants.d2;
         }
 
-        Location currentLocation = game.getGameState().getCurrentLocation();
+        Location currentLocation = Main.game.getGameState().getCurrentLocation();
 
-        if (!currentLocation.getName().equals("cela_na_pravo")) {
-            return d1 + "Aby si mohl/a zachrnít Tua, musíš být tam, kde je vězněn" + d2;
+        if (!currentLocation.getName().equals("rigt_cell")) {
+            return Constants.d1 + "In order to save Tu, you have to be where she's imprisoned." + Constants.d2;
         }
 
-        game.setHappyEnd(true);
-        game.setTheEnd(true);
-        return game.epilog() + "Hra skončila.";
+        Main.game.setHappyEnd(true);
+        Main.game.setTheEnd(true);
+        return Main.game.epilog() + "Game ended.";
     }
 }

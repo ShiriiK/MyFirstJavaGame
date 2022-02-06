@@ -1,53 +1,47 @@
 package logic.blueprints;
 
+import gui.util.Constants;
 import gui.util.Observer;
 import gui.util.SubjectOfChange;
 import logic.Game;
-import logic.blueprints.Item;
 
 import java.util.*;
 
 /**
- * Třída reprezentující inventář hráče a implementující rozhraní SubjectOfChange
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
+ * Class representing the player inventory and implementing the SubjectOfChange interface
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-11-06
  */
 
 public class Inventory implements SubjectOfChange{
-    private static final int MAX_ITEMS = 6; // maximální počet věcí v inventáři
-    private final Map<String, Item> content; // seznam věcí v inventáři
-
+    private static final int MAX_ITEMS = 6; // maximum number of items in inventory
+    private final Map<String, Item> content; // list of things in inventory
     private final Set<Observer> observers = new HashSet<>();
 
-
-    // Konstruktor
     public Inventory() {
         content = new HashMap<>();
     }
 
     /**
-     * Metoda vrací kolekci všech itemů v inventáři.
-     * @return kolekce itemů v inventáři
+     * The method returns the collection of all items in the inventory.
+     * @return collection of items in inventory
      */
     public Map<String, Item> getContent() {
         return content;
     }
 
     /**
-     * Metoda pro zjištění, zda je v batohu ještě místo.
-     * @return true - pokud je, false - pokud je inventář plný
+     * A method to determine if there is still room in the inventory.
+     * @return true - if there is, false - if the inventory is full
      */
     public boolean isSpace() {
         return content.size() < MAX_ITEMS;
     }
 
     /**
-     * Metoda pro vložení itemu do inventáře.
-     * @param item který chceme vložit
-     * @return null pokud nelze vložit, jinak odkaz na vložený item
+     * Method for inserting item into inventory.
+     * @param item we want to insert
+     * @return null if cannot insert, otherwise link to inserted item
      */
     public Item addItem(Item item) {
         if (isSpace() && item.isPickable()) {
@@ -59,24 +53,24 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Metoda pro vypsání obsahu inventáře.
-     * @return obsah inventáře
+     * Method for listing inventory contents.
+     * @return inventory contents
      */
     public String getInventory() {
-        String text =  Game.makeItLookGood1() + "Batoh:";
+        String text =  Constants.d1 + "Inventory:";
         for (String name : content.keySet()) {
-            if (!text.equals("\nBatoh:")) {
+            if (!text.equals("\nInventory:")) {
                 text += ",";
             }
             text += " " + name;
         }
-        return text + Game.makeItLookGood2();
+        return text + Constants.d2;
     }
 
     /**
-     * Metoda na vrácení odkazu na item podle jeho názvu.
-     * @param name název věci
-     * @return odkaz na věc, pokud nebyla nalezena, tak se vrátí null
+     * Method to return a link to an item by its name.
+     * @param name item name
+     * @return reference to the item, if not found, null is returned
      */
     public Item getItem(String name) {
         Item item = null;
@@ -87,8 +81,8 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Odstraní item z inventáře.
-     * @param name název itemu
+     * Removes an item from your inventory.
+     * @param name item name
      */
     public void removeItem(String name) {
         if (content.containsKey(name)) {
@@ -98,19 +92,14 @@ public class Inventory implements SubjectOfChange{
     }
 
     /**
-     * Metoda pro vrácení názvů itemů v inventáři.
-     * @return set názvů itemů v intentáři
+     * Method for returning item names in inventory.
+     * @return set of item names in inventory
      */
     public Set<String> itemsInInventory() { return content.keySet(); }
 
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(Observer observer) {
-        observers.remove(observer);
     }
 
     @Override

@@ -2,7 +2,6 @@ package gui.panels;
 
 import gui.util.Constants;
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,44 +9,33 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import logic.*;
 import gui.util.Observer;
 import logic.blueprints.Npc;
 import logic.blueprints.Weapon;
+import saving_tue.Main;
 
 import java.util.Set;
 
 /**
- * Třída implementující rozhraní Observer.
- * RightPanel nastavuje zobrazení rightPanel v top borderPane při zobrazení normální obrazovky.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the Observer interface.
+ * NpcAndWeaponPanel sets the display of the npcAndWeaponPanel in the top borderPane when the normal screen is displayed.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-10
  */
 
 public class NpcAndWeaponPanel implements Observer {
 
-    private final Game game;
-    private final TextArea console;
     private final HBox rightPanel = new HBox();
     private final FlowPane flowPane = new FlowPane();
 
-    //Konstruktor
-    public NpcAndWeaponPanel(Game game, TextArea console) {
-        this.game = game;
-        this.console = console;
+    public NpcAndWeaponPanel() {
+        Main.game.getGameState().registerObserver(this);
+        Main.game.getGameState().getCurrentLocation().registerObserver(this);
 
         init();
-
-        game.getGameState().registerObserver(this);
-        game.getGameState().getCurrentLocation().registerObserver(this);
-
     }
 
     /**
-     * Metoda pro nastavení rightPanel.
+     * Method for setting up rightPanel.
      */
     private void init() {
         rightPanel.getChildren().clear();
@@ -58,133 +46,125 @@ public class NpcAndWeaponPanel implements Observer {
     }
 
     /**
-     * Metoda pro nastavení buďto obrázků npc v lokaci nebo obrázků zbraní v lokaci.
+     * Method for setting either npc images in a location or weapon images in a location.
       */
     private void loadRightPanel() {
         flowPane.getChildren().clear();
-            //Pokud je hráč ve zbrojírně, tak se nezobrazjí v rightPanel npc, ale braně
-            if (game.getGameState().getCurrentLocation().getName().equals("zbrojírna")) {
-                Set<Weapon> weaponSet = game.getGameState().getCurrentLocation().getWeapons();
+        // Armory display
+            if (Main.game.getGameState().getCurrentLocation().getName().equals("armory")) {
+                Set<Weapon> weaponSet = Main.game.getGameState().getCurrentLocation().getWeapons();
 
                 for (Weapon weapon : weaponSet) {
                     String name = weapon.getName();
-                    ImageView imageView = new ImageView(new Image("/pics/" + name + ".jpg",
+                    ImageView imageView = new ImageView(new Image("/weapons/" + name + ".jpg",
                             Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
                     clickOnWeapon(name, imageView);
 
-                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplikátor: " + weapon.getMultiplicator() +
-                            "\nBonus k útoku: " + weapon.getBonusDmg() + "\nBonus k bloku: " + weapon.getBonusBlock() +
-                            "\nBonus k speciálnímu útoku: " + weapon.getBonusSpecialAttack() +
-                            "\nBonus k charge útoku: " + weapon.getBonusCharge());
+                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplier: " + weapon.getMultiplicator() +
+                            "\nAttack Bonus: " + weapon.getBonusDmg() + "\nBlock Bonus: " + weapon.getBonusBlock() +
+                            "\nSpecial Attack Bonus: " + weapon.getBonusSpecialAttack() +
+                            "\nCharge Attack Bonus: " + weapon.getBonusCharge());
                     Tooltip.install(imageView, tip);
 
                     flowPane.getChildren().add(imageView);
                 }
-            //Klasické zobrazení npc
+        // Every other location
             } else {
 
-                Set<Npc> npcSet = game.getGameState().getCurrentLocation().getNpcs();
+                Set<Npc> npcSet = Main.game.getGameState().getCurrentLocation().getNpcs();
 
                 for (Npc npc : npcSet) {
                     String name = npc.getName();
+                    ImageView npcView;
                     if(name.equals("tue")) {
-                        ImageView imageView = new ImageView(new Image("/pics/" + name + ".jpg",
+                        npcView = new ImageView(new Image("/npcs/" + name + ".jpg",
                                 Constants.NPCS_WIDTH, Constants.NPCS_HEIGHT, false, false, true));
 
-                        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                            console.appendText("zachraň_tue");
-                            String gameAnswer = game.processAction("zachraň_tue");
-                            console.appendText("\n" + gameAnswer + "\n");
+                        npcView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                            Main.console.appendText("rescue_tue");
+                            String gameAnswer = Main.game.processAction("rescue_tue");
+                            Main.console.appendText("\n" + gameAnswer + "\n");
                         });
+                    } else {
+                        Boolean friendly = npc.isFriendly();
+                        Boolean talk = npc.getTalk();
+                        npcView = new ImageView(new Image("/npcs/" + name + ".jpg",
+                                Constants.NPCS_WIDTH, Constants.NPCS_HEIGHT, false, false, true));
 
-                        Tooltip tip = new Tooltip(npc.getDisplayName());
-                        Tooltip.install(imageView, tip);
-
-                        flowPane.getChildren().add(imageView);
-                        break;
+                        clickOnNpc(name, npcView, friendly, talk);
                     }
-                    Boolean friendly = npc.isFriendly();
-                    Boolean talk = npc.getTalk();
-                    ImageView imageView = new ImageView(new Image("/pics/" + name + ".jpg",
-                            450.0, 250.0, false, false, true));
-
-                    clickOnNpc(name, imageView, friendly, talk);
 
                     Tooltip tip = new Tooltip(npc.getDisplayName());
-                    Tooltip.install(imageView, tip);
-
-                    flowPane.getChildren().add(imageView);
+                    Tooltip.install(npcView, tip);
+                    flowPane.getChildren().add(npcView);
                 }
             }
         }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na obrázek zbraně v lokaci.
-     * @param name jméno zbraně
-     * @param imageView obrázek zbraně
+     * A method for processing an action when player clicks on an image of weapon in a location.
+     * @param name weapon name
+     * @param weaponImageView weapon image
      */
-    private void clickOnWeapon(String name, ImageView imageView) {
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //Prvotní nastavení zbraně
-            if (game.getGameState().getPlayer().getPlayerWeapon() == null) {
-                console.appendText("vzemi_si_zbraň " + name);
-                String gameAnswer = game.processAction("vzemi_si_zbraň " + name);
-                console.appendText(gameAnswer);
-            //Výměna zbraně za jinou
+    private void clickOnWeapon(String name, ImageView weaponImageView) {
+        weaponImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            // Initial weapon setup
+            if (Main.game.getGameState().getPlayer().getPlayerWeapon() == null) {
+                Main.console.appendText("take_weapon " + name);
+                String gameAnswer = Main.game.processAction("take_weapon " + name);
+                Main.console.appendText(gameAnswer);
+            // Swapping a weapons
             } else {
-                console.appendText("odlož_zbraň");
-                String gameAnswer1 = game.processAction("odlož_zbraň");
-                console.appendText(gameAnswer1);
+                Main.console.appendText("drop_weapon");
+                String gameAnswer1 = Main.game.processAction("drop_weapon");
+                Main.console.appendText(gameAnswer1);
 
-                console.appendText("vzemi_si_zbraň " + name);
-                String gameAnswer = game.processAction("vzemi_si_zbraň " + name);
-                console.appendText(gameAnswer);
+                Main.console.appendText("take_weapon " + name);
+                String gameAnswer = Main.game.processAction("take_weapon " + name);
+                Main.console.appendText(gameAnswer);
             }
         });
     }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na obrázek npc v lokaci.
-     * @param name jméno npc
-     * @param imageView obrázek npc
+     * A method for processing an action when player clicks on an image of npc in a location.
+     * @param name npc name
+     * @param imageView image npc
      */
     private void clickOnNpc(String name, ImageView imageView, Boolean friendly, Boolean talk) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            //Nastavení interacting
+            // Interacting settings
             if (event.getButton() == MouseButton.SECONDARY) {
                 if (!talk) {
-                    console.appendText("\nS tímto npc toho moc nevykomunikuješ.");
+                    Main.console.appendText("\nYou can't interact with this npc.");
                 }
-                game.getGameState().setInteractingNpc(name);
-                game.getGameState().setInteracting(true);
-                console.appendText("\nZačal si komunikovat s " + name + "\n");
-            //Nastavení combat
+                Main.game.getGameState().setInteractingNpc(name);
+                Main.game.getGameState().setInteracting(true);
+                Main.console.appendText("\nYou started interacting with " + name + "\n");
+            // Combat settings
             } else {
                 if (friendly) {
-                    console.appendText("\nNemá smysl začínat s tímto npc souboj");
+                    Main.console.appendText("\nNo point in starting a fight with this npc.");
                 } else {
-                    game.getGameState().setAttackedNpc(name);
-                    game.getGameState().getPlayer().setRound(1);
-                    game.getGameState().setInCombat(true);
-                    console.appendText("\nZačal si souboj s " + name + "\n");
+                    Main.game.getGameState().setAttackedNpc(name);
+                    Main.game.getGameState().getPlayer().setRound(1);
+                    Main.game.getGameState().setInCombat(true);
+                    Main.console.appendText("\nYou started a fight with " + name + "\n");
                 }
             }
         });
     }
 
     /**
-     * @return rightPanel
-     */
-    public Node getPanel() {
-        return rightPanel; }
-
-    /**
-     * Aktualizuje obrázky noc(resp. zbraní) v lokaci
+     * Updates images of the npcs (or weapons) in the location
      */
     @Override
     public void update() {
         loadRightPanel();
     }
 
+    public Node getPanel() {
+        return rightPanel;
+    }
 }

@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Instance této třídy představují jednotlivé itemy.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Instances of this class represent individual items.
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
  */
 
 public class Item {
@@ -20,11 +16,11 @@ public class Item {
     private final Collection<Item> hiddenItems;
 
     /**
-     * Konstruktor
-     * @param name název itemu
-     * @param displayName zobrazovaný název itemu
-     * @param pickable informace o tom, zda ho lze dá do inventáře
-     * @param description popis
+     * Constructor
+     * @param name item name
+     * @param displayName display name of the item
+     * @param pickable information about whether it can be put into inventory
+     * @param description description
      */
     public Item(String name, String displayName, boolean pickable, String description) {
         this.name = name;
@@ -39,41 +35,41 @@ public class Item {
     }
 
     /**
-     * Metoda pro získání jména itemu.
-     * @return jméno itemu
+     * Method to get the name of the item.
+     * @return item name
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Metoda pro získání informace o tom, zda jde předmět vzít.
-     * @return informace o přenositelnosti
+     * Method for obtaining information about whether an object can be taken.
+     * @return portability information
      */
     public boolean isPickable() {
         return pickable;
     }
 
     /**
-     * Metoda pro získání popisu itemu.
-     * @return popis itemu
+     * Method for obtaining the item description.
+     * @return item description
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Metoda pro vkládaní itemu do itemu.
-     * @param inserted item v itemu
+     * Method for inserting item into item.
+     * @param inserted item in item
      */
     public void insertItem(Item inserted) {
         hiddenItems.add(inserted);
     }
 
     /**
-     * Metoda pro získání itemu v itemu.
-     * @param name název itemu, který je v jiném itemu
-     * @return odkaz na item
+     * Method for obtaining item in item.
+     * @param name name of the item that is in another item
+     * @return reference to item
      */
     public Item getItemInItem(String name) {
         Item item = null;
@@ -87,8 +83,8 @@ public class Item {
     }
 
     /**
-     * Metoda pro odstranění itemu z itemu.
-     * @param name název itemu, který má být z itemu vyndán
+     * Method to remove item from item.
+     * @param name name of the item to be removed from the item
      */
     public void removeItemInItem(String name) {
         for (Item current : hiddenItems) {
@@ -100,8 +96,8 @@ public class Item {
     }
 
     /**
-     * Metoda na zjištění zda je v itemu nějaký jiný item.
-     * @return název itemu, který je v itemu, pokud tam nějaký je
+     * Method to find out if there is another item in the item.
+     * @return the name of the item that is in the item, if there is one
      */
     public String containedItem() {
         String contains = null;

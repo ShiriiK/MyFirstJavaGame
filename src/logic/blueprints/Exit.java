@@ -1,57 +1,49 @@
 package logic.blueprints;
 
-import logic.blueprints.Location;
-import logic.blueprints.Npc;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Instance této třídy představují exity z lokací.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Instances of this class represent exits from locations.
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-26
  */
 public class Exit {
     private final Location targetLocation;
     private final Map<Npc, String> watchingNpcs;
 
-    //Konstruktor
     public Exit(Location targetLocation) {
         this.targetLocation = targetLocation;
         watchingNpcs = new HashMap<>();
     }
 
     /**
-     * Metoda pro přidání npc do exitu.
-     * @param npc přidané npc
+     * Method for adding npc to exit.
+     * @param npc added npc
      */
     public void insertNpc(Npc npc) {
         watchingNpcs.put(npc, npc.getName());
     }
 
     /**
-     * Metoda pro odstanění npc z exitu.
-     * @param npc odstraněné npc
+     * Method for removing npc from exit.
+     * @param npc removed npc
      */
     public void removeWatchingNpc(Npc npc) {
         watchingNpcs.remove(npc);
     }
 
     /**
-     * Metoda pro získání odkazu na lokaci, do které exit směřuje.
-     * @return cílová lokace
+     * Method to get a reference to the location to which the exit is directed.
+     * @return destination location
      */
     public Location getTargetLocation() {
         return targetLocation;
     }
 
     /**
-     * Metoda pro získání informace o tom, zda exit obsahuje npc.
-     * @param npc npc, které chceme zjistit, jestli je v exitu
-     * @return odkaz na npc, pokud tak je a null pokud není
+     * Method to get information about whether exit contains npc.
+     * @param npc npc that we want to find out if it is in exit
+     * @return reference to npc if it is and null if it is not
      */
     public Npc containsNpc(Npc npc) {
         if (watchingNpcs.containsKey(npc)) {
@@ -61,16 +53,16 @@ public class Exit {
     }
 
     /**
-     * Metoda pro zobrazení zprávy o poškození, která hráč utrpěl při přechodu mezi lokacemi.
-     * @return zprávy o poškození
+     * A method to display a report of the damage the player has taken when moving between locations.
+     * @return damage reports
      */
     public String getDamageMessage() {
-        return "Ztratil/a jsi " + getDamage() + " zdraví.";
+        return "You've lost " + getDamage() + " hp.";
     }
 
     /**
-     * Metoda pro získání infromace o tom, kolik v lokaci npc uštědří poškození.
-     * @return poškození
+     * A method to get information about how much damage an npc deals in a location.
+     * @return damage
      */
     public double getDamage() {
         return targetLocation.npcAttack();

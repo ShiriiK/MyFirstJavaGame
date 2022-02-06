@@ -3,6 +3,7 @@ package gui.screens;
 import gui.panels.ItemPanel;
 import gui.panels.MenuPanel;
 import gui.panels.NpcAndWeaponPanel;
+import gui.panels.PlayerPanel;
 import gui.util.Constants;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -11,23 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import logic.*;
 import gui.util.Observer;
 import logic.blueprints.Location;
 import logic.blueprints.Partner;
-import logic.blueprints.Player;
+import saving_tue.Main;
 
 /**
- * Třída implementující rozhraní Observer.
- * GameAreaPanel nastavuje zobrazení mainGameScreen v top borderPane.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the Observer interface.
+ * GameAreaPanel sets the display of the mainGameScreen in the top borderPane.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-10
  */
 
 public class BaseScreen implements Observer {
@@ -40,16 +35,11 @@ public class BaseScreen implements Observer {
     private final ScreenCombat combat;
     private final ScreenInteracting interacting;
     private final MenuPanel menuBar;
-    private final Game game;
-    private final TextArea console;
     private final BorderPane gameMainScreen = new BorderPane();
 
-    //Konstruktor
-    public BaseScreen(Game game, TextArea console, Stage stage, ItemPanel itemsPanel, NpcAndWeaponPanel npcAndWeaponPanel, ScreenSelectGender selectGender,
+    public BaseScreen(ItemPanel itemsPanel, NpcAndWeaponPanel npcAndWeaponPanel, ScreenSelectGender selectGender,
                       ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenInteracting interacting,
                       ScreenCombat combat, MenuPanel menuBar) {
-        this.game = game;
-        this.console = console;
         this.itemsPanel = itemsPanel;
         this.npcAndWeaponPanel = npcAndWeaponPanel;
         this.selectGender = selectGender;
@@ -61,104 +51,102 @@ public class BaseScreen implements Observer {
 
         loadArea();
 
-        game.getGameState().registerObserver(this);
+        Main.game.getGameState().registerObserver(this);
     }
 
     /**
-     * Metoda pro nastavení gameMainScreen.
-     * Existuje 6 různých verzí gameMainScreen:
-     *  1) výběr pohlaví
-     *  2) výběr rasy
-     *  3) výběr jména
-     *  4) interakce s npc
-     *  5) souboj s npc
-     *  6) obrazovka v lokaci cela na pravo
+     * Method for setting gameMainScreen.
+     * There are 5 different versions of gameMainScreen:
+     * 1) gender selection
+     * 2) race selection
+     * 3) name selection
+     * 4) interacting with npc
+     * 5) duel with npc
      */
     private void loadArea() {
         gameMainScreen.getChildren().clear();
         gameMainScreen.setTop(menuBar.getMenuBar());
         gameMainScreen.setMaxHeight(570.0);
-        //Výběr pohlaví
-        if (game.getGameState().getPhase() == 0) {
+        // Gender selection
+        if (Main.game.getGameState().getPhase() == 0) {
             gameMainScreen.setCenter(selectGender.getSelectGender());
         }
-        //Výběr rasy
-        else if (game.getGameState().getPlayer().getRace().getName().equals("nic")) {
+        // Race selection
+        else if (Main.game.getGameState().getPhase() == 1) {
             gameMainScreen.setCenter(selectRace.getSelectRace());
         }
-        //Výběr jména
-        else if (game.getGameState().getPhase() == 1) {
+        // Name selection
+        else if (Main.game.getGameState().getPhase() == 2) {
             gameMainScreen.setCenter(selectName.getSelectName());
         }
-        //Souboj
-        else if (game.getGameState().isInCombat()){
+        // Combat
+        else if (Main.game.getGameState().isInCombat()){
             gameMainScreen.setCenter(combat.getCombatScreen());
         }
-        //Komunikování
-        else if (game.getGameState().isInteracting()){
+        // Interacting
+        else if (Main.game.getGameState().isInteracting()){
             gameMainScreen.setCenter(interacting.getInteractingScreen());
-
         }
-        //Normální obrazovka
+        // Normal screen
         else {
             normalScreen();
         }
     }
 
     /**
-     * Metoda pro nastavení běžné obrazovky.
+     * A method for setting up a normal screen.
      */
     private void normalScreen() {
-        Location location = game.getGameState().getCurrentLocation();
+        Location location = Main.game.getGameState().getCurrentLocation();
 
-        //Nastavení názvu aktuální lokace
-        Label locationLabel = new Label("Aktuální lokace: " + location.getDisplayName());
+        // Setting the name of the current location
+        Label locationLabel = new Label("Current location: " + location.getDisplayName());
         locationLabel.setStyle("-fx-font-size: 30.0");
 
         Tooltip locationTip = new Tooltip(location.getDescription());
         locationLabel.setTooltip(locationTip);
 
-        //Nastavení tlačítka pro zobrazení statů hráče
-        Button playerButton = getPlayerButton();
-        //Nastavení tlačítka pro zobrazení statů partnera
+        // Player stats button settings
+        Button playerButton = PlayerPanel.getPlayerButton();
+        // Setting the button to display partner's stats
         Button partnerButton = getPartnerButton();
 
-        //Nastavení rozložení topPane
+        // Setting the topPane layout
         BorderPane topPane = new BorderPane();
         topPane.setLeft(playerButton);
         topPane.setCenter(locationLabel);
         topPane.setRight(partnerButton);
 
-        //Nastavení obrázku aktuální lokace
-        ImageView center = new ImageView(new Image("/pics/" + location.getName() + ".jpg",
+        // Setting the image of the current location
+        ImageView locationImageView = new ImageView(new Image("/locations/" + location.getName() + ".jpg",
                 Constants.CURRENT_LOCATION_WIDTH, Constants.CURRENT_LOCATION_HEIGHT, false, false, true));
 
-        VBox vBox = new VBox(topPane, center);
+        VBox vBox = new VBox(topPane, locationImageView);
         gameMainScreen.setCenter(vBox);
         gameMainScreen.setLeft(itemsPanel.getPanel());
         gameMainScreen.setRight(npcAndWeaponPanel.getPanel());
     }
 
     /**
-     * Metoda pro nastavení buttonu pro partnera
-     * @return button pro partnera
+     * Method for setting the button for the partner
+     * @return button for partner
      */
     private Button getPartnerButton() {
-        Partner partner = game.getGameState().getPartner();
+        Partner partner = Main.game.getGameState().getPartner();
         Button partnerButton = new Button(partner.getPartnerName());
         partnerButton.getStyleClass().add("bbutton");
 
-        //zobrazení nové stage se staty a obrázkem partnera (+ button na její zavření)
+        // New stage with stats and partner's picture (+ button to close it)
         partnerButton.setOnAction(e->{
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Parťák");
+            stage.setTitle("Partner");
 
             Label label = new Label(partner.getPartner());
-            label.setFont(Font.font("Garamond",30.0));
-            label.setStyle("-fx-text-fill: WHITE");
-            Button close = new Button("Zavřít");
-            close.setFont(Font.font("Garamond",30.0));
+            //label.setFont(Font.font("Garamond",30.0));
+            //label.setStyle("-fx-text-fill: WHITE");
+            Button close = new Button("Close");
+            //close.setFont(Font.font("Garamond",30.0));
 
             close.setOnAction(event->{
                 stage.close();
@@ -169,7 +157,7 @@ public class BaseScreen implements Observer {
             inPane.setTop(label);
             inPane.setBottom(close);
 
-            ImageView playerImageView = new ImageView(new Image("/pics/" + partner.getPartnerName() + ".jpg",
+            ImageView playerImageView = new ImageView(new Image("/npcs/" + partner.getPartnerName() + ".jpg",
                     900.0, 470.0, false, false));
 
             BorderPane playerPane = new BorderPane();
@@ -178,6 +166,7 @@ public class BaseScreen implements Observer {
             playerPane.setCenter(inPane);
 
             Scene scene = new Scene(playerPane);
+            scene.getStylesheets().add("style.css");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.showAndWait();
@@ -186,61 +175,17 @@ public class BaseScreen implements Observer {
         return partnerButton;
     }
 
-    private Button getPlayerButton() {
-        Player player = game.getGameState().getPlayer();
-        Button playerButton = new Button("Hráč");
-        playerButton.getStyleClass().add("bbutton");
 
-        //zobrazení nové stage se staty a obrázkem hráče (+ button na její zavření)
-        playerButton.setOnAction(e->{
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Hráč");
-
-            Label label = new Label(player.getPlayer());
-            label.setFont(Font.font("Garamond",30.0));
-            label.setStyle("-fx-text-fill: WHITE");
-            Button close = new Button("Zavřít");
-            close.setFont(Font.font("Garamond",30.0));
-
-            close.setOnAction(event->{
-                stage.close();
-            });
-
-            BorderPane inPane = new BorderPane();
-            inPane.setStyle(" -fx-background-color: BLACK;");
-            inPane.setTop(label);
-            inPane.setBottom(close);
-
-            ImageView playerImageView = new ImageView(new Image("/pics/" + player.getRace().getName() + "_" + player.getPlayerGender() + ".jpg",
-                    900.0, 470.0, false, false));
-
-            BorderPane playerPane = new BorderPane();
-            playerPane.setStyle("-fx-background-color: BLACK");
-            playerPane.setLeft(playerImageView);
-            playerPane.setCenter(inPane);
-
-            Scene scene = new Scene(playerPane);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.showAndWait();
-
-        });
-        return playerButton;
-    }
 
     /**
-     * @return gameMainScreen
-     */
-    public Node getGameMainScreen() {
-        return gameMainScreen;
-    }
-
-    /**
-     * Aktualizuje gameMainScreen
+     * Updates gameMainScreen
      */
     @Override
     public void update() {
         loadArea();
+    }
+
+    public Node getGameMainScreen() {
+        return gameMainScreen;
     }
 }

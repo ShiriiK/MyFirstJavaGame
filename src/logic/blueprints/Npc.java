@@ -5,12 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Instance této třídy představují jednotlivé npc.
- * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
+ * Instances of this class represent individual npcs.
  *
  * @author Alena Kalivodová
- * @version LS-2021, 2021-11-01
  */
 public class Npc {
     private final String name;
@@ -25,15 +22,15 @@ public class Npc {
     private final String message;
 
     /**
-     * Kostruktor pro npc
-     * @param name jméno npc
-     * @param displayName zobrazované jméno npc
-     * @param friendly určuje, zda je možné s npc bojovat (true - nejde, false - jde)
-     * @param hp životy npc
-     * @param str síla npc
-     * @param talk určuje, zda je možné s npc mluvit (true - jde, false - nejde)
-     * @param talks všechny možné rozhovory s npc
-     * @param message zpráva, která je vrácena, když npc nějakým způsobem zabraňuje v přechodu mezi lokacemi
+     * Skeleton for npc
+     * @param name name npc
+     * @param displayName display name of npc
+     * @param friendly specifies whether the npc can be fought (true - cannot, false - can)
+     * @param hp npc lives
+     * @param str npc strength
+     * @param talk specifies whether the npc can be talked to (true - goes, false - doesn't)
+     * @param talks all possible conversations with npc
+     * @param message a message that is returned when the npc somehow prevents the transition between locations
      */
     public Npc(String name, String displayName, boolean friendly, double hp, double str, boolean talk, List talks, String message) {
         this.name = name;
@@ -53,23 +50,23 @@ public class Npc {
     }
 
     /**
-     * Metoda pro získání jména npc.
-     * @return jméno npc
+     * Method to get npc name.
+     * @return npc name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Metoda pro získání postvení npc vůči hráči.
-     * @return true pokud je to přátelské npc a false, pokud je nepřátelské
+     * Method to get npc attitude towards a player.
+     * @return true if it is a friendly npc and false if it is hostile
      */
     public boolean isFriendly() {
         return friendly;
     }
 
     /**
-     * Metoda pro záskání hp npc.
+     * Method for plugging hp npc.
      * @return hp npc
      */
     public double getHp() {
@@ -77,7 +74,7 @@ public class Npc {
     }
 
     /**
-     * Metoda pro nastavení hp npc.
+     * Method for setting up hp npc.
      * @param hp npc
      */
     public void setHp(double hp) {
@@ -85,7 +82,7 @@ public class Npc {
     }
 
     /**
-     * Metoda pro získání str npc.
+     * Method for obtaining str npc.
      * @return str npc.
      */
     public double getStr() {
@@ -93,17 +90,17 @@ public class Npc {
     }
 
     /**
-     * Metoda pro vložení itemu do npc.
-     * @param item který má být do npc přidán
+     * Method for inserting item into npc.
+     * @param item to be added to npc
      */
     public void insertItem(Item item) {
         npcItems.add(item);
     }
 
     /**
-     * Metoda pro získání odkazu na item v npc.
-     * @param name název itemu
-     * @return odkaz na item a pokud žádný nemá, tak null
+     * Method for getting a reference to an item in npc.
+     * @param name item name
+     * @return reference to item and if it has none, null
      */
     public Item getItemInNpc(String name) {
         Item item = null;
@@ -117,8 +114,8 @@ public class Npc {
     }
 
     /**
-     * Metoda pro odstranění itemu z npc.
-     * @param name název itemu, který má npc
+     * Method to remove item from npc.
+     * @param name name of the item that npc has
      */
     public void removeItemInNpc(String name) {
         for (Item current : npcItems) {
@@ -130,54 +127,54 @@ public class Npc {
     }
 
     /**
-     * Metoda vrací informaci o tom, zda lze s npc mluvit.
-     * @return true pokud lze a false když nelze
+     * The method returns information about whether the npc can be talked to.
+     * @return true if you can and false if you can't
      */
     public boolean getTalk() {
         return talk;
     }
 
     /**
-     * Metoda pro získání listu všech odpovědí určitého npc.
-     * Využívá se pro získání infromace, zda je s npc vůbec možné mluvit.
-     * @return list všech odpovědí určitého npc
+     * Method to get a list of all responses of a specific npc.
+     * It is used to get information whether it is possible to talk to an npc.
+     * @return a list of all replies from a given npc
      */
     public List<String> getTalks() {
         return talks;
     }
 
     /**
-     * Metoda pro získání části rozhovoru od npc.
-     * @return vrací rozhovor podle toho, kolikrát již hráč s npc mluvit
+     * Method to get part of the conversation from npc.
+     * @return returns the conversation based on how many times the player has already spoken to the npc
      */
     public String getChat(Npc npc) {
         int i = npc.getTalked();
         if (talked == talks.size()) {
-            return "Kecání už bylo dost";
+            return "I've had enough of this chatter.";
         }
         talked ++;
         return talks.get(i);
     }
 
     /**
-     * Metoda pro získání informace o tom, kolikrát již hovor s npc proběhl.
-     * @return číslo kolikrát se s npc již hovořilo
+     * Method to get information about how many times a call to npc has already taken place.
+     * @return number of times the npc has been spoken to
      */
     public int getTalked() {
         return talked;
     }
 
     /**
-     * Metoda pro natavení hodnoty,kolikrát npc mluvilo.
-     * @param talked kolikrát npc mluvilo
+     * Method for setting the value of how many times npc has spoken.
+     * @param talked how many times npc talked
      */
     public void setTalked(int talked) {
         this.talked = talked;
     }
 
     /**
-     * Metoda pro získání zprávy, pokud je vstup do lokace (nebo výtup z ní) nějak omezený.
-     * @return zpráva pro hráče
+     * Method for getting a message if the entry to (or exit from) a location is somehow restricted.
+     * @return message to player
      */
     public String getMessage() {
         return message;

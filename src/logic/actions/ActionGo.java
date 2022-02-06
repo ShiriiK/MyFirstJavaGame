@@ -1,67 +1,52 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.*;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro pohyb mezi lokacemi.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * A class implementing a command to move between locations.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
  */
 
 public class ActionGo implements IAction {
-    private final Game game;
-    private final String[] names = {"jdi", "jdi_do", "běž", "běž_do"};
+    private final String[] names = {"go", "gp_to"};
 
-    //Konstruktor
-    public ActionGo(Game game) {
-        this.game = game;
-    }
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 4);
+        return Arrays.copyOf(names, 2);
     }
 
     /**
-     * Provádí příkaz go - přesune hráče z jedné lokace do druhé.
-     * @param parameters jeden parametr - cílová lokace
-     * @return zpráva, která se vypíše hráči
+     * Executes the go command - moves the player from one location to another.
+     * @param parameters one parameter - destination location
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Vyber si pohlaví, než někam půjdeš." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Vyber si jméno, než někam půjdeš." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length < 1) {
-            return d1 + "A kam to bude?" + d2;
+            return Constants.d1 + "And where's it going to be?" + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Nemůžeš jít na víc míst najednou." + d2;
+            return Constants.d1 + "You can't go to more than one place at a time." + Constants.d2;
         }
 
         String targetLocationName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getExit(targetLocationName) == null) {
-            return d1 + "Odtud se tam nedostaneš." + d2;
+            return Constants.d1 + "You can't get there from here." + Constants.d2;
         }
 
         Exit targetLocationExit = currentLocation.getExit(targetLocationName);
@@ -69,28 +54,28 @@ public class ActionGo implements IAction {
 
         Inventory inventory = gameState.getInventory();
 
-        if (targetLocationName.equals("žalář") && !inventory.getContent().containsKey("pochodeň")) {
-            return d1 + "Bez zdroje světla tam nejdeš." + d2;
+        if (targetLocationName.equals("dungeon") && !inventory.getContent().containsKey("torch")) {
+            return Constants.d1 + "You're not going in there without a light source.." + Constants.d2;
         }
-        if (targetLocationName.equals("cela_na_pravo")
-                && !inventory.getContent().containsKey("klíč") && !inventory.getContent().containsKey("univerzální_klíč")) {
-            return d1 + "Tahle cela je zamčená." + d2;
+        if (targetLocationName.equals("right_cell")
+                && !inventory.getContent().containsKey("key") && !inventory.getContent().containsKey("master_key")) {
+            return Constants.d1 + "This cell is locked." + Constants.d2;
         }
-        if (targetLocationName.equals("nádvoří")) {
-            return d1 + "Ty mi opravdu nevěříš co?" + d2;
+        if (targetLocationName.equals("coutyard")) {
+            return Constants.d1 + "You really don't believe, do you?" + Constants.d2;
         }
 
-        if (phase < targetLocation.getPhase()) {
-            return d1 + "Opravdu si myslíš, že tě Gorm nechá opustit oblast kempu bez zbraně? Nějakou si vem." + d2;
+        if (Main.game.getGameState().getPhase() < targetLocation.getPhase()) {
+            return Constants.d1 + "You really think Gorm's gonna let you leave the campground without a weapon? Take one." + Constants.d2;
         }
 
         if (gameState.isInCombat()) {
-            return d1 + "Neutíkej a nejdřív dobojuj." + d2;
+            return Constants.d1 + "Don't run away and finish the fight first.." + Constants.d2;
         }
 
         for (Npc npc : currentLocation.getNpcs()) {
             if (npc.equals(targetLocationExit.containsNpc(npc))) {
-                return d1 + npc.getMessage() + d2;
+                return Constants.d1 + npc.getMessage() + Constants.d2;
             }
         }
 
@@ -99,44 +84,44 @@ public class ActionGo implements IAction {
         double dmg = targetLocationExit.getDamage();
         String description = targetLocation.longDescription();
 
-        if (targetLocationName.equals("cela_uprostřed")) {
+        if (targetLocationName.equals("middle_cell")) {
             if (playerHp < dmg) {
-                game.setTheEnd(true);
-                return d1 + "Někdo tě napadl potom, co jsi vstoupil/a do cely a zabil tě." + game.epilog() + d2;
+                Main.game.setTheEnd(true);
+                return Constants.d1 + "Someone attacked you after you entered the cell and killed you." + Main.game.epilog() + Constants.d2;
             } else {
                 player.setHp(playerHp - dmg);
                 gameState.setCurrentLocation(targetLocation);
-                gameState.setAttackedNpc("brutální_stráž");
+                gameState.setAttackedNpc("brutal_guard");
                 gameState.setInCombat(true);
                 gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
-                return d1+ description + "\nNěkdo tě bruálně napadl zezadu." + d2 +
+                return Constants.d1+ description + "\nSomeone brutally attacked you from behind." + Constants.d2 +
                         targetLocationExit.getDamageMessage();
             }
         }
-        if (targetLocationName.equals("hora") && !targetLocation.getNpcs().isEmpty()) {
+        if (targetLocationName.equals("mountain") && !targetLocation.getNpcs().isEmpty()) {
             if (playerHp < dmg) {
-                game.setTheEnd(true);
-                return d1 + "Zabila tě divoká zvěř." + game.epilog() + d2;
+                Main.game.setTheEnd(true);
+                return Constants.d1 + "A wild animal killed you." + Main.game.epilog() + Constants.d2;
             }
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
-            gameState.setAttackedNpc("medvěd");
+            gameState.setAttackedNpc("bear");
             gameState.setInCombat(true);
             gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
-            return d1 + description + "\nZaútočila na tebe divoká zvířata." + d2 +
+            return Constants.d1 + description + "\nYou've been attacked by wild animals." + Constants.d2 +
                     targetLocationExit.getDamageMessage();
         }
-        if (targetLocationName.equals("les")  && !targetLocation.getNpcs().isEmpty()) {
+        if (targetLocationName.equals("forest")  && !targetLocation.getNpcs().isEmpty()) {
             if (playerHp < dmg) {
-                game.setTheEnd(true);
-                return d1 + "Zabil tě troll." + game.epilog() + d2;
+                Main.game.setTheEnd(true);
+                return Constants.d1 + "A troll killed you." + Main.game.epilog() + Constants.d2;
             }
             player.setHp(playerHp - dmg);
             gameState.setCurrentLocation(targetLocation);
             gameState.setAttackedNpc("troll");
             gameState.setInCombat(true);
             gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
-            return d1 + description + "\nZaútočil na tebe troll." + d2 +
+            return Constants.d1 + description + "\nYou've been attacked by a troll." + Constants.d2 +
                     targetLocationExit.getDamageMessage();
         }
 

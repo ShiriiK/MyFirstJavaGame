@@ -1,33 +1,25 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Inventory;
 import logic.blueprints.Item;
 import logic.blueprints.Location;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zahození itemu z inventáře.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the command to discard an item from the inventory.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionDrop implements IAction {
-    private final Game game;
-    private final String[] names = {"zahoď", "polož"};
-
-    //Konstruktor
-    public ActionDrop(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"drop", "throw_away"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -35,28 +27,20 @@ public class ActionDrop implements IAction {
     }
 
     /**
-     * Provádí příkaz drop - pokud je to možné, tak zahodí item z inventáře a dá ho do aktuální lokace.
-     * @param parameters jeden parametr - jméno itemu
-     * @return zpráva, která se vypíše hráči
+     * Executes the drop command - if possible, drops the item from the inventory and puts it in the current location.
+     * @param parameters one parameter - item's name
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nemůžeš zahazovat věci, dokud sis nevybral/a pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nemůžeš zahazovat věci, dokud sis nevybral/a jméno." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length < 1) {
-            return d1 + "Musíš mi říct, co chceš zahodit." + d2;
+            return Constants.d1 + "What do you want to drop?" + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Nemůžeš zahodit víc věci najednou." + d2;
+            return Constants.d1 + "You can't drop more than one thing at a time." + Constants.d2;
         }
 
         String itemName = parameters[0];
@@ -64,21 +48,21 @@ public class ActionDrop implements IAction {
 
 
         if (!inventory.getContent().containsKey(itemName)) {
-            return d1 + "Nemůžeš zahodit něco, co nemáš." + d2;
+            return Constants.d1 + "You can't drop something you don't have." + Constants.d2;
         }
 
         Location currentLocation = gameState.getCurrentLocation();
         String locationName = currentLocation.getName();
 
-        if (("žalář".equals(locationName) || "cela_na_levo".equals(locationName)
-                || "cela_uprostřed".equals(locationName)
-                || "cela_na_pravo".equals(locationName)) && "pochodeň".equals(itemName)) {
-            return d1 + "Ne, to opravdu nedělej." + d2;
+        if (("dungeon".equals(locationName) || "left_cell".equals(locationName)
+                || "middle_cell".equals(locationName)
+                || "right_cell".equals(locationName)) && "torch".equals(itemName)) {
+            return Constants.d1 + "No, don't do that." + Constants.d2;
         }
 
         Item item = inventory.getItem(itemName);
         inventory.removeItem(itemName);
         currentLocation.addItem(item);
-        return d1 + "Zahodil/a jsi " + itemName + "." + d2;
+        return Constants.d1 + "You've dropped " + itemName + "." + Constants.d2;
     }
 }

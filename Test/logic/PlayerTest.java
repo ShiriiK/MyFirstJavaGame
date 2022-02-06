@@ -29,6 +29,6 @@ class PlayerTest {
                         "Jméno: Haha\n" +
                         "Zbraň: weapon\n" +
                         "Životy: 20.0\n" +
-                        "Síla: 40.0", player.getPlayer());
+                        "Síla: 40.0", player.getPlayersStats());
     }
 }

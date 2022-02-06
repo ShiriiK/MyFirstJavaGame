@@ -1,32 +1,24 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
-import logic.blueprints.Partner;
 import logic.blueprints.Player;
+import logic.factories.PartnerFactory;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro nastavení pohlaví.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the gender setting command.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionGender implements IAction {
-    private final Game game;
-    private final String[] names = {"pohlaví"};
-
-    //Konstruktor
-    public ActionGender(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"gender"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -34,57 +26,45 @@ public class ActionGender implements IAction {
     }
 
     /**
-     * Provádí příkaz gender - nastaví pohlaví hráče a společně s tím základní staty a partner.
-     * @param parameters jeden parametr - male nebo female
-     * @return zpráva, která se vypíše hráči
+     * Executes the gender command - sets the player's gender and with it the base stats and partner.
+     * @param parameters one parameter - male or female
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
         if (parameters.length == 0) {
-            return d1 + "Které pohlaví si chceš vybrat? Máš na výběr mezi mužem a ženou." + d2;
+            return Constants.d1 + "Which gender do you want to choose? You have a choice between male and female." + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Můžeš mít pouze jednou pohlaví." + d2;
+            return Constants.d1 + "You can only have one gender." + Constants.d2;
         }
 
-        GameState gameState = game.getGameState();
+        GameState gameState = Main.game.getGameState();
         Player player = gameState.getPlayer();
         String playerGender = player.getPlayerGender();
 
         if (playerGender != null) {
-            return d1 + "Už sis pohlavní vybral/a." + d2;
+            return Constants.d1 + "Have you already chosen your gender." + Constants.d2;
         }
 
         String gender = parameters[0];
 
-        if (!("muž".equals(gender)) && !("žena".equals(gender))) {
-            return d1 + "Je mi líto, že tě zklamu, ale takhle hra zná jen dvě pohlaví." + d2;
+        if (!("male".equals(gender)) && !("female".equals(gender))) {
+            return Constants.d1 + "I'm sorry to disappoint you, but the game only knows two genders this way." + Constants.d2;
         }
 
         player.setPlayerGender(gender);
-        Partner partner = gameState.getPartner();
 
-        if ("muž".equals(gender)) {
-            partner.setPartnerName("Yrsa");
-            partner.setStr(20.0);
-            partner.setHp(80.0);
-            player.setStr(30.0);
-            player.setHp(100.0);
+        if ("male".equals(gender)) {
+            PartnerFactory.setYrsa();
         }
-        if ("žena".equals(gender)) {
-            partner.setPartnerName("Torsten");
-            partner.setStr(30.0);
-            partner.setHp(100.0);
-            player.setStr(30.0);
-            player.setHp(80.0);
+        if ("female".equals(gender)) {
+            PartnerFactory.setTorsten();
         }
 
         gameState.setPhase(1);
-        return  d1 + "Pohlaví nastaveno na: " + gender + d2 +
-                d1 + "Nyní si vyber rasu." + d2;
+        return  Constants.d1 + "Gender set to: " + gender + Constants.d2 +
+                Constants.d1 + "Now choose a race." + Constants.d2;
 
     }
 }

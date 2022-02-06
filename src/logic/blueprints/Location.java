@@ -1,5 +1,6 @@
 package logic.blueprints;
 
+import gui.util.Constants;
 import gui.util.Observer;
 import gui.util.SubjectOfChange;
 import logic.Game;
@@ -8,32 +9,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Instance této třídy představují jednotlivé lokace.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *;
+ * Instances of this class represent individual locations.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
  */
 
 public class Location implements SubjectOfChange {
     private final String name;
     private final String displayName;
     private final String description;
-    private final Set<Exit> exits;                     //  seznam sousedních lokací
-    private final Set<Item> items;                    //  seznam věcí nacházejících se v lokaci
-    private final Set<Npc> npcs;                     //  seznam postav nacházejících se v lokaci
+    private final Set<Exit> exits;                     //  list of neighbouring locations
+    private final Set<Item> items;                    //  list of things in the location
+    private final Set<Npc> npcs;                     //  list of characters in the location
     private final Set<Weapon> weapons;
     private final int phase;
     private boolean known;
 
-    private static Set<Observer> observers = new HashSet<>();
+    private static final Set<Observer> observers = new HashSet<>();
 
     /**
-     * Konstruktor
-     * @param name název lokace
-     * @param displayName zobrazovaný název lokace
-     * @param phase fáze, ve které je možnost vstoupit do lokace
+     * Constructor
+     * @param name location name
+     * @param displayName the displayed location name
+     * @param phase phase in which the location can be entered
      */
     public Location(String name, String displayName, String description, int phase) {
         this.name = name;
@@ -56,8 +53,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro získání názvu lokace.
-     * @return název lokace
+     * Method to get the location name.
+     * @return location name
      */
     public String getName() {
         return name;
@@ -65,30 +62,30 @@ public class Location implements SubjectOfChange {
 
 
     /**
-     * Metoda, která vrací popis lokace.
-     * Bere v potaz, zda ji již hráč navštívil.
-     * @return infromace o tom, kde se hráč nachází a pokud je tamm poprvé, tak popis lokace
+     * Method that returns a description of the location.
+     * Takes into account whether the player has already visited it.
+     * @return information about where the player is and, if it is the first time, a description of the location
      */
     public String longDescription() {
         if (known) {
-            return Game.makeItLookGood1() +"Aktuální lokace: " + name + Game.makeItLookGood2();
+            return Constants.d1 +"Current location: " + name + Constants.d2;
         } else {
             this.known = true;
-            return Game.makeItLookGood1() + "Aktuální lokace: " + name + "\n" +
-                     description + Game.makeItLookGood2();
+            return Constants.d1 + "Current location: " + name + "\n" +
+                     description + Constants.d2;
         }
     }
 
     /**
-     * @return metoada pro vrácení popisu lokace
+     * Method that returns location
      */
     public  String getDescription() {
         return  description;
     }
 
     /**
-     * Metoda pro vložení npc do lokace.
-     * @param npc npc, které má být do lokace vloženo
+     * Method for inserting npc into location.
+     * @param npc npc to be inserted into the location
      */
     public void addNpc(Npc npc) {
         npcs.add(npc);
@@ -96,9 +93,9 @@ public class Location implements SubjectOfChange {
 
 
     /**
-     * Metoda pro získání odkazu na npc.
-     * @param name název npc
-     * @return odkaz na npc pokud je v lokaci, jinak null
+     * Method to get a link to npc.
+     * @param name name of npc
+     * @return reference to npc if it is in location, otherwise null
      */
     public Npc getNpc(String name) {
         Npc npc = null;
@@ -112,15 +109,15 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro získání jmen npc, které jsou v lokaci.
-     * @return jména npcček pokud jsou v lokaci nějaká
+     * Method to get the npc names that are in the location.
+     * @return npcs names if there are any in the location
      */
     public String npcDescription() {
         String text = "";
         if (!npcs.isEmpty()) {
-            text = "\nPostavy:";
+            text = "\nNpcs: ";
             for (Npc npc : npcs) {
-                if (!text.equals("\nPostavy:")) {
+                if (!text.equals("\nNpcs: ")) {
                     text += ",";
                 }
                 text += " " + npc.getName();
@@ -130,8 +127,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro odstranění npc z lokace.
-     * @param name jméno npc, které má být odstraněno z lokace
+     * Method to remove npc from location.
+     * @param name name of the npc to be removed from the location
      */
     public void removeNpc(String name) {
         for (Npc current : npcs) {
@@ -144,8 +141,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro zaútočení všech npc v lokaci na hráče.
-     * @return damage, který dohromady způsobí
+     * A method to attack all npcs in a location on a player.
+     * @return damage that together will cause
      */
     public double npcAttack() {
         double dmg = 0;
@@ -160,17 +157,17 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro přidání východu z lokace.
-     * @param exit lokace, do které bude vytvořen východ z aktuální lokace
+     * Method for adding an exit from a location.
+     * @param exit of the location to which the exit from the current location will be created
      */
     public void addExit(Exit exit) {
         exits.add(exit);
     }
 
     /**
-     * Metoda pro získání odkazu na exit.
-     * @param exitName název targetLocation
-     * @return odkaz na exit
+     * Method to get the exit link.
+     * @param exitName name targetLocation
+     * @return exit reference
      */
     public Exit getExit(String exitName) {
         for (Exit exit : exits) {
@@ -182,15 +179,15 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro získání názvů lokací do kterých se dá z aktuální lokace přemístit.
-     * @return seznam exitů
+     * Method for getting the names of locations to which you can move from the current location.
+     * @return list of exits
      */
     public String exitsDescription() {
         String text = "";
         if (!exits.isEmpty()) {
-            text = "\nVýchody:";
+            text = "\nExits:";
             for (Exit current : exits) {
-                if (!text.equals("\nVýchody:")) {
+                if (!text.equals("\nExits:")) {
                     text += ",";
                 }
                 text += " " + current.getTargetLocation().getName();
@@ -200,8 +197,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Slouží k přidání itemů do lokace.
-     * @param added přidaný item
+     * Used to add items to a location.
+     * @param added added item
      */
     public void addItem(Item added) {
         items.add(added);
@@ -209,9 +206,9 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací odkaz na item.
-     * @param name název itemu
-     * @return odkaz na item nebo null
+     * The method returns a reference to the item.
+     * @param name item name
+     * @return reference to item or null
      */
     public Item getItem(String name) {
         Item item = null;
@@ -225,15 +222,15 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací seznam itemů.
-     * @return názvy itemů
+     * Method returns a list of items.
+     * @return item names
      */
     public String itemDescription() {
         String text = "";
         if (!items.isEmpty()) {
-            text = "\nPředměty:";
+            text = "\nItems:";
             for (Item current : items) {
-                if (!text.equals("\nPředměty:")) {
+                if (!text.equals("\nItems:")) {
                     text += ",";
                 }
                 text += " " + current.getName();
@@ -243,8 +240,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda odstraní item z lokace.
-     * @param name název itemu
+     * The method removes the item from the location.
+     * @param name item name
      */
     public void removeItem(String name) {
         for (Item current : items) {
@@ -257,8 +254,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro vložení zbraně do lokace.
-     * @param added zbraň přidaná do lokace
+     * Method for inserting a weapon into a location.
+     * @param added weapon added to location
      */
     public void addWeapon(Weapon added) {
         weapons.add(added);
@@ -266,9 +263,9 @@ public class Location implements SubjectOfChange {
 
 
     /**
-     * Vrátí odkaz na zbraň.
-     * @param name název zbraně
-     * @return odkaz na zbraň nebo null
+     * Returns a link to the weapon.
+     * @param name weapon name
+     * @return reference to weapon or null
      */
     public Weapon getWeapon(String name) {
         Weapon weapon = null;
@@ -283,15 +280,15 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací seznam zbraní.
-     * @return názvy zbraní v lokaci
+     * The method returns a list of weapons.
+     * @return names of weapons in the location
      */
     public String weaponDescription() {
         String text = "";
         if (!weapons.isEmpty()) {
-            text = "\nZbraně:";
+            text = "\nWeapons:";
             for (Weapon current : weapons) {
-                if (!text.equals("\nZbraně:")) {
+                if (!text.equals("\nWeapons:")) {
                     text += ",";
                 }
                 text += " " + current.getName();
@@ -301,8 +298,8 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda pro odebrání zbraně z lokace.
-     * @param name název zbraně
+     * Method for removing a weapon from a location.
+     * @param name weapon name
      */
     public void removeWeapon(String name) {
         for (Weapon current : weapons) {
@@ -315,24 +312,24 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací kolekci všech npc v lokaci.
-     * @return kolekce všech npc v lokaci
+     * The method returns a collection of all npcs in the location.
+     * @return collection of all npcs in the location
      */
     public Set<Npc> getNpcs() {
         return new HashSet<>(npcs);
     }
 
     /**
-     * Metoda vrací kolekci všech exitů.
-     * @return kolekce sousedních lokací
+     * The method returns a collection of all exits.
+     * @return collection of neighboring locations
      */
     public Set<Exit> getExits() {
         return new HashSet<>(exits);
     }
 
     /**
-     * Metoda vrací kolekci všech sousedních lokací.
-     * @return set sousedních lokací
+     * The method returns a collection of all neighboring locations.
+     * @return set of neighboring locations
      */
     public Set<Location> getTargetLocations(){
         Set<Exit> exitsSet = getExits();
@@ -344,16 +341,16 @@ public class Location implements SubjectOfChange {
     }
 
     /**
-     * Metoda vrací kolekci všech itemů v lokaci.
-     * @return kolekce všech itemů v lokaci
+     * The method returns a collection of all items in the location.
+     * @return collection of all items in the location
      */
     public Set<Item> getItems() {
         return new HashSet<>(items);
     }
 
     /**
-     * Metoda vrací kolekci všech zbraní v lokaci.
-     * @return kolekce všech zbraní v lokaci
+     * The method returns the collection of all weapons in the location.
+     * @return collection of all weapons in the location
      */
     public Set<Weapon> getWeapons() {
         return new HashSet<>(weapons);
@@ -362,11 +359,6 @@ public class Location implements SubjectOfChange {
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(Observer observer) {
-        observers.remove(observer);
     }
 
     @Override

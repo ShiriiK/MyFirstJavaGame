@@ -1,23 +1,20 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.Game;
 
 import java.util.Arrays;
 
 /**
  * Třída implementující příkaz pro zobrazení nápovědy.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 public class ActionHelp implements IAction {
-    private final String[] names = {"nápověda"};
+    private final String[] names = {"help"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -31,15 +28,12 @@ public class ActionHelp implements IAction {
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
-
 
         if (parameters.length >= 1) {
             return "\nStačí napsat nápověda.";
         }
 
-        return  d1 + "Můžeš použít následující příkazy:\n\n" +
+        return  Constants.d1 + "Můžeš použít následující příkazy:\n\n" +
                 "pohlaví + muž/žena\n" +
                 "jméno + jméno\n" +
                 "rasa + rasa\n" +
@@ -58,7 +52,7 @@ public class ActionHelp implements IAction {
                 "zaútoč_na + postava\n" +
                 "zaútoč_s_parťákem_na + postava\n" +
                 "zachraň_tue\n" +
-                "konec" + d2;
+                "konec" + Constants.d2;
     }
 }
 

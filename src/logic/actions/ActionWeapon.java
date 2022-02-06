@@ -1,34 +1,25 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Location;
 import logic.blueprints.Npc;
 import logic.blueprints.Weapon;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro nastavení zbraně .
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the weapon setup command.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionWeapon implements IAction {
-    private final Game game;
-    private final String[] names = {"vzemi_si_zbraň", "zbraň"};
-
-    //Konstuktor
-
-    public ActionWeapon(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"weapon", "take_weapon"};
 
     /**
-     * Metoda použitá pro identifokivání platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -36,62 +27,42 @@ public class ActionWeapon implements IAction {
     }
 
     /**
-     * Provádí příkaz weapon - nastaví hráči zbraň.
-     * @param parameters jeden parametr - jméno zbraně, kterou si chce hráč vzít
-     * @return zpráva, která se vypíše hráči
+     * Executes the weapon command - sets the player's weapon.
+     * @param parameters one parameter - the name of the weapon the player wants to take
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nejdřív si vyber pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nejdřív si vyber jméno." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length == 0) {
-            return d1 + "A kterou zbraň chceš?." + d2;
+            return Constants.d1 + "And which weapon do you want?." + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Můžeš mít jenom jednu zbraň." + d2;
+            return Constants.d1 + "You can only have one weapon." + Constants.d2;
         }
 
         String weaponName = parameters[0];
-        Location currentLocation = game.getGameState().getCurrentLocation();
+        Location currentLocation = Main.game.getGameState().getCurrentLocation();
 
         if (currentLocation.getWeapon(weaponName) == null) {
-            return d1 + "Taková zbraň tu není." + d2;
+            return Constants.d1 + "There is no such weapon." + Constants.d2;
         }
-        if (phase == 3) {
-            return d1 + "Musíš nejdřív položit zbraň, kterou máš u sebe, než si vezmeš jinou." + d2;
+        if (Main.game.getGameState().getPhase() == 4) {
+            return Constants.d1 + "You have to put down the weapon you're carrying before you can take another one." + Constants.d2;
         }
 
-        Npc gorm = game.getGameState().getCurrentLocation().getExit("kovárna").getTargetLocation().getNpc("gorm");
+        Npc gorm = Main.game.getGameState().getCurrentLocation().getExit("forge").getTargetLocation().getNpc("gorm");
         Weapon weapon = currentLocation.getWeapon(weaponName);
 
-        if (weapon.isLocked() && gorm.getItemInNpc("svítící_kámen") == null) {
-            return d1 + "Tuhle zbraň si vzít nemůžeš" + d2;
-        }
-
-        Weapon partnerWeapon = game.getGameState().getPartner().getPartnerWeapon();
-        String partnerName = game.getGameState().getPartner().getPartnerName();
-        if (partnerWeapon == null) {
-            if (partnerName.equals("Yrsa")) {
-                gameState.getPartner().setPartnerWeapon
-                        (currentLocation.getWeapon("meč"));
-            } else if (partnerName.equals("Torsten")) {
-                gameState.getPartner().setPartnerWeapon
-                        (currentLocation.getWeapon("sekera"));
-            }
+        if (weapon.isLocked() && gorm.getItemInNpc("shinning_rock") == null) {
+            return Constants.d1 + "You can't take this weapon." + Constants.d2;
         }
 
         currentLocation.removeWeapon(weaponName);
         gameState.getPlayer().setPlayerWeapon(weapon);
-        gameState.setPhase(3);
-        return d1 + "Zbraň nastavena na: " + weaponName + d2;
+        gameState.setPhase(4);
+        return Constants.d1 + "Weapon set to: " + weaponName + Constants.d2;
     }
 }

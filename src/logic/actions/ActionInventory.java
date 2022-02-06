@@ -1,59 +1,40 @@
 package logic.actions;
 
-import logic.Game;
-import logic.GameState;
+import gui.util.Constants;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zobrazení obsahu inventáře.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class that implements a command to display the content of the inventory.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionInventory implements IAction {
-    private final Game game;
-    private final String[] names = {"inventář", "batoh"};
-
-    //Konstruktor
-    public ActionInventory(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"inventory"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 2);
+        return Arrays.copyOf(names, 1);
     }
 
     /**
-     * Provádí příkaz inventory - zobrazí obsah inventáře.
-     * @param parameters žádný
-     * @return obsah inventáře
+     * Executes the inventory command - displays the contents of the inventory.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Svůj inventář si můžeš prohlédnout potom, co si nastavíš pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Svůj inventář si můžeš prohlédnout, potom co si nastavíš jméno." + d2;
-        }
+        PhaseChecker.basicChecker();
+
         if (parameters.length >= 1) {
-            return d1 + "Stačí napsat inventář." + d2;
+            return Constants.d1 + "Just write inventory." + Constants.d2;
         }
 
-        return gameState.getInventory().getInventory();
+        return Main.game.getGameState().getInventory().getInventory();
     }
 }

@@ -1,33 +1,25 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Location;
 import logic.blueprints.Npc;
 import logic.blueprints.Partner;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zaútočení na nepřítele s partnerem.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * A class implementing a command to attack an enemy with a partner.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
  */
 
 public class ActionAttackPartner implements IAction {
-    private final Game game;
-    private final String[] names = {"zaútoč_s_parťákem_na"};
-
-    //Konstruktor
-    public ActionAttackPartner(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"partner_attack"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -35,48 +27,38 @@ public class ActionAttackPartner implements IAction {
     }
 
     /**
-     * Provádí příkaz attackp - zaútočí na npc pomocí partnera (když je to možné), pokud npc přežije, tak útok oplatí.
-     * @param parameters jeden parametr - jméno npc, na které hráč útočí
-     * @return zpráva, která se vypíše hráči
+     * Executes the partnerAttack command - attacks the npc with a partner (if possible), if the npc survives, it attacks back.
+     * @param parameters one parameter - the name of the npc the player is attacking
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nech svého parťáka zatím odpočívat a vyber si pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nech svého parťáka zatím odpočívat a vyber si jméno." + d2;
-        }
-        if (phase == 2) {
-            return d1 + "Dojdi si pro zbraň a pak můžete vyrazit do boje." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+        PhaseChecker.advancedChecker();
+
         if (parameters.length < 1) {
-            return d1 + "A a koho chceš zaútočit?" + d2;
+            return Constants.d1 + "And who do you want to attack?" + Constants.d2;
         }
 
         Partner partner = gameState.getPartner();
         String partnerName = partner.getPartnerName();
 
         if (parameters.length > 1) {
-            return d1 + "Ani " + partnerName + " neumí útočit na více nepřátel najednou." + d2;
+            return Constants.d1 + "Not even" + partnerName + " can attack multiple enemies at once." + Constants.d2;
         }
 
         String npcName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getNpc(npcName) == null) {
-            return d1 + "Nemůžeš útočit na někoho, kdo tu není." + d2;
+            return Constants.d1 + "You can't attack someone who's not here." + Constants.d2;
         }
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
         if (attackedNpc.isFriendly()) {
-            return d1 + "Není důvod útočit na toto npc." + d2;
+            return Constants.d1 + "There's no reason to attack this npc." + Constants.d2;
         }
 
         double partnerStr = partner.getStr();
@@ -84,7 +66,7 @@ public class ActionAttackPartner implements IAction {
 
         if (npcHp <= partnerStr) {
             currentLocation.removeNpc(npcName);
-            return d1 + "Zabili jste: " + npcName + "." + d2;
+            return Constants.d1 + "You killed: " + npcName + "." + Constants.d2;
         }
 
         double partnerHp = partner.getHp();
@@ -93,15 +75,15 @@ public class ActionAttackPartner implements IAction {
         partner.setHp(partnerHp - npcStr);
 
         if ((partnerHp - npcStr) <= 0) {
-            game.setTheEnd(true);
-            return d1 + "Tvůj partner umřel." + d2;
+            Main.game.setTheEnd(true);
+            return Constants.d1 + "Your partner died." + Constants.d2;
         }
 
         gameState.setInCombat(true);
         gameState.getPlayer().setRound(gameState.getPlayer().getRound() + 1);
-        return  d1 + partnerName + " dal/a " + partnerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
-                npcName + " útok oplatil a způsobil " + npcStr +
-                " poškození. " + partnerName + " teď má " + partner.getHp() + " životů." + d2;
+        return  Constants.d1 + partnerName + " inflicted " + partnerStr + " damage. Your opponent has now " + attackedNpc.getHp() + " hp.\n" +
+                npcName + " attacked back and caused " + npcStr +
+                " damage. " + partnerName + " now has " + partner.getHp() + " hp." + Constants.d2;
     }
 }
 

@@ -1,31 +1,22 @@
 package logic.actions;
 
-import logic.Game;
+import gui.util.Constants;
 import logic.GameState;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zobrazení statů hráče.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing a command to display player stats.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionPlayer implements IAction {
-    private final Game game;
-    private final String[] names = {"hráč"};
-
-    //Konstruktor
-    public ActionPlayer(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"player"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -33,30 +24,20 @@ public class ActionPlayer implements IAction {
     }
 
     /**
-     * Provádí příkaz player - nastaví jméno hráče.
-     * @param parameters žádný
-     * @return staty hráče
+     * Executes the player command - sets the player name.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Předtím, než se budeš moct prohlížet své staty, si nastav pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Předtím, než se budeš moct prohlížet své staty, si nastav jméno." + d2;
-        }
-        if (phase == 2) {
-            return d1 + "Předtím, než se budeš moct prohlížet své staty, si vyber zbraň." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+        PhaseChecker.advancedChecker();
+
         if (parameters.length >= 1) {
-            return d1 + "Stačí napsat hráč." + d2;
+            return Constants.d1 + "Just write the player." + Constants.d2;
         }
 
-        return d1 + gameState.getPlayer().getPlayer() + d2;
+        return Constants.d1 + gameState.getPlayer().getPlayersStats() + Constants.d2;
     }
 }

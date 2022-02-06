@@ -1,93 +1,67 @@
 package gui.screens;
 
 import gui.util.Constants;
-import javafx.geometry.Pos;
+import gui.util.ToolTipFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import logic.Game;
+import saving_tue.Main;
 
 /**
- * SelecctGender nastavuje zobrazení selectGenderScreen v top boraderPane při zobrazení výběru pohlaví.
- * </p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * SelectGender sets the display of selectGenderScreen in the top boraderPane when displaying the gender selection.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-10
  */
 
 public class ScreenSelectGender {
 
-    private final Game game;
-    private final TextArea console;
     private final VBox selectGenderScreen = new VBox();
 
-    //Konstruktor
-    public ScreenSelectGender(Game game, TextArea console){
-        this.game = game;
-        this.console = console;
+    public ScreenSelectGender(){
+        selectGenderScreen.setPrefWidth(Constants.SELECTION_WIDTH);
+        selectGenderScreen.setPrefHeight(Constants.SELECTION_HEIGHT);
+        selectGenderScreen.getStyleClass().add("screen");
 
         init();
     }
 
     /**
-     * Metoda pro nastavení selectGenderScreen.
-     *
+     * Method for setting selectGenderScreen.
      */
     private void init() {
-        Label label = new Label("Vyber si pohlaví: ");
-        label.setFont(Font.font("Garamond"));
+        Label label = new Label("Choose your gender: ");
         label.setStyle("-fx-font-size: 70.0");
 
-
-        Button female = new Button("Žena");
-        Tooltip femaleTip = new Tooltip("Když si vybereš, že chceš být žena tak:\n" +
-                "Budeš mít 80 životů a 30 síly.");
-       // femaleTip.setFont(Font.font("Garamond", 30));
-        Tooltip.install(female, femaleTip);
-
-        Button male = new Button("Muž");;
-
-        Tooltip maleTip = new Tooltip("Když si vybereš, že chceš být muž tak:\n" +
-                "Budeš mít 100 životů a 20 síly.");
-        //maleTip.setFont(Font.font("Garamond", 30));
-        Tooltip.install(male, maleTip);
+        Button female = new Button("Female");
+        Button male = new Button("Male");;
 
         action(female, male);
-
-        selectGenderScreen.setPrefWidth(Constants.SELECTION_WIDTH);
-        selectGenderScreen.setPrefHeight(Constants.SELECTION_HEIGHT);
-        selectGenderScreen.setSpacing(15.0);
-        selectGenderScreen.setAlignment(Pos.CENTER);
 
         selectGenderScreen.getChildren().addAll(label, male, female);
     }
 
     /**
-     * Metoda pro zpracování akce, kdy hráč klikne na button výběru pohlaví.
+     * Method for processing an action where the player clicks on the gender selection button.
      * @param female button
      * @param male button
      */
     private void action(Button female, Button male) {
         female.setOnAction(e -> {
-            console.appendText("pohlaví žena");
-            String gameAnswer = game.processAction("pohlaví žena");
-            console.appendText(gameAnswer);
+            Main.console.appendText("gender female");
+            String gameAnswer = Main.game.processAction("gender female");
+            Main.console.appendText(gameAnswer);
         });
+        Tooltip.install(female, ToolTipFactory.femaleTip);
+
         male.setOnAction(e-> {
-            console.appendText("pohlaví muž");
-            String gameAnswer = game.processAction("pohlaví muž");
-            console.appendText(gameAnswer);
+            Main.console.appendText("gender male");
+            String gameAnswer = Main.game.processAction("gender male");
+            Main.console.appendText(gameAnswer);
         });
+        Tooltip.install(male, ToolTipFactory.maleTip);
     }
 
-    /**
-     * @return selectGenderScreen
-     */
     public Node getSelectGender(){
         return selectGenderScreen;
     }

@@ -1,83 +1,67 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Item;
 import logic.blueprints.Location;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro odebrání itemů z lokace a jejich následnímu vložení do inventáře.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing a command for removing items from a location and putting them into the inventory.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionPickUp implements IAction {
-    private final Game game;
-    private final String[] names = {"vezmi", "seber", "zdvihni"};
-
-    //Konstruktor
-    public ActionPickUp(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"take", "pickup"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
-        return Arrays.copyOf(names, 3);
+        return Arrays.copyOf(names, 2);
     }
 
     /**
-     * Provádí příkaz pickup - sebere item.
-     * @param parameters jeden parametr - název itemu
-     * @return zpráva, která se vypíše hráči
+     * Executes the pickup command - picks up the item.
+     * @param parameters one parameter - item name
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Nejdřív si nastav pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Nastav si jméno a až pak si sbírej věci." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length < 1) {
-            return d1 + "A co chceš sebrat?" + d2;
+            return Constants.d1 + "What do you want to take?" + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Nemůžeš sbírat víc věcí najednou, vyber si jednu." + d2;
+            return Constants.d1 + "You can't collect more than one thing at a time, pick one." + Constants.d2;
         }
 
         String itemName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getItem(itemName) == null) {
-            return d1 + "Nic takového tu není." + d2;
+            return Constants.d1 + "There's no such thing." + Constants.d2;
         }
 
         Item item = currentLocation.getItem(itemName);
 
         if (!item.isPickable()) {
-            return d1 + "Tohle si vzít nemůžeš." + d2;
+            return Constants.d1 + "You can't pickup this." + Constants.d2;
         }
         if (gameState.getInventory().addItem(item) == null) {
-            return d1 + "Nemáš už v batohu volné místo." + d2;
+            return Constants.d1 + "There's no more room in your inventory." + Constants.d2;
         }
-        if (currentLocation.getNpc("stráž") != null && itemName.equals("pochodeň")) {
-            return "\nStráž: Nesahej na to a vypadni!" + d2;
+        if (currentLocation.getNpc("guard") != null && itemName.equals("torch")) {
+            return "\nGuard: Don't touch it and get out!" + Constants.d2;
         }
 
         currentLocation.removeItem(itemName);
-        return d1 + "Sebral/a jsi " + itemName + "." + d2;
+        return Constants.d1 + "You picked up " + itemName + "." + Constants.d2;
     }
 }

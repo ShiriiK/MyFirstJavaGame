@@ -1,34 +1,26 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Inventory;
 import logic.blueprints.Item;
 import logic.blueprints.Location;
 import logic.blueprints.Npc;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro mluvení s npc ve hře.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the command for talking to npc in game.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionTalk implements IAction {
-    private final Game game;
-    private final String[] names = {"mluv_s", "promluv_si_s"};
-
-    //Konstruktor
-    public ActionTalk(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"talk", "talk_to"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -36,75 +28,67 @@ public class ActionTalk implements IAction {
     }
 
     /**
-     * Provádí příkaz talk - promluví si s npc.
-     * @param parameters jeden parametr - jméno npc se kterýmm chce hráč mluvit
-     * @return zpráva, která se vypíše hráči
+     * Executes talk command - talks to npc.
+     * @param parameters one parameter - the name of the npc the player wants to talk to
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "S ostatními můžeš mluvit po výběru pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "S ostatními můžeš mluvit po výběru jména." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+        PhaseChecker.basicChecker();
+
         if (parameters.length < 1) {
-            return d1 + "A s kým chceš mluvit." + d2;
+            return Constants.d1 + "And who do you want to talk to?" + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Můžeš mluvit jen s jedním člověkem najednou." + d2;
+            return Constants.d1 + "You can only talk to one person at a time." + Constants.d2;
         }
 
         String npcName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getItem(npcName) != null) {
-            return d1 + "Ještě nejsi na tolik šílený/á, aby si mluvl/a s předmětem..." + d2;
+            return Constants.d1 + "You're not crazy enough to talk to the object..." + Constants.d2;
         }
         if (currentLocation.getNpc(npcName) == null) {
-            return d1 + "Nemůžeš mluvit s někým, kdo tu není." + d2;
+            return Constants.d1 + "You can't talk to someone who isn't here." + Constants.d2;
         }
 
         Npc npc = currentLocation.getNpc(npcName);
 
         if (!npc.getTalk()) {
-            return d1 + "Není důvod..." + d2;
+            return Constants.d1 + "There's no reason to..." + Constants.d2;
         }
 
         int talked = npc.getTalked();
 
         if (!npc.getTalks().isEmpty()) {
-            if (talked == 2 && npcName.equals("generál")) {
-                game.setTheEnd(true);
+            if (talked == 2 && npcName.equals("general")) {
+                Main.game.setTheEnd(true);
             }
-            if (talked == 2 && npcName.equals("stráž")) {
-                game.setTheEnd(true);
+            if (talked == 2 && npcName.equals("guard")) {
+                Main.game.setTheEnd(true);
             }
-            if (talked == 2 && npcName.equals("stráž")) {
-                game.setTheEnd(true);
+            if (talked == 2 && npcName.equals("guard")) {
+                Main.game.setTheEnd(true);
                 return npc.getChat(npc);
             }
 
-            Inventory inventory = game.getGameState().getInventory();
+            Inventory inventory = Main.game.getGameState().getInventory();
 
-            if (talked == 1 && npcName.equals("stráž_průchodu")) {
+            if (talked == 1 && npcName.equals("passage_guard")) {
                 if (inventory.isSpace()) {
-                    Item item = npc.getItemInNpc("univerzální_klíč");
-                    npc.removeItemInNpc("univerzální_klíč");
+                    Item item = npc.getItemInNpc("master_key");
+                    npc.removeItemInNpc("master_key");
                     inventory.addItem(item);
-                    return "\n" + npc.getChat(npc) + d1 + "ARMIN ti dal univerzální_klíč" + d2;
+                    return "\n" + npc.getChat(npc) + Constants.d1 + "Armin gave you the master_key" + Constants.d2;
                 } else {
-                    return "\nArmin: Něco ti dám, ale uvolni si předtím místo v batohu.";
+                    return "\nArmin: I'll give you something, but make room in your backpack.";
                 }
             }
-            return d1 + npc.getChat(npc) + d2;
+            return Constants.d1 + npc.getChat(npc) + Constants.d2;
         }
 
-        return d1 + "Už jste si povídali až až." + d2;
+        return Constants.d1 + "You've talked enough." + Constants.d2;
     }
 }

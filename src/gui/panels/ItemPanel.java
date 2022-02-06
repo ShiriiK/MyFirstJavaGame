@@ -2,7 +2,6 @@ package gui.panels;
 
 import gui.util.Constants;
 import javafx.scene.Node;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,43 +9,32 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import logic.*;
 import gui.util.Observer;
 import logic.blueprints.Item;
+import saving_tue.Main;
 
 import java.util.Set;
 
 /**
- * Třída implementující rozhraní Observer.
- * ItemPanel nastavuje zobrazení itemsPanel v top boarderPane při zobrazení normální obrazovky.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class implementing the Observer interface.
+ * ItemPanel sets up displayed items in the top boarderPane when the normal screen is displayed.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-10
  */
 
 public class ItemPanel implements Observer {
-    private final Game game;
-    private final TextArea console;
     private final HBox itemsPanel = new HBox();
     private final FlowPane flowPane = new FlowPane();
 
-    //Konstruktor
-    public ItemPanel(Game game, TextArea console) {
-        this.game = game;
-        this.console = console;
+    public ItemPanel() {
+        Main.game.getGameState().registerObserver(this);
+        Main.game.getGameState().getInventory().registerObserver(this);
+        Main.game.getGameState().getCurrentLocation().registerObserver(this);
 
         init();
-
-        game.getGameState().registerObserver(this);
-        game.getGameState().getInventory().registerObserver(this);
-        game.getGameState().getCurrentLocation().registerObserver(this);
-
     }
 
     /**
-     * Metoda pro nastavení itemsPanel.
+     * Method for setting up itemsPanel.
      */
     private void init() {
         itemsPanel.getChildren().clear();
@@ -57,15 +45,15 @@ public class ItemPanel implements Observer {
     }
 
     /**
-     * Metoda pro nastavení obrázků itemů v lokaci.
+     * Method for setting item images in a location.
      */
     private void loadItems() {
         flowPane.getChildren().clear();
-        Set<Item> itemsSet = game.getGameState().getCurrentLocation().getItems();
+        Set<Item> itemsSet = Main.game.getGameState().getCurrentLocation().getItems();
 
         for (Item item : itemsSet) {
             String itemName = item.getName();
-            ImageView imageView = new ImageView(new Image("/pics/" + itemName + ".jpg",
+            ImageView imageView = new ImageView(new Image("/items/" + itemName + ".jpg",
                     Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
             clickOnItem(itemName, imageView);
@@ -78,36 +66,33 @@ public class ItemPanel implements Observer {
     }
 
     /**
-     * Metoda pro zpracovaní akce, kdy hráč klikne na obrázek itemu v lokaci.
-     * @param itemName jméno itemu
-     * @param imageView obrázek itemu
+     * A method for processing an action when player clicks on a picture of an item in a location.
+     * @param itemName the name of the item
+     * @param imageView item image
      */
     private void clickOnItem(String itemName, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             String command = " ";
             if (event.getButton() == MouseButton.SECONDARY) {
-                command = "prozkoumej ";
+                command = "explore ";
             } else {
-                command = "seber ";
+                command = "pickup ";
             }
-            console.appendText("\n" + command + itemName + "\n");
-            String gameAnswer = game.processAction(command + itemName);
-            console.appendText("\n" + gameAnswer + "\n");
+            Main.console.appendText("\n" + command + itemName + "\n");
+            String gameAnswer = Main.game.processAction(command + itemName);
+            Main.console.appendText("\n" + gameAnswer + "\n");
         });
     }
 
     /**
-     * @return itemsPanel
-     */
-    public Node getPanel() {
-        return itemsPanel;
-    }
-
-    /**
-     * Aktualizuje obrázky itemů v lokaci
+     * Updates item images in the location
      */
     @Override
     public void update() {
         loadItems();
+    }
+
+    public Node getPanel() {
+        return itemsPanel;
     }
 }

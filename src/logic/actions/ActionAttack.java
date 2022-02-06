@@ -1,33 +1,25 @@
 package logic.actions;
 
+import gui.util.Constants;
 import logic.*;
 import logic.blueprints.Location;
 import logic.blueprints.Npc;
 import logic.blueprints.Player;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zaútočení na nepřítele.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * A class that implements a command to attack an enemy.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-11-01
  */
 
 public class ActionAttack implements IAction {
-    private final Game game;
-    private final String[] names = {"zaútoč_na"};
-
-    //Konstruktor
-    public ActionAttack(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"attack"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -35,44 +27,35 @@ public class ActionAttack implements IAction {
     }
 
     /**
-     * Provádí příkaz attack - zaútočí na npc (když je to možné), pokud to npc přežije, tak útok oplatí.
-     * @param parameters jeden parametr - jméno npc, na které hráč útočí
-     * @return zpráva, která se vypíše hráči
+     * Executes the attack command - attacks the npc (if possible), if the npc survives, it attacks back.
+     * @param parameters one parameter - the name of the npc the player is attacking
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
-        GameState gameState = game.getGameState();
-        int phase = gameState.getPhase();
-        if (phase == 0) {
-            return d1 + "Před útočením si vyber pohlaví." + d2;
-        }
-        if (phase == 1) {
-            return d1 + "Před útočením si vyber jméno." + d2;
-        }
-        if (phase == 2) {
-            return d1 + "Je těžké útočit, když nemáš zbraň." + d2;
-        }
+        GameState gameState = Main.game.getGameState();
+
+        PhaseChecker.basicChecker();
+        PhaseChecker.advancedChecker();
+
         if (parameters.length < 1) {
-            return d1 + "Na koho chceš zaútočit? To musíš napsat také." + d2;
+            return Constants.d1 + "Who do you want to attack?" + Constants.d2;
         }
         if (parameters.length > 1) {
-            return d1 + "Nemůžeš útočit na víc nepřátel najednou." + d2;
+            return Constants.d1 + "You can't attack multiple enemies at once." + Constants.d2;
         }
 
         String npcName = parameters[0];
         Location currentLocation = gameState.getCurrentLocation();
 
         if (currentLocation.getNpc(npcName) == null) {
-            return d1 + "Nemůžeš útočit na někoho, kdo tu není." + d2;
+            return Constants.d1 + "You can't attack someone who's not here." + Constants.d2;
         }
 
         Npc attackedNpc = currentLocation.getNpc(npcName);
 
         if (attackedNpc.isFriendly()) {
-            return d1 + "Není důvod útočit na toto npc." + d2;
+            return Constants.d1 + "There's no reason to attack this npc." + Constants.d2;
         }
 
         Player player = gameState.getPlayer();
@@ -81,7 +64,7 @@ public class ActionAttack implements IAction {
 
         if (npcHp <= playerStr) {
             currentLocation.removeNpc(npcName);
-            return d1 + "Zabil/a jste: " + npcName + "." + d2;
+            return Constants.d1 + "You killed: " + npcName + "." + Constants.d2;
         }
 
         double playerHp = player.getHp();
@@ -90,13 +73,13 @@ public class ActionAttack implements IAction {
         player.setHp(playerHp - npcStr);
 
         if ((playerHp - npcStr) <= 0.0) {
-            game.setTheEnd(true);
-            return d1 + "Umřel/a jsi." + d2;
+            Main.game.setTheEnd(true);
+            return Constants.d1 + "You died." + Constants.d2;
         }
 
         gameState.setInCombat(true);
-        return  d1 + "Dal/a si " + playerStr + " poškození. Tvůj oponent teď má " + attackedNpc.getHp() + " životů.\n" +
-                npcName + " ti útok oplatil a způsobil ti " + npcStr +
-                " poškození. Teď máš " + player.getHp() + " životů." + d2;
+        return  Constants.d1 + "You inflicted " + playerStr + " damage. Your opponent now has " + attackedNpc.getHp() + " hp.\n" +
+                npcName + " attacked you back and caused you " + npcStr +
+                " damafe. Now you have " + player.getHp() + " hp." + Constants.d2;
     }
 }

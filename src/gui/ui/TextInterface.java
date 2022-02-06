@@ -4,36 +4,24 @@ import logic.Game;
 import java.util.Scanner;
 
 /**
- * Třída představující uživatelského rozhraní.
- * <p>
- * Vytváří instance třídy Game, která představuje logiku hry.
- * Čte vstup od uživatele a předává ho hře.
- * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * Class representing the user interface.
+ * Creates an instance of the Game class that represents the game logic.
+ * Reads input from the user and passes it to the game.
  * @author Jan Říha
  * @author Alena Kalivodová
- * @version LS-2021, 2021-05-23
  */
 
 public class TextInterface {
     private Game game;
 
-    /**
-     * Konstruktor třídy, vytvoří uživatelské rozhraní pro danou hru.
-     *
-     * @param game hra
-     */
     public TextInterface(Game game) {
         this.game = game;
-
     }
 
     /**
-     * Metoda zajišťující hraní hry. Nejprve vypíše úvodní text. Poté v cyklu
-     * načítá zadané příkazy z konzole, předává je hře ke zpracování a vypisuje
-     * reakce hry. To se neustále opakuje, dokud hra prostřednictvím metody
-     * {@link Game#theEnd() theEnd} neoznámí, že skončila.
+     * Method of ensuring game play. It first prints the introductory text. Then, in a loop
+     * retrieves the specified commands from the console, passes them to the game for processing, and prints
+     * the game's response. This is repeated continuously until the game, via the method
      */
     public void play() {
         System.out.println(game.theBeginning());
@@ -45,8 +33,8 @@ public class TextInterface {
     }
 
     /**
-     * Metoda pro přečtení inputu od hráče
-     * @return to co hráč napíše
+     * Method to read input from the player
+     * @return what the player writes
      */
     private String readString() {
         Scanner scanner = new Scanner((System.in));

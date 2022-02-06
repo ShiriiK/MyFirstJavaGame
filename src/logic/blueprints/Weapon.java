@@ -1,12 +1,9 @@
 package logic.blueprints;
 
 /**
- * Instance této třídy představují jednotlivé zbraně.
- * <p>
- * Toto rozhraní je součástí jednoduché textové adventury s grafickým rozhraním.
+ * Instances of this class represent individual weapons.
  *
  * @author Alena Kalivodová
- * @version 2021-05-26
  */
 
 public class Weapon {
@@ -21,11 +18,11 @@ public class Weapon {
     private final double bonusCharge;
 
     /**
-     * Konstruktor
-     * @param name název zbraně
-     * @param displayName zobrazovaný název zbraně
-     * @param multiplicator mlutiplikátor
-     * @param locked dostupnost
+     * Constructor
+     * @param name weapon name
+     * @param displayName display name of the weapon
+     * @param multiplicator multiplier
+     * @param locked availability
      */
     public Weapon(String name, String displayName, double multiplicator, boolean locked, String race,
                   double bonusDmg, double bonusBlock, double bonusSpecialAttack, double bonusCharge) {
@@ -45,64 +42,64 @@ public class Weapon {
     }
 
     /**
-     * Metoda pro získání názvu zbraně.
-     * @return název zbraně
+     * Method to get the name of the weapon.
+     * @return weapon name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Metoda pro získání multiplikátoru na zbraně.
-     * @return multiplikátor
+     * Method to get weapon multiplier.
+     * @return multiplier
      */
     public double getMultiplicator() {
         return multiplicator;
     }
 
     /**
-     * Metoda pro získání informace o dostupnosti zbraně.
-     * @return true pokud není dostupná jinak false
+     * Method for obtaining information about the availability of a weapon.
+     * @return true if not available otherwise false
      */
     public boolean isLocked() {
         return locked;
     }
 
     /**
-     * Metoda pro získání informace o tom, pro jakou rasu, je zbraň určena
-     * @return rasa, která může zbraň používat
+     * Method for obtaining information about what race the weapon is intended for
+     * @return race that can use the weapon
      */
     public String getRace() {
         return race;
     }
 
     /**
-     * Metoda pro získání bonusového poškození k normálnímu útoku
-     * @return výše bonusového poškození
+     * Method to get bonus damage to normal attack
+     * @return bonus damage amount
      */
     public double getBonusDmg() {
         return bonusDmg;
     }
 
     /**
-     * Metoda pro získání bonusového bloku k útoku s úskokem
-     * @return výše bonusového bloku
+     * Method for getting a bonus block to an attack with an evasion
+     * @return bonus block amount
      */
     public double getBonusBlock() {
         return bonusBlock;
     }
 
     /**
-     * Metoda pro získání bonusového poškození k speciálnímu útoku
-     * @return výše bonusového poškození
+     * Method to get bonus damage for special attack
+     * @return bonus damage amount
      */
     public double getBonusSpecialAttack() {
         return bonusSpecialAttack;
     }
 
     /**
-     * Metoda pro získání bonusového poškození k charge útoku
-     * @return výše bonusového poškození
+     * Method to get bonus damage to charge attack
+     * @return bonus damage amount
      */
     public double getBonusCharge() {
         return bonusCharge;

@@ -1,30 +1,21 @@
 package logic.actions;
 
-import logic.Game;
+import gui.util.Constants;
+import saving_tue.Main;
 
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro ukončení hry.
- * <p>
- * Tato třída je součástí jednoduché textové adventury s grafickým rozhraním.
- *
+ * The class that implements the exit command.
  * @author Alena Kalivodová
- * @version ZS-2021, 2021-10-16
  */
 
 public class ActionTerminate implements IAction {
-    private final Game game;
-    private final String[] names = {"konec"};
-
-    //Konstruktor
-    public ActionTerminate(Game game) {
-        this.game = game;
-    }
+    private final String[] names = {"end"};
 
     /**
-     * Metoda použitá pro identifikování platnosti příkazů.
-     * @return možné názvy příkazů
+     * The method used to identify the validity of commands.
+     * @return possible command names
      */
     @Override
     public String[] getName() {
@@ -32,20 +23,17 @@ public class ActionTerminate implements IAction {
     }
 
     /**
-     * Provádí příkaz end - ukončí hru.
-     * @param parameters žádný
-     * @return zpráva, která se vypíše hráči
+     * Executes the end command - ends the game.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
-        String d1 = Game.makeItLookGood1();
-        String d2 = Game.makeItLookGood2();
 
         if (parameters.length >= 1) {
-            return d1 + "Stačí napsat konec, nic víc." + d2;
+            return Constants.d1 + "Just write end, that's all." + Constants.d2;
         }
 
-        game.setTheEnd(true);
-        return d1 + "Hra skončila." + d2;
+        Main.game.setTheEnd(true);
+        return Constants.d1 + "Game over." + Constants.d2;
     }
 }
