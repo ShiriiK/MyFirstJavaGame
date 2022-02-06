@@ -92,6 +92,7 @@ public class ExitPanel implements Observer {
 
         locationImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             animationTimer.start();
+            Main.console.appendText("\ngo " + locationName + "\n");
             String gameAnswer = Main.game.processAction("go " + locationName);
             Main.console.appendText("\n" + gameAnswer + "\n");
         });
