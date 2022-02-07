@@ -2,19 +2,17 @@ package logic.blueprints;
 
 public class Race {
     private final String name;
-    private final String specialAttack;
-    private final String charge;
+    private final int bonusStr;
+    private final int bonusHp;
 
     /**
      * Constructor
      * @param name name
-     * @param specialAttack special attack
-     * @param charge charge
      */
-    public Race(String name, String specialAttack, String charge) {
+    public Race(String name, int bonusHp, int bonusStr) {
         this.name = name;
-        this.specialAttack = specialAttack;
-        this.charge = charge;
+        this.bonusHp = bonusHp;
+        this.bonusStr = bonusStr;
     }
 
     /**
@@ -25,20 +23,12 @@ public class Race {
         return name;
     }
 
-    /**
-     * Method to get the name of the special attack
-     * @return special attack name
-     */
-    public String getSpecialAttack() {
-        return specialAttack;
+    public int getBonusStr() {
+        return bonusStr;
     }
 
-    /**
-     * Method to get the name of the charge attack
-     * @return charge attack name
-     */
-    public String getCharge(){
-        return charge;
+    public int getBonusHp() {
+        return bonusHp;
     }
 }
 

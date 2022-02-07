@@ -1,22 +1,15 @@
 package gui.screens;
 
-import gui.panels.ItemPanel;
-import gui.panels.MenuPanel;
-import gui.panels.NpcAndWeaponPanel;
-import gui.panels.PlayerPanel;
+import gui.panels.*;
 import gui.util.Constants;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import gui.util.Observer;
 import logic.blueprints.Location;
-import logic.blueprints.Partner;
 import saving_tue.Main;
 
 /**
@@ -27,6 +20,7 @@ import saving_tue.Main;
 
 public class BaseScreen implements Observer {
 
+    private final BorderPane gameMainScreen = new BorderPane();
     private final ItemPanel itemsPanel;
     private final NpcAndWeaponPanel npcAndWeaponPanel;
     private final ScreenSelectGender selectGender;
@@ -35,7 +29,6 @@ public class BaseScreen implements Observer {
     private final ScreenCombat combat;
     private final ScreenInteracting interacting;
     private final MenuPanel menuBar;
-    private final BorderPane gameMainScreen = new BorderPane();
 
     public BaseScreen(ItemPanel itemsPanel, NpcAndWeaponPanel npcAndWeaponPanel, ScreenSelectGender selectGender,
                       ScreenSelectRace selectRace, ScreenSelectName selectName, ScreenInteracting interacting,
@@ -49,21 +42,22 @@ public class BaseScreen implements Observer {
         this.combat = combat;
         this.menuBar = menuBar;
 
-        loadArea();
+        setUpTopBoarderPane();
 
         Main.game.getGameState().registerObserver(this);
     }
 
     /**
      * Method for setting gameMainScreen.
-     * There are 5 different versions of gameMainScreen:
+     * There are 6 different versions of gameMainScreen:
      * 1) gender selection
      * 2) race selection
      * 3) name selection
      * 4) interacting with npc
-     * 5) duel with npc
+     * 5) combat with npc
+     * 6) normal game
      */
-    private void loadArea() {
+    private void setUpTopBoarderPane() {
         gameMainScreen.getChildren().clear();
         gameMainScreen.setTop(menuBar.getMenuBar());
         gameMainScreen.setMaxHeight(570.0);
@@ -103,13 +97,15 @@ public class BaseScreen implements Observer {
         Label locationLabel = new Label("Current location: " + location.getDisplayName());
         locationLabel.setStyle("-fx-font-size: 30.0");
 
+        // Setting tooptip on location name
         Tooltip locationTip = new Tooltip(location.getDescription());
         locationLabel.setTooltip(locationTip);
 
-        // Player stats button settings
-        Button playerButton = PlayerPanel.getPlayerButton();
-        // Setting the button to display partner's stats
-        Button partnerButton = getPartnerButton();
+        // Button for displaying stage with player stats and image
+        Button playerButton = PlayerStatsPanel.getPlayerButton();
+
+        // Button for displaying stage with partners stats and image
+        Button partnerButton = PartnerStatsPanel.getPartnerButton();
 
         // Setting the topPane layout
         BorderPane topPane = new BorderPane();
@@ -128,61 +124,11 @@ public class BaseScreen implements Observer {
     }
 
     /**
-     * Method for setting the button for the partner
-     * @return button for partner
-     */
-    private Button getPartnerButton() {
-        Partner partner = Main.game.getGameState().getPartner();
-        Button partnerButton = new Button(partner.getPartnerName());
-        partnerButton.getStyleClass().add("bbutton");
-
-        // New stage with stats and partner's picture (+ button to close it)
-        partnerButton.setOnAction(e->{
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Partner");
-
-            Label label = new Label(partner.getPartner());
-            //label.setFont(Font.font("Garamond",30.0));
-            //label.setStyle("-fx-text-fill: WHITE");
-            Button close = new Button("Close");
-            //close.setFont(Font.font("Garamond",30.0));
-
-            close.setOnAction(event->{
-                stage.close();
-            });
-
-            BorderPane inPane = new BorderPane();
-            inPane.setStyle(" -fx-background-color: BLACK;");
-            inPane.setTop(label);
-            inPane.setBottom(close);
-
-            ImageView playerImageView = new ImageView(new Image("/npcs/" + partner.getPartnerName() + ".jpg",
-                    900.0, 470.0, false, false));
-
-            BorderPane playerPane = new BorderPane();
-            playerPane.setStyle("-fx-background-color: BLACK");
-            playerPane.setLeft(playerImageView);
-            playerPane.setCenter(inPane);
-
-            Scene scene = new Scene(playerPane);
-            scene.getStylesheets().add("style.css");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.showAndWait();
-
-        });
-        return partnerButton;
-    }
-
-
-
-    /**
      * Updates gameMainScreen
      */
     @Override
     public void update() {
-        loadArea();
+        setUpTopBoarderPane();
     }
 
     public Node getGameMainScreen() {

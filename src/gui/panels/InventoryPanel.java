@@ -13,8 +13,6 @@ import javafx.scene.layout.VBox;
 import gui.util.Observer;
 import saving_tue.Main;
 
-import java.util.Set;
-
 /**
  * Class implementing the Observer interface.
  * InventoryPanel sets up inventory that will be displayed in left borderPane.
@@ -46,22 +44,24 @@ public class InventoryPanel implements Observer {
     }
 
     /**
-     * Method for setting images in the inventory.
+     * Method for setting images of items in the inventory.
      */
     private void loadImages() {
         if (Main.game.getGameState().getPhase() >= 2) {
             itemsInInventory.getChildren().clear();
-            Set<String> itemsSet = Main.game.getGameState().getInventory().itemsInInventory();
 
-            for (String itemName : itemsSet) {
+            for (String itemName : Main.game.getGameState().getInventory().itemsInInventory()) {
 
+                // Finding image
                 ImageView imageView = new ImageView(new Image("/items/" + itemName + ".jpg", Constants.BOTTOM_PICS_WIDTH,
                         Constants.BOTTOM_PICS_HEIGHT, false, false, true));
 
-                cilickOnItemInInventory(itemName, imageView);
-
+                // Installing tip
                 Tooltip tip = new Tooltip(Main.game.getGameState().getInventory().getItem(itemName).getDisplayName());
                 Tooltip.install(imageView, tip);
+
+                // Putting action on image of item
+                cilickOnItemInInventory(itemName, imageView);
 
                 itemsInInventory.getChildren().add(imageView);
             }
@@ -69,9 +69,7 @@ public class InventoryPanel implements Observer {
     }
 
     /**
-     * A method for processing an action where the player clicks on the image of an item in the inventory.
-     * @param itemName name of item
-     * @param itemImageView image of item
+     * A method for processing an action when player clicks on the image of an item in the inventory.
      */
     private void cilickOnItemInInventory(String itemName, ImageView itemImageView) {
         itemImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {

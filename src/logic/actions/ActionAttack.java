@@ -59,16 +59,16 @@ public class ActionAttack implements IAction {
         }
 
         Player player = gameState.getPlayer();
-        double playerStr = player.getStr();
-        double npcHp = attackedNpc.getHp();
+        int playerStr = player.getStr();
+        int npcHp = attackedNpc.getHp();
 
         if (npcHp <= playerStr) {
             currentLocation.removeNpc(npcName);
             return Constants.d1 + "You killed: " + npcName + "." + Constants.d2;
         }
 
-        double playerHp = player.getHp();
-        double npcStr = attackedNpc.getStr();
+        int playerHp = player.getHp();
+        int npcStr = attackedNpc.getStr();
         attackedNpc.setHp(npcHp - playerStr);
         player.setHp(playerHp - npcStr);
 

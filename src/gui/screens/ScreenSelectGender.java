@@ -1,7 +1,7 @@
 package gui.screens;
 
 import gui.util.Constants;
-import gui.util.ToolTipFactory;
+import logic.factories.ToolTipFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,6 +36,9 @@ public class ScreenSelectGender {
         Button female = new Button("Female");
         Button male = new Button("Male");;
 
+        Tooltip.install(female, ToolTipFactory.femaleTip);
+        Tooltip.install(male, ToolTipFactory.maleTip);
+
         action(female, male);
 
         selectGenderScreen.getChildren().addAll(label, male, female);
@@ -52,14 +55,14 @@ public class ScreenSelectGender {
             String gameAnswer = Main.game.processAction("gender female");
             Main.console.appendText(gameAnswer);
         });
-        Tooltip.install(female, ToolTipFactory.femaleTip);
+
 
         male.setOnAction(e-> {
             Main.console.appendText("gender male");
             String gameAnswer = Main.game.processAction("gender male");
             Main.console.appendText(gameAnswer);
         });
-        Tooltip.install(male, ToolTipFactory.maleTip);
+
     }
 
     public Node getSelectGender(){

@@ -39,16 +39,16 @@ public class GameState implements SubjectOfChange {
         inventory = new Inventory();
         //Race playersRace = new Race("none", null, null);
 
-        player = new Player(null, null, null, 20.0, 0.0, null);
-        partner = new Partner(null, null, 20.0, 0.0);
+        player = new Player(null, null, null, 1, 0, null);
+        partner = new Partner(null, null, 1, 0);
 
         phase = 0;
 
         isInteracting = false;
-        interactingNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
+        interactingNpc = new Npc(null,null,false,0,0,false, null, null);
 
         inCombat = false;
-        attackedNpc = new Npc(null,null,false,0.0,0.0,false, null, null);
+        attackedNpc = new Npc(null,null,false,0,0,false, null, null);
     }
 
     /**

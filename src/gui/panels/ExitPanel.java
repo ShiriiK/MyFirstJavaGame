@@ -18,8 +18,6 @@ import javafx.scene.layout.VBox;
 import logic.blueprints.Location;
 import saving_tue.Main;
 
-import java.util.Set;
-
 /**
  * Class implementing the Observer interface.
  * ExitPanel sets up displayed exits in the right borderPane.
@@ -60,22 +58,24 @@ public class ExitPanel implements Observer {
     }
 
     /**
-     * Method for setting images of nearby locations.
+     * Method for putting images of nearby locations into exitsPanel.
      */
     private void loadCurrentExits() {
         if (Main.game.getGameState().getPhase() >= 3) {
             flowPane.getChildren().clear();
-            Set<Location> locationsSet = Main.game.getGameState().getCurrentLocation().getTargetLocations();
 
-            for (Location location : locationsSet) {
-                String locationName = location.getName();
-                ImageView imageView = new ImageView(new Image("/locations/" + locationName + ".jpg",
+            for (Location location : Main.game.getGameState().getCurrentLocation().getTargetLocations()) {
+
+                // Finding image
+                ImageView imageView = new ImageView(new Image("/locations/" + location.getName() + ".jpg",
                         Constants.BOTTOM_PICS_WIDTH, Constants.BOTTOM_PICS_HEIGHT, false, false, true));
 
-                putActionOnExit(locationName, imageView);
-
+                // Installing tip
                 Tooltip tip = new Tooltip(location.getDisplayName());
                 Tooltip.install(imageView, tip);
+
+                // Putting action on location image
+                putActionOnExit(location.getName(), imageView);
 
                 flowPane.getChildren().add(imageView);
             }
@@ -83,11 +83,10 @@ public class ExitPanel implements Observer {
     }
 
     /**
-     * A method for processing an action where the player clicks on a picture of a nearby location.
-     * @param locationName location name
-     * @param locationImageView location image
+     * A method for processing an action when player clicks on a picture of a location.
      */
     private void putActionOnExit(String locationName, ImageView locationImageView) {
+        // Gif that appears while changing location
         AnimationTimer animationTimer = exitAnimation();
 
         locationImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -99,11 +98,10 @@ public class ExitPanel implements Observer {
     }
 
     /**
-     * Method for setting loading screen animation when transitioning between locations
+     * Method for setting loading screen animation when changing locations
      */
     private AnimationTimer exitAnimation() {
-        ImageView loading = new ImageView(new Image
-                ("/other/loading.gif", Constants.GIF_WIDTH, Constants.GIF_HEIGHT,
+        ImageView loading = new ImageView(new Image("/other/loading.gif", Constants.GIF_WIDTH, Constants.GIF_HEIGHT,
                         false, false, true));
 
         HBox loadingBox = new HBox(loading);

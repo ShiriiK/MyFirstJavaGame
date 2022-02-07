@@ -9,8 +9,8 @@ package logic.blueprints;
 public class Partner {
     private String partnerName;
     private Weapon partnerWeapon;
-    private double hp;
-    private double str;
+    private int hp;
+    private int str;
 
     /**
      * Constructor
@@ -19,7 +19,7 @@ public class Partner {
      * @param hp lives
      * @param str strength
      */
-    public Partner(String partnerName, Weapon partnerWeapon, double hp, double str) {
+    public Partner(String partnerName, Weapon partnerWeapon, int hp, int str) {
         this.partnerName = partnerName;
         this.partnerWeapon = partnerWeapon;
         this.hp = hp;
@@ -58,7 +58,7 @@ public class Partner {
      * Method for getting a hp partner.
      * @return hp partner
      */
-    public double getHp() {
+    public int getHp() {
         return hp;
     }
 
@@ -66,7 +66,7 @@ public class Partner {
      * Method for setting up hp partner.
      * @param hp partner
      */
-    public void setHp(double hp) {
+    public void setHp(int hp) {
         this.hp = hp;
     }
 
@@ -74,7 +74,7 @@ public class Partner {
      * Method for obtaining a str partner.
      * @return str partner
      */
-    public double getStr() {
+    public int getStr() {
         return str * getPartnerWeapon().getMultiplicator();
     }
 
@@ -82,7 +82,7 @@ public class Partner {
      * Method for setting the partner page.
      * @param str pastner
      */
-    public void setStr(double str) {
+    public void setStr(int str) {
         this.str = str;
     }
 

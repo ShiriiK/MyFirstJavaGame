@@ -56,9 +56,13 @@ public class ActionGender implements IAction {
         player.setPlayerGender(gender);
 
         if ("male".equals(gender)) {
+            player.setStr(10);
+            player.setHp(50);
             PartnerFactory.setYrsa();
         }
         if ("female".equals(gender)) {
+            player.setStr(15);
+            player.setHp(40);
             PartnerFactory.setTorsten();
         }
 

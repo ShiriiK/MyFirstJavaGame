@@ -144,8 +144,8 @@ public class Location implements SubjectOfChange {
      * A method to attack all npcs in a location on a player.
      * @return damage that together will cause
      */
-    public double npcAttack() {
-        double dmg = 0;
+    public int npcAttack() {
+        int dmg = 0;
         if (!npcs.isEmpty()) {
             for (Npc current : npcs) {
                 if (!current.isFriendly()) {

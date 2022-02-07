@@ -21,6 +21,9 @@ public class Constants {
     public static final int INT_PICS_WIDTH = 800;
     public static final int INT_PICS_HEIGHT = 450;
 
+    public static final int STATS_PICS_WIDTH = 800;
+    public static final int STATS_PICS_HEIGHT = 450;
+
     public static final int CURRENT_LOCATION_WIDTH = 800;
     public static final int CURRENT_LOCATION_HEIGHT = 350;
 

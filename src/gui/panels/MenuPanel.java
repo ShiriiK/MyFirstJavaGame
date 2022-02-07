@@ -18,7 +18,6 @@ import saving_tue.Main;
  * @author Alena Kalivodová
  */
 
-
 public class MenuPanel {
 
     private final Stage primaryStage;
@@ -27,49 +26,56 @@ public class MenuPanel {
     public MenuPanel(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        prepareMenu();
+        ImageView icon = new ImageView(new Image("/other/icon.jpg",
+                40.0,25.0,false, true, true));
+
+        prepareMenu(icon);
     }
 
     /**
      * Method for setting up menu items
      */
-    private void prepareMenu() {
+    private void prepareMenu(ImageView icon) {
+        // Creating menus
         Menu fileMenu = new Menu("File");
         Menu helpMenu = new Menu("Help");
 
-        ImageView icon = new ImageView(new Image("/other/icon.jpg",
-                40.0,25.0,false, true, true));
-
-        MenuItem newGame = new MenuItem("New game", icon);
-        newGame.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
+        // Creating menu items
         MenuItem end = new MenuItem("End");
         MenuItem map = new MenuItem("Map");
         MenuItem help = new MenuItem("Help");
+        MenuItem newGame = new MenuItem("New game", icon);
+        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
 
+        // Putting action on menuItems
         actionNewGame(newGame);
         actionEndGame(end);
         actionMap(map);
         actionHelp(help);
 
-        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
+        // Putting items into menus
         fileMenu.getItems().addAll(newGame,separatorMenuItem,end);
         helpMenu.getItems().addAll(map,help);
 
+        // Putting menus into menuBar
         menuBar.getMenus().addAll(fileMenu,helpMenu);
     }
 
     /**
-     * Method for processing the action when the player clicks on the MenuItem help
+     * Method for opening help by clicking on MenuItem help
      */
     private void actionHelp(MenuItem help) {
         help.setOnAction(e->{
+            // Setting stage
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Help");
 
+            // Setting WebView
             WebView view = new WebView();
             view.getEngine().load(getClass().getResource("/other/help.html").toExternalForm());
 
+            // Setting scene and showing stage
             Scene scene = new Scene(view);
             stage.setScene(scene);
             stage.showAndWait();
@@ -77,46 +83,53 @@ public class MenuPanel {
     }
 
     /**
-     * Method for processing the action when the player clicks on the MenuItem map
+     * Method for opening map by clicking on MenuItem map
      */
     private void actionMap(MenuItem map) {
         map.setOnAction(e->{
+            // Setting stage
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Map");
+            stage.setResizable(false);
 
+            // Setting map image
             ImageView mapImage = new ImageView(new Image("/other/map.jpg", 1200.0, 600.0,
                     true, false, true));
             mapImage.setFitHeight(600);
             mapImage.setFitWidth(1200);
 
+            // Setting button
             Button close = new Button("Close");
             close.setStyle("-fx-font-family: Garamond");
             close.setStyle("-fx-font-size: 25.0");
 
+            // Setting close button
             close.setOnAction(event->{
                 stage.close();
             });
 
+            // Setting layout
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
             vBox.setStyle("-fx-background-color: BLACK");
             vBox.getChildren().addAll(mapImage, close);
 
+            // Setting scene and showing stage
             Scene scene = new Scene(vBox);
             stage.setScene(scene);
-            stage.setResizable(false);
             stage.showAndWait();
         });
     }
 
     /**
-     * Method for processing the action when the player clicks on the MenuItem end
+     * Method for ending game by clicking on MenuItem end
      */
     private void actionEndGame(MenuItem end) {
         end.setOnAction(e ->{
             Main.game.setTheEnd(true);
             Main. console.setEditable(false);
+
             Main.console.appendText("end");
             String gameAnswer = Main.game.processAction("end");
             Main. console.appendText("\n" + gameAnswer + "\n");
@@ -124,9 +137,11 @@ public class MenuPanel {
     }
 
     /**
-     * Method for processing the action when the player clicks on the MenuItem newGame
+     * Method for creating new game by clicking on MenuItem newGame
      */
     private void actionNewGame(MenuItem newGame) {
+        newGame.setAccelerator(KeyCombination.keyCombination("CTRL+N"));
+
         newGame.setOnAction(e-> {
             primaryStage.close();
             Main main = new Main();

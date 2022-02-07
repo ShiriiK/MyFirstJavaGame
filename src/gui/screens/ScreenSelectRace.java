@@ -1,7 +1,7 @@
 package gui.screens;
 
 import gui.util.Constants;
-import gui.util.ToolTipFactory;
+import logic.factories.ToolTipFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

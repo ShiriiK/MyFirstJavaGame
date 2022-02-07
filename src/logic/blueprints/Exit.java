@@ -64,7 +64,7 @@ public class Exit {
      * A method to get information about how much damage an npc deals in a location.
      * @return damage
      */
-    public double getDamage() {
+    public int getDamage() {
         return targetLocation.npcAttack();
     }
 }

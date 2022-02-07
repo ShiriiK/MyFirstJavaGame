@@ -9,13 +9,13 @@ package logic.blueprints;
 public class Weapon {
     private final String name;
     private final String displayName;
-    private final double multiplicator;
+    private final int multiplicator;
     private final boolean locked;
     private final String race;
-    private final double bonusDmg;
-    private final double bonusBlock;
-    private final double bonusSpecialAttack;
-    private final double bonusCharge;
+    private final int bonusDmg;
+    private final int bonusBlock;
+    private final int bonusSpecialAttack;
+    private final int bonusCharge;
 
     /**
      * Constructor
@@ -24,8 +24,8 @@ public class Weapon {
      * @param multiplicator multiplier
      * @param locked availability
      */
-    public Weapon(String name, String displayName, double multiplicator, boolean locked, String race,
-                  double bonusDmg, double bonusBlock, double bonusSpecialAttack, double bonusCharge) {
+    public Weapon(String name, String displayName, int multiplicator, boolean locked, String race,
+                  int bonusDmg, int bonusBlock, int bonusSpecialAttack, int bonusCharge) {
         this.name = name;
         this. displayName = displayName;
         this.multiplicator = multiplicator;
@@ -53,7 +53,7 @@ public class Weapon {
      * Method to get weapon multiplier.
      * @return multiplier
      */
-    public double getMultiplicator() {
+    public int getMultiplicator() {
         return multiplicator;
     }
 
@@ -77,7 +77,7 @@ public class Weapon {
      * Method to get bonus damage to normal attack
      * @return bonus damage amount
      */
-    public double getBonusDmg() {
+    public int getBonusDmg() {
         return bonusDmg;
     }
 
@@ -85,7 +85,7 @@ public class Weapon {
      * Method for getting a bonus block to an attack with an evasion
      * @return bonus block amount
      */
-    public double getBonusBlock() {
+    public int getBonusBlock() {
         return bonusBlock;
     }
 
@@ -93,7 +93,7 @@ public class Weapon {
      * Method to get bonus damage for special attack
      * @return bonus damage amount
      */
-    public double getBonusSpecialAttack() {
+    public int getBonusSpecialAttack() {
         return bonusSpecialAttack;
     }
 
@@ -101,7 +101,7 @@ public class Weapon {
      * Method to get bonus damage to charge attack
      * @return bonus damage amount
      */
-    public double getBonusCharge() {
+    public int getBonusCharge() {
         return bonusCharge;
     }
 }

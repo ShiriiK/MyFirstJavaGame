@@ -45,21 +45,23 @@ public class ItemPanel implements Observer {
     }
 
     /**
-     * Method for setting item images in a location.
+     * Method for setting images of item in a location.
      */
     private void loadItems() {
         flowPane.getChildren().clear();
-        Set<Item> itemsSet = Main.game.getGameState().getCurrentLocation().getItems();
 
-        for (Item item : itemsSet) {
-            String itemName = item.getName();
-            ImageView imageView = new ImageView(new Image("/items/" + itemName + ".jpg",
+        for (Item item : Main.game.getGameState().getCurrentLocation().getItems()) {
+
+            // Finding image
+            ImageView imageView = new ImageView(new Image("/items/" + item.getName() + ".jpg",
                     Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
-            clickOnItem(itemName, imageView);
-
+            // Installing tip
             Tooltip tip = new Tooltip(item.getDisplayName());
             Tooltip.install(imageView, tip);
+
+            // Putting action on image of item
+            clickOnItem(item.getName(), imageView);
 
             flowPane.getChildren().add(imageView);
         }
@@ -67,8 +69,6 @@ public class ItemPanel implements Observer {
 
     /**
      * A method for processing an action when player clicks on a picture of an item in a location.
-     * @param itemName the name of the item
-     * @param imageView item image
      */
     private void clickOnItem(String itemName, ImageView imageView) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {

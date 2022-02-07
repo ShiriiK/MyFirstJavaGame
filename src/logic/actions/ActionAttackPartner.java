@@ -61,16 +61,16 @@ public class ActionAttackPartner implements IAction {
             return Constants.d1 + "There's no reason to attack this npc." + Constants.d2;
         }
 
-        double partnerStr = partner.getStr();
-        double npcHp = attackedNpc.getHp();
+        int partnerStr = partner.getStr();
+        int npcHp = attackedNpc.getHp();
 
         if (npcHp <= partnerStr) {
             currentLocation.removeNpc(npcName);
             return Constants.d1 + "You killed: " + npcName + "." + Constants.d2;
         }
 
-        double partnerHp = partner.getHp();
-        double npcStr = attackedNpc.getStr();
+        int partnerHp = partner.getHp();
+        int npcStr = attackedNpc.getStr();
         attackedNpc.setHp(npcHp - partnerStr);
         partner.setHp(partnerHp - npcStr);
 

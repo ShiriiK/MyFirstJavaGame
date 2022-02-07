@@ -80,8 +80,8 @@ public class ActionGo implements IAction {
         }
 
         Player player = gameState.getPlayer();
-        double playerHp = player.getHp();
-        double dmg = targetLocationExit.getDamage();
+        int playerHp = player.getHp();
+        int dmg = targetLocationExit.getDamage();
         String description = targetLocation.longDescription();
 
         if (targetLocationName.equals("middle_cell")) {

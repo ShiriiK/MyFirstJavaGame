@@ -13,8 +13,8 @@ public class Npc {
     private final String name;
     private final String displayName;
     private final boolean friendly;
-    private double hp;
-    private final double str;
+    private int hp;
+    private final int str;
     private final Collection<Item> npcItems;
     private final List<String> talks;
     private int talked;
@@ -32,7 +32,7 @@ public class Npc {
      * @param talks all possible conversations with npc
      * @param message a message that is returned when the npc somehow prevents the transition between locations
      */
-    public Npc(String name, String displayName, boolean friendly, double hp, double str, boolean talk, List talks, String message) {
+    public Npc(String name, String displayName, boolean friendly, int hp, int str, boolean talk, List talks, String message) {
         this.name = name;
         this.displayName = displayName;
         this.friendly = friendly;
@@ -69,7 +69,7 @@ public class Npc {
      * Method for plugging hp npc.
      * @return hp npc
      */
-    public double getHp() {
+    public int getHp() {
         return hp;
     }
 
@@ -77,7 +77,7 @@ public class Npc {
      * Method for setting up hp npc.
      * @param hp npc
      */
-    public void setHp(double hp) {
+    public void setHp(int hp) {
         this.hp = hp;
     }
 
@@ -85,7 +85,7 @@ public class Npc {
      * Method for obtaining str npc.
      * @return str npc.
      */
-    public double getStr() {
+    public int getStr() {
         return str;
     }
 

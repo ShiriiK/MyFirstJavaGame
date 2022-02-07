@@ -2,7 +2,6 @@ package logic.blueprints;
 
 /**
  * A class representing a player.
- *
  * @author Alena Kalivodová
  */
 
@@ -10,12 +9,12 @@ public class Player {
     private String playerName;
     private String playerGender;
     private Weapon playerWeapon;
-    private double hp;
-    private double str;
+    private int hp;
+    private int str;
     private Race race;
     private int round;
-    private double negetedDmg;
-    private double bonusDmg;
+    private int negetedDmg;
+    private int bonusDmg;
     private boolean usedAttack3;
     private boolean usedCharge;
 
@@ -28,7 +27,7 @@ public class Player {
      * @param str strength
      * @param race race
      */
-    public Player(String playerName, String playerGender, Weapon playerWeapon, double hp, double str, Race race) {
+    public Player(String playerName, String playerGender, Weapon playerWeapon, int hp, int str, Race race) {
         this.playerName = playerName;
         this.playerGender = playerGender;
         this.playerWeapon = playerWeapon;
@@ -37,8 +36,8 @@ public class Player {
         this.race = race;
 
         round = 0;
-        negetedDmg = 0.0;
-        bonusDmg = 0.0;
+        negetedDmg = 0;
+        bonusDmg = 0;
         usedAttack3 = false;
         usedCharge = false;
     }
@@ -116,7 +115,7 @@ public class Player {
      * Method for getting player hp.
      * @return player hp
      */
-    public double getHp() {
+    public int getHp() {
         return hp;
     }
 
@@ -124,7 +123,7 @@ public class Player {
      * Method for setting player's hp.
      * @param hp player hp
      */
-    public void setHp(double hp) {
+    public void setHp(int hp) {
         this.hp = hp;
     }
 
@@ -132,7 +131,7 @@ public class Player {
      * Method for getting player str.
      * @return player str
      */
-    public double getStr() {
+    public int getStr() {
         return str * (getPlayerWeapon().getMultiplicator());
     }
 
@@ -140,11 +139,11 @@ public class Player {
      * Method for setting player str.
      * @param str player
      */
-    public void setStr(double str) {
+    public void setStr(int str) {
         this.str = str;
     }
 
-    public double getStrWithoutWeapon(){
+    public int getStrWithoutWeapon(){
         return str;
     }
 
@@ -162,23 +161,8 @@ public class Player {
      */
     public void setRace(Race race) {
         this.race = race;
-        switch(race.getName()){
-            case("elf"):
-                setStr(getStrWithoutWeapon()+5);
-                break;
-            case("drow"):
-                setStr(getStrWithoutWeapon()+5);
-                break;
-            case("barbarian"):
-                setHp(getHp()+5);
-            case("dwarf"):
-                setHp(getHp()+10);
-            case("human"):
-                setHp(getHp()+3);
-                setStr(getStrWithoutWeapon()+3);
-            case("mage"):
-                setStr(getStrWithoutWeapon()+12);
-        }
+        this.setStr(getStrWithoutWeapon() + race.getBonusStr());
+        this.setHp(getHp() + race.getBonusHp());
     }
 
     /**
@@ -201,7 +185,7 @@ public class Player {
      * Method to return negetedDmg.
      * @return negetedDmg
      */
-    public double getNegetedDmg() {
+    public int getNegetedDmg() {
         return negetedDmg;
     }
 
@@ -209,7 +193,7 @@ public class Player {
      * Method for setting negetedDmg
      * @param negetedDmg dmg that the player blocks
      */
-    public void setNegetedDmg(double negetedDmg) {
+    public void setNegetedDmg(int negetedDmg) {
         this.negetedDmg = negetedDmg;
     }
 
@@ -217,7 +201,7 @@ public class Player {
      * Method to return bonusDmg
      * @return bonusDmg
      */
-    public double getBonusDmg() {
+    public int getBonusDmg() {
         return bonusDmg;
     }
 
@@ -225,7 +209,7 @@ public class Player {
      * Method for setting bonusDmg
      * @param bonusDmg dmg which will give back extra dmg
      */
-    public void setBonusDmg(double bonusDmg) {
+    public void setBonusDmg(int bonusDmg) {
         this.bonusDmg = bonusDmg;
     }
 
@@ -241,7 +225,7 @@ public class Player {
      * Method for setting the status of using a special attack
      * @param usedAttack3 special attack usage state
      */
-    public void setUsedAttack3(boolean usedAttack3) {
+    public void setUsedSpecialAttacks(boolean usedAttack3) {
         this.usedAttack3 = usedAttack3;
     }
 

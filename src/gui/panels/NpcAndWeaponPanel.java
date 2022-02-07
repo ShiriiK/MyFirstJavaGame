@@ -14,8 +14,6 @@ import logic.blueprints.Npc;
 import logic.blueprints.Weapon;
 import saving_tue.Main;
 
-import java.util.Set;
-
 /**
  * Class implementing the Observer interface.
  * NpcAndWeaponPanel sets the display of the npcAndWeaponPanel in the top borderPane when the normal screen is displayed.
@@ -50,53 +48,57 @@ public class NpcAndWeaponPanel implements Observer {
       */
     private void loadRightPanel() {
         flowPane.getChildren().clear();
-        // Armory display
+            // Armory display
             if (Main.game.getGameState().getCurrentLocation().getName().equals("armory")) {
-                Set<Weapon> weaponSet = Main.game.getGameState().getCurrentLocation().getWeapons();
+                for (Weapon weapon : Main.game.getGameState().getCurrentLocation().getWeapons()) {
 
-                for (Weapon weapon : weaponSet) {
-                    String name = weapon.getName();
-                    ImageView imageView = new ImageView(new Image("/weapons/" + name + ".jpg",
+                    // Finding image
+                    ImageView imageView = new ImageView(new Image("/weapons/" + weapon.getName() + ".jpg",
                             Constants.TOP_PICS_WIDTH, Constants.TOP_PICS_HEIGHT, false, false, true));
 
-                    clickOnWeapon(name, imageView);
-
-                    Tooltip tip = new Tooltip(weapon.getDisplayName() + "\nMultiplier: " + weapon.getMultiplicator() +
-                            "\nAttack Bonus: " + weapon.getBonusDmg() + "\nBlock Bonus: " + weapon.getBonusBlock() +
+                    // Installing tip
+                    Tooltip tip = new Tooltip(weapon.getDisplayName() +
+                            "\nMultiplier: " + weapon.getMultiplicator() +
+                            "\nAttack Bonus: " + weapon.getBonusDmg() +
+                            "\nBlock Bonus: " + weapon.getBonusBlock() +
                             "\nSpecial Attack Bonus: " + weapon.getBonusSpecialAttack() +
                             "\nCharge Attack Bonus: " + weapon.getBonusCharge());
                     Tooltip.install(imageView, tip);
 
+                    // Putting action on image of weapon
+                    clickOnWeapon(weapon.getName(), imageView);
+
                     flowPane.getChildren().add(imageView);
                 }
-        // Every other location
+            // Every other location
             } else {
-
-                Set<Npc> npcSet = Main.game.getGameState().getCurrentLocation().getNpcs();
-
-                for (Npc npc : npcSet) {
-                    String name = npc.getName();
+                for (Npc npc : Main.game.getGameState().getCurrentLocation().getNpcs()) {
                     ImageView npcView;
-                    if(name.equals("tue")) {
-                        npcView = new ImageView(new Image("/npcs/" + name + ".jpg",
+
+                    // For Tue
+                    if(npc.getName().equals("tue")) {
+                        npcView = new ImageView(new Image("/npcs/" + npc.getName() + ".jpg",
                                 Constants.NPCS_WIDTH, Constants.NPCS_HEIGHT, false, false, true));
 
+                        // If it's Tue put action for rescue
                         npcView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                             Main.console.appendText("rescue_tue");
                             String gameAnswer = Main.game.processAction("rescue_tue");
                             Main.console.appendText("\n" + gameAnswer + "\n");
                         });
+                    // For evey other npc
                     } else {
-                        Boolean friendly = npc.isFriendly();
-                        Boolean talk = npc.getTalk();
-                        npcView = new ImageView(new Image("/npcs/" + name + ".jpg",
+                        npcView = new ImageView(new Image("/npcs/" + npc.getName() + ".jpg",
                                 Constants.NPCS_WIDTH, Constants.NPCS_HEIGHT, false, false, true));
 
-                        clickOnNpc(name, npcView, friendly, talk);
+                        // Put actions on image of npc
+                        clickOnNpc(npc.getName(), npcView, npc.isFriendly(), npc.getTalk());
                     }
 
+                    // Installing tip
                     Tooltip tip = new Tooltip(npc.getDisplayName());
                     Tooltip.install(npcView, tip);
+
                     flowPane.getChildren().add(npcView);
                 }
             }
@@ -104,8 +106,6 @@ public class NpcAndWeaponPanel implements Observer {
 
     /**
      * A method for processing an action when player clicks on an image of weapon in a location.
-     * @param name weapon name
-     * @param weaponImageView weapon image
      */
     private void clickOnWeapon(String name, ImageView weaponImageView) {
         weaponImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -129,8 +129,6 @@ public class NpcAndWeaponPanel implements Observer {
 
     /**
      * A method for processing an action when player clicks on an image of npc in a location.
-     * @param name npc name
-     * @param imageView image npc
      */
     private void clickOnNpc(String name, ImageView imageView, Boolean friendly, Boolean talk) {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
