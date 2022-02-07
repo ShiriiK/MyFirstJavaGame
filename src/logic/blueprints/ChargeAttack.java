@@ -1,12 +1,17 @@
 package logic.blueprints;
 
+/**
+ * Instances of this class represent charges.
+ * @author Alena Kalivodová
+ */
+
 public class ChargeAttack {
 
-    private String name;
-    private int dmg;
-    private int negetableDmg;
-    private int bonusDmg;
-    private Race race;
+    private final String name;
+    private final int dmg;
+    private final int negetableDmg;
+    private final int bonusDmg;
+    private final Race race;
 
 
     public ChargeAttack(String name, int dmg, int negetableDmg, int bonusDmg, Race race){

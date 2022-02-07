@@ -2,7 +2,6 @@ package logic.blueprints;
 
 /**
  * Instances of this class represent individual weapons.
- *
  * @author Alena Kalivodová
  */
 

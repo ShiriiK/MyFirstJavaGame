@@ -5,6 +5,10 @@ import logic.blueprints.SpecialAttack;
 
 import java.util.HashMap;
 
+/**
+ * Factory for creating charge and special attacks
+ */
+
 public class AttackFactory {
 
     public static SpecialAttack cryOfEnts = new SpecialAttack("Cry of Ents", 35, 0, RaceFactory.elf);

@@ -31,7 +31,7 @@ public class InsertingItems {
         LocationFactory.lake.addItem(ItemsFactory.bigRock);
         LocationFactory.ghetto.addItem(ItemsFactory.deadBody);
         LocationFactory.ghetto.addItem(ItemsFactory.garbage);
-        LocationFactory.entrence.addItem(ItemsFactory.torch);
+        LocationFactory.entrance.addItem(ItemsFactory.torch);
 
         ItemsFactory.book.insertItem(ItemsFactory.permit);
         ItemsFactory.beds.insertItem(ItemsFactory.pillow);

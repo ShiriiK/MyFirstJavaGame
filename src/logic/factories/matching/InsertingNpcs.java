@@ -12,9 +12,9 @@ public class InsertingNpcs {
     public static void insertNpcs(){
         LocationFactory.alley.addNpc(NpcsFactory.trollKing);
         LocationFactory.forge.addNpc(NpcsFactory.gorm);
-        LocationFactory.cell1.addNpc(NpcsFactory.rat);
-        LocationFactory.cell2.addNpc(NpcsFactory.brutalGuard);
-        LocationFactory.cell3.addNpc(NpcsFactory.tue);
+        LocationFactory.left_cell.addNpc(NpcsFactory.rat);
+        LocationFactory.middle_cell.addNpc(NpcsFactory.brutalGuard);
+        LocationFactory.right_cell.addNpc(NpcsFactory.tue);
         LocationFactory.city.addNpc(NpcsFactory.general);
         LocationFactory.city.addNpc(NpcsFactory.beggar);
         LocationFactory.gate.addNpc(NpcsFactory.gateGuard);
@@ -24,7 +24,7 @@ public class InsertingNpcs {
         LocationFactory.mountain.addNpc(NpcsFactory.bear);
         LocationFactory.street.addNpc(NpcsFactory.passageGuard);
         LocationFactory.ghetto.addNpc(NpcsFactory.girl);
-        LocationFactory.entrence.addNpc(NpcsFactory.dungeonGuard);
+        LocationFactory.entrance.addNpc(NpcsFactory.dungeonGuard);
 
         ExitFactory.gateExit.insertNpc(NpcsFactory.trollKing);
         ExitFactory.cityExit.insertNpc(NpcsFactory.gateGuard);

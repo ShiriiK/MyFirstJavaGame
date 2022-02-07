@@ -1,16 +1,11 @@
 package logic.factories;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import logic.blueprints.Race;
-import logic.factories.AttackFactory;
-import logic.factories.RaceFactory;
-import saving_tue.Main;
-
 import java.util.HashMap;
 
 /**
- * Factory for tooltips to make the code cleaner
+ * Factory for creating tooltips
  */
 public class ToolTipFactory {
     public static final Tooltip elfTip = new Tooltip("The elf gets five bonus power points and has the special attacks Call of the Ents and Elf Rage.");

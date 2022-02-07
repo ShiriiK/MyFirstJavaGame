@@ -9,7 +9,6 @@ import java.util.*;
 
 /**
  * Class representing the player inventory and implementing the SubjectOfChange interface
- *
  * @author Alena Kalivodová
  */
 

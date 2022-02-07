@@ -1,5 +1,10 @@
 package logic.blueprints;
 
+/**
+ * Instances of this class represent special attacks.
+ * @author Alena Kalivodová
+ */
+
 public class SpecialAttack {
 
     private final String name;

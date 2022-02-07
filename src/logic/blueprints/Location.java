@@ -3,7 +3,6 @@ package logic.blueprints;
 import gui.util.Constants;
 import gui.util.Observer;
 import gui.util.SubjectOfChange;
-import logic.Game;
 
 import java.util.HashSet;
 import java.util.Set;

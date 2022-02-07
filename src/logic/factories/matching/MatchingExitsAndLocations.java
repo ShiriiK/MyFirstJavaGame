@@ -25,8 +25,8 @@ public class MatchingExitsAndLocations {
         LocationFactory.home.addExit(ExitFactory.roomExit);
         LocationFactory.room.addExit(ExitFactory.homeExit);
         LocationFactory.dining_room.addExit(ExitFactory.homeExit);
-        LocationFactory.cell1.addExit(ExitFactory.dungeonExit);
-        LocationFactory.cell2.addExit(ExitFactory.dungeonExit);
+        LocationFactory.left_cell.addExit(ExitFactory.dungeonExit);
+        LocationFactory.middle_cell.addExit(ExitFactory.dungeonExit);
         LocationFactory.city.addExit(ExitFactory.ghettoExit);
         LocationFactory.city.addExit(ExitFactory.passageExit);
         LocationFactory.city.addExit(ExitFactory.entrenceExit);
@@ -39,8 +39,8 @@ public class MatchingExitsAndLocations {
         LocationFactory.mountain.addExit(ExitFactory.hiddne_fieldExit);
         LocationFactory.street.addExit(ExitFactory.cityExit);
         LocationFactory.street.addExit(ExitFactory.coutyardExit);
-        LocationFactory.entrence.addExit(ExitFactory.cityExit);
-        LocationFactory.entrence.addExit(ExitFactory.dungeonExit);
+        LocationFactory.entrance.addExit(ExitFactory.cityExit);
+        LocationFactory.entrance.addExit(ExitFactory.dungeonExit);
         LocationFactory.dungeon.addExit(ExitFactory.cell1Exit);
         LocationFactory.dungeon.addExit(ExitFactory.cell2Exit);
         LocationFactory.dungeon.addExit(ExitFactory.cell3Exit);

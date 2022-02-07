@@ -6,7 +6,7 @@ import logic.Game;
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zobrazení nápovědy.
+ * Class implementing the command to display help.
  * @author Alena Kalivodová
  */
 public class ActionHelp implements IAction {
@@ -22,37 +22,36 @@ public class ActionHelp implements IAction {
     }
 
     /**
-     * Provádí příkaz help - vypíše nápovědu do konzole.
-     * @param parameters žádný
-     * @return text s nápovědou
+     * Executes the help command - prints help to the console.
+     * @param parameters none
      */
     @Override
     public String execute(String[] parameters) {
 
         if (parameters.length >= 1) {
-            return "\nStačí napsat nápověda.";
+            return "\nJust type help.";
         }
 
-        return  Constants.d1 + "Můžeš použít následující příkazy:\n\n" +
-                "pohlaví + muž/žena\n" +
-                "jméno + jméno\n" +
-                "rasa + rasa\n" +
-                "vzemi_si_zbraň/zbraň + zbraň\n" +
-                "odlož_zbraň\n" +
-                "hráč => zobrazí staty hráče.\n" +
-                "parťák/parťačka => zobrazí staty partnera.\n" +
-                "inventář/batoh\n" +
-                "mluv_s/promluv_si_s + postava\n" +
-                "rozhlédni_se\n" +
-                "prozkoumej/prohledej + předmět\n" +
-                "vezmi/seber + předmět\n" +
-                "zahoď/polož + předmět\n" +
-                "dej/nabídni + postava + předmět\n" +
-                "jdi/jdi_do/běž/běž_do + lokace\n" +
-                "zaútoč_na + postava\n" +
-                "zaútoč_s_parťákem_na + postava\n" +
-                "zachraň_tue\n" +
-                "konec" + Constants.d2;
+        return  Constants.d1 + "You can use the following commands:\n\n" +
+                "gender + male/female\n" +
+                "name + name\n" +
+                "race + race\n" +
+                "take_weapon/weapon + weapon\n" +
+                "drop_weapon\n" +
+                "player\n" +
+                "partner\n" +
+                "inventory\n" +
+                "talk/talk_to + npc\n" +
+                "look\n" +
+                "explore/search + item\n" +
+                "take/pickup + item\n" +
+                "drop/throw_away + item\n" +
+                "give/give + npc + item\n" +
+                "go/go_to + location\n" +
+                "attack + npc\n" +
+                "partner_attack + npc\n" +
+                "rescue_tue\n" +
+                "end" + Constants.d2;
     }
 }
 

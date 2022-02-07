@@ -15,7 +15,7 @@ public class Player {
     private int round;
     private int negetedDmg;
     private int bonusDmg;
-    private boolean usedAttack3;
+    private boolean usedSpecialAttack;
     private boolean usedCharge;
 
     /**
@@ -38,7 +38,7 @@ public class Player {
         round = 0;
         negetedDmg = 0;
         bonusDmg = 0;
-        usedAttack3 = false;
+        usedSpecialAttack = false;
         usedCharge = false;
     }
 
@@ -217,16 +217,16 @@ public class Player {
      * Method to get information if a player has already used a special attack
      * @return true - has used, false - has not used
      */
-    public boolean isUsedAttack3() {
-        return usedAttack3;
+    public boolean isUsedSpecialAttack() {
+        return usedSpecialAttack;
     }
 
     /**
      * Method for setting the status of using a special attack
-     * @param usedAttack3 special attack usage state
+     * @param used special attack usage state
      */
-    public void setUsedSpecialAttacks(boolean usedAttack3) {
-        this.usedAttack3 = usedAttack3;
+    public void setUsedSpecialAttacks(boolean used) {
+        this.usedSpecialAttack = used;
     }
 
     /**
@@ -239,9 +239,9 @@ public class Player {
 
     /**
      * Method for setting the charge usage status
-     * @param usedCharge usage state charg
+     * @param used usage state charg
      */
-    public void setUsedCharge(boolean usedCharge) {
-        this.usedCharge = usedCharge;
+    public void setUsedCharge(boolean used) {
+        this.usedCharge = used;
     }
 }

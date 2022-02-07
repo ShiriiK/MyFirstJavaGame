@@ -3,6 +3,10 @@ package logic.actions;
 import gui.util.Constants;
 import saving_tue.Main;
 
+/**
+ * Checking of validity of command based on phase
+ */
+
 public class PhaseChecker {
 
     public static String firstChecker(){

@@ -1,5 +1,10 @@
 package logic.blueprints;
 
+/**
+ * Instances of this class represent races in game.
+ * @author Alena Kalivodová
+ */
+
 public class Race {
     private final String name;
     private final int bonusStr;

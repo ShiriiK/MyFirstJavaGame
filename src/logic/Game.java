@@ -2,6 +2,7 @@ package logic;
 
 import gui.util.Constants;
 import logic.actions.*;
+import logic.factories.GameAnswersFactory;
 
 import java.util.*;
 
@@ -53,11 +54,7 @@ public class Game {
      * @return welcome to the game
      */
     public String theBeginning() {
-        return "\nWelcome to the game Saving Tue.\n" +
-                "You will soon start playing and find out what your goal is, if you are not sure what to do, just type a hint " +
-                "and you'll see the commands you can use. " + Constants.d1 +
-                "First, choose whether you want to play as a man or a woman." +
-                Constants.d2;
+        return GameAnswersFactory.beginning;
     }
 
     /**
@@ -66,10 +63,9 @@ public class Game {
      */
     public String epilog() {
         if (happyEnd) {
-            return "\nTue was rescued!!!!!!! \n" +
-                    Constants.d1 + "Congratulations on the successful completion of the game!" + Constants.d2;
+            return GameAnswersFactory.happyEnd;
         } else {
-            return Constants.d1 + "The game is over. You lost.." + Constants.d2;
+            return GameAnswersFactory.badEnd;
         }
     }
 

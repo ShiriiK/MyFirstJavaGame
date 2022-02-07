@@ -37,7 +37,7 @@ public class ActionRescue implements IAction {
 
         Location currentLocation = Main.game.getGameState().getCurrentLocation();
 
-        if (!currentLocation.getName().equals("rigt_cell")) {
+        if (!currentLocation.getName().equals("right_cell")) {
             return Constants.d1 + "In order to save Tu, you have to be where she's imprisoned." + Constants.d2;
         }
 

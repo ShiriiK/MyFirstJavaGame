@@ -42,14 +42,14 @@ public class LocationFactory {
             "A street leading to the main courtyard where someone like you can't get in.", 4);
     public static final Location coutyard = new Location("coutyard", "Coutyard",
             "", 5);
-    public static final Location entrence = new Location("entrence", "Entrence",
+    public static final Location entrance = new Location("entrance", "Entrence",
             "The entrance to the dungeon where Tue is being held.", 4);
     public static final Location dungeon = new Location("dungeon", "Dungeon",
             "Underground dungeon. It's very dark in here, but the torch helps you see at least a few steps ahead.", 4);
-    public static final Location cell1 = new Location("left_cell", "Left cell",
+    public static final Location left_cell = new Location("left_cell", "Left cell",
             "A small cell with only rats in it.", 4);
-    public static final Location cell2 = new Location("middle_cell", "Middle cell",
+    public static final Location middle_cell = new Location("middle_cell", "Middle cell",
             "Quite a large cell with many dark corners.", 4);
-    public static final Location cell3 = new Location("richt_cell", "Richt cell",
+    public static final Location right_cell = new Location("right_cell", "Right cell",
             "A small, disgusting cell with Tue's almost lifeless body lying on the floor.", 4);
 }

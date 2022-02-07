@@ -13,7 +13,7 @@ public class Constants {
     public static final int TOP_PICS_HEIGHT = 120;
 
     public static final int NPCS_WIDTH = 400;
-    public static final int NPCS_HEIGHT = 250;
+    public static final int NPCS_HEIGHT = 225;
 
     public static final int COMBAT_PICS_WIDTH = 800;
     public static final int COMBAT_PICS_HEIGHT = 300;

@@ -20,11 +20,11 @@ public class ExitFactory {
     public static final Exit dungeonExit = new Exit(LocationFactory.dungeon);
     public static final Exit ghettoExit = new Exit(LocationFactory.ghetto);
     public static final Exit passageExit = new Exit(LocationFactory.street);
-    public static final Exit entrenceExit = new Exit(LocationFactory.entrence);
+    public static final Exit entrenceExit = new Exit(LocationFactory.entrance);
     public static final Exit gateExit = new Exit(LocationFactory.gate);
     public static final Exit cityExit = new Exit(LocationFactory.city);
     public static final Exit coutyardExit = new Exit(LocationFactory.coutyard);
-    public static final Exit cell1Exit = new Exit(LocationFactory.cell1);
-    public static final Exit cell2Exit = new Exit(LocationFactory.cell2);
-    public static final Exit cell3Exit = new Exit(LocationFactory.cell3);
+    public static final Exit cell1Exit = new Exit(LocationFactory.left_cell);
+    public static final Exit cell2Exit = new Exit(LocationFactory.middle_cell);
+    public static final Exit cell3Exit = new Exit(LocationFactory.right_cell);
 }

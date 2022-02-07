@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Instances of this class represent individual npcs.
- *
  * @author Alena Kalivodová
  */
 public class Npc {

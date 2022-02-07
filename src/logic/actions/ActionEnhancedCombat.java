@@ -10,7 +10,7 @@ import saving_tue.Main;
 import java.util.Arrays;
 
 /**
- * Třída implementující příkaz pro zaútočení na nepřítele.
+ * A class that implements a command to attack an enemy.
  * @author Alena Kalivodová
  */
 
@@ -78,6 +78,9 @@ public class ActionEnhancedCombat implements IAction {
             player.setNegetedDmg(player.getNegetedDmg() + newNegetableDmg);
         }
         if(attackName.equals("special_attack")) {
+            if(player.isUsedSpecialAttack()){
+                return "You cannot use this attack in this battle anymore.";
+            }
             SpecialAttack specialAttack = AttackFactory.specialAttacks.get(RaceFactory.getRace(player.getRace().getName()).getName());
             if(specialAttack.getDmg() != 0){
                 dmg += weapon.getBonusSpecialAttack() + specialAttack.getDmg();
@@ -89,6 +92,9 @@ public class ActionEnhancedCombat implements IAction {
             player.setUsedSpecialAttacks(true);
         }
         if (attackName.equals("charge_attack")){
+            if(player.isUsedCharge()){
+                return "You cannot use this attack in this battle anymore.";
+            }
             ChargeAttack chargeAttack = AttackFactory.chargeAttacks.get(RaceFactory.getRace(player.getRace().getName()).getName());
             if(chargeAttack.getDmg() != 0){
                 dmg += weapon.getBonusCharge() + chargeAttack.getDmg();

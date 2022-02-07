@@ -2,7 +2,6 @@ package logic.blueprints;
 
 /**
  * A class representing a player's partner.
- *
  * @author Alena Kalivodová
  */
 

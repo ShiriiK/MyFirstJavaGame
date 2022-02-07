@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 
 public class ActionGive implements IAction {
-    private final String[] names = {"give", "offer"};
+    private final String[] names = {"give", "give"};
 
     /**
      * The method used to identify the validity of commands.

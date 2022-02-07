@@ -7,6 +7,9 @@ import logic.blueprints.Location;
 import logic.blueprints.Npc;
 import saving_tue.Main;
 
+/**
+ * Factory for game answers form give action
+ */
 public class ActionGiveConditionsFactory {
 
     /**
@@ -54,7 +57,7 @@ public class ActionGiveConditionsFactory {
                     "Would you guys watch this for me for a minute?" +
                     " I'm just gonna jump on one and I'll be right back.";
         }
-        if (npcName.equals("guard") && itemName.equals("bear")) {
+        if (npcName.equals("guard") && itemName.equals("beer")) {
             inventory.removeItem(itemName);
             currentLocation.removeNpc("guard");
             return Constants.d1 + "You gave the guard a beer." + Constants.d2 +

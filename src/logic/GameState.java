@@ -37,7 +37,6 @@ public class GameState implements SubjectOfChange {
     public GameState() {
         createGame();
         inventory = new Inventory();
-        //Race playersRace = new Race("none", null, null);
 
         player = new Player(null, null, null, 1, 0, null);
         partner = new Partner(null, null, 1, 0);

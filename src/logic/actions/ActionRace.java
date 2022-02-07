@@ -5,6 +5,7 @@ import logic.Game;
 import logic.GameState;
 import logic.blueprints.Player;
 import logic.blueprints.Race;
+import logic.factories.GameAnswersFactory;
 import logic.factories.RaceFactory;
 import saving_tue.Main;
 
@@ -66,12 +67,7 @@ public class ActionRace implements IAction {
             player.setRace(chosenRace);
 
             gameState.setPhase(2);
-            return Constants.d1 + "Race set to: " + raceName + Constants.d2 + "\n" +
-                    "You slowly open your eyes and see the blurred silhouette of a giantess in front of you." +
-                    "As you struggle to sit up, she turns to you and rushes to help you.\n" +
-                    "???: Good morning. How are you feeling? Looks like Tue's been imprisoned. What on earth happened in that town?" +
-                    " Can you hear me? Do you even remember your name?\n"
-                    + Constants.d1 + "Choose your name." + Constants.d2;
+            return Constants.d1 + "Race set to: " + raceName + Constants.d2 + "\n" + GameAnswersFactory.race;
         } else {
             return Constants.d1 + "I'm sorry to disappoint you, but we don't have that race here." + Constants.d2;
         }
